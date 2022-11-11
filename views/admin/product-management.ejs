@@ -1,0 +1,47 @@
+<section>
+    <div class="container">
+
+
+
+        <div class="row mt-4">
+            <a href="/admin/add-product" class="btn btn-success ml-auto mx-5" style="width: 140px;">Add Product</a>
+        </div>
+
+        <!-- <div>
+            <br>
+            <input type='text' id='txt_searchall'  placeholder='search products'>&nbsp;
+            <br>
+        </div> -->
+
+        <table class="table mt-5">
+            <thead>
+                <tr>
+                    <th scope="col">No.</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Discription</th>
+                    <th scope="col">Image</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for(var i=0;i<products.length;i++){ %> 
+                <tr>
+                    <th scope="row"><%= i+1 %> </th>
+                    <td><%= products[i].name %></td>
+                    <td><%= products[i].category %></td>
+                    <td><%= products[i].price %></td>
+                    <td><%= products[i].discription %></td>
+                    <td><img style="width:5rem;height:5rem" src="/images/product-images/<%= products[i]._id %>.webp" alt=""></td>
+                    <td><a href="/admin/edit-product/<%= products[i]._id %>" class="btn btn-success">Edit</a></td>
+                    <td><a href="/admin/delete-product/<%= products[i]._id %>" class="btn btn-danger">Delete</a></td>
+
+                </tr>
+                
+
+                <% } %> 
+
+            </tbody>
+        </table>
+    </div>
+</section>

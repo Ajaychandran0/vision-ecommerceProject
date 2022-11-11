@@ -1,0 +1,91 @@
+<div class="container-xxl">
+    <div class="authentication-wrapper authentication-basic container-p-y">
+      <div class="authentication-inner">
+        <!-- Register Card -->
+        <div class="card">
+          <div class="card-body">
+            <!-- Logo -->
+            <div class="app-brand justify-content-center">
+
+              <a href="/" class="app-brand-link gap-2">
+
+                <span class="app-brand-text demo  fw-bolder" style="color:#88c8bc;">Vision</span>
+              </a>
+            </div>
+            <!-- /Logo -->
+            <h4 class="mb-2" style="color:#88c8bc;">Signup</h4>
+            <p class="mb-4">Make your app management easy and fun!</p>
+
+            <form id="formAuthentication" class="mb-3" action="/signup" method="POST">
+              <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="username"
+                  name="username"
+                  placeholder="Enter your username"
+                  required
+                  autofocus
+                />
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input 
+                    type="email" 
+                    class="form-control" 
+                    id="email" 
+                    name="email" 
+                    placeholder="Enter your email"
+                    required
+                />
+                  
+              </div>
+
+              <div class="mb-3">
+                <label for="phone" class="form-label">phone no.</label>
+                <input 
+                    type="tel" 
+                    class="form-control" 
+                    id="phone" 
+                    name="phone" 
+                    pattern="[0-9]{10}"
+                    placeholder="Enter your phone number" 
+                    required
+                />
+              </div>
+
+              <div class="mb-3 form-password-toggle">
+                <label class="form-label" for="password">Password</label>
+                <div class="input-group input-group-merge">
+                  <input
+                    type="password"
+                    id="password"
+                    class="form-control"
+                    name="password"
+                    required
+                    placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                    aria-describedby="password"/>
+                
+                </div>
+              
+              </div>
+
+              
+              <button class="btn btn-primary d-grid w-100" style="background-color:#88c8bc ;">Sign up</button>
+            </form>
+
+            <p class="text-center">
+              <span>Already have an account?</span>
+              <a href="/login">
+                <span style="color:#51837a ;">Sign in instead</span>
+              </a>
+            </p>
+          </div>
+        </div>
+        <!-- Register Card -->
+      </div>
+    </div>
+  </div>
+
+  <!-- / Content -->

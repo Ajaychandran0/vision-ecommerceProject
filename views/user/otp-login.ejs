@@ -1,0 +1,49 @@
+<div class="container-xxl">
+    <div class="authentication-wrapper authentication-basic container-p-y">
+      <div class="authentication-inner py-4">
+        <!-- Forgot Password -->
+        <div class="card">
+          <div class="card-body">
+            <!-- Logo -->
+            <div class="app-brand justify-content-center">
+              <a href="/" class="app-brand-link gap-2">
+                
+                    
+                
+                <span class="app-brand-text demo fw-bolder" style="color:#88c8bc ;">Vision</span>
+              </a>
+            </div>
+            <!-- /Logo -->
+            <h4 class="mb-2" style="color:#88c8bc ;">Login with OTP? 🔒</h4>
+            <p class="mb-4">Enter your mobile number</p>
+            <form id="formAuthentication" class="mb-3" action="/login" method="POST">
+                <div class="mb-3">
+                    <label for="phone" class="form-label">phone no.</label>
+                    <input 
+                        type="tel" 
+                        class="form-control" 
+                        id="phone" 
+                        name="phone" 
+                        pattern="[0-9]{10}"
+                        placeholder="Enter your phone number" 
+                        required
+                        oninvalid="this.setCustomValidity('Enter a valid phome number')"
+                        oninput="this.setCustomValidity('')"
+                    />
+                  </div>
+              <button class="btn d-grid w-100" style="background-color:#88c8bc ;" >Send OTP</button>
+            </form>
+            <div class="text-center">
+              <a href="/login" class="d-flex align-items-center justify-content-center" style="color:#4f8379;">
+                <i class="bx bx-chevron-left bx-sm" ></i>
+                Back to login with Username or Email
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- /Forgot Password -->
+      </div>
+    </div>
+  </div>
+
+  <!-- / Content -->

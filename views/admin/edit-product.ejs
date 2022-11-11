@@ -1,0 +1,32 @@
+<section>
+    <div class="container mt-4">
+        <div class="row h-100 align-items-center justify-content-center">
+            <div class="col-md-6">
+                <h2 class="text-center">Edit Product</h2>
+                <form action="/admin/edit-product/<%= product._id %> " method="post" enctype="multipart/form-data">
+
+                    <label for="">Name</label>
+                    <input type="text" name="name" class="form-control" value="<%= product.name  %> ">
+
+                    <label for="">Category</label>
+                    <input type="text" name="category" class="form-control" value="<%= product.category %> ">
+
+                    <label for="">Price</label>
+                    <input type="text" name="price" class="form-control" value="<%= product.price %> ">
+
+                    <label for="">Discription</label>
+                    <input type="text" name="discription" class="form-control" value="<%= product.discription %> ">
+                    
+                    <label for="">Image</label>
+                    <input type="file" name="Image" class="form-control">
+
+                    <button type="submit" class="btn btn-success mt-4"> submit</button>
+                    
+
+                    
+                </form>
+            </div>
+        </div>
+        
+    </div>
+</section>

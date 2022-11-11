@@ -1,0 +1,56 @@
+<section>
+    <div class="container">
+
+        <div>
+            <br>
+            <input type='text' id='txt_searchall'  placeholder='search users'>&nbsp;
+            <br>
+        </div>
+
+       
+        <table class="table mt-5">
+            <thead>
+                <tr>
+                    <th scope="col">No.</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">phone number</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                
+                <% for(var i=0;i<users.length;i++){ %> 
+                <tr>
+                    <th scope="row"><%= i+1 %> </th>
+                    <td><%= users[i].username %> </td>
+                    <td><%= users[i].email %> </td>
+                    <td><%= users[i].phone %> </td>
+
+                                      
+                    <% if ( users[i].isActive){ %> 
+                        <td>Active</td>
+                       <td><a href="/admin/block-user/<%= users[i]._id %> " class="btn btn-success">block</a></td>
+                    <% }else{ %> 
+                        <td>Inactive</td>
+                       <td><a href="/admin/unblock-user/<%= users[i]._id %> " class="btn btn-danger">Unblock</a></td>
+                    <% } %> 
+                  
+                
+                    
+
+                </tr>
+                
+
+                <% } %> 
+                
+
+                <!-- <tr class='notfound'>
+                    <td colspan='4'>No record found</td>
+                </tr> -->
+               
+                
+            </tbody>
+        </table>
+    </div>
+</section>
