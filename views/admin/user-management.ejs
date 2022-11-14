@@ -30,10 +30,10 @@
                                       
                     <% if ( users[i].isActive){ %> 
                         <td>Active</td>
-                       <td><a href="/admin/block-user/<%= users[i]._id %> " class="btn btn-success">block</a></td>
+                       <td><a href="/admin/block-user/<%= users[i]._id %> " class="btn btn-success" onclick="return confirm('Are you sure?')">block</a></td>
                     <% }else{ %> 
                         <td>Inactive</td>
-                       <td><a href="/admin/unblock-user/<%= users[i]._id %> " class="btn btn-danger">Unblock</a></td>
+                       <td><a href="/admin/unblock-user/<%= users[i]._id %> " class="btn btn-danger" onclick="return confirm('Are you sure?')">Unblock</a></td>
                     <% } %> 
                   
                 

@@ -14,20 +14,24 @@
                     <div class=>
                         <h4 class="mb-2" style="color:#566a7f ;">Signin</h4>
                     </div>
+
+                    <% if(errorMessage){ %>
+                        <p class="text-danger"><%= errorMessage %> </p>
+                      <% } %>  
                     
 
                     <form action="/admin/login" method="post"> 
                         <!-- Email input -->
                         <div class="form-outline mb-4 mt-4">
                             <label class="form-label" for="form2Example1">Email address</label>
-                            <input type="email" name="email" id="form2Example1" class="form-control" />
+                            <input type="email" name="email" id="form2Example1" class="form-control" required/>
                             
                         </div>
 
                         <!-- Password input -->
                         <div class="form-outline mb-4">
                             <label class="form-label" for="form2Example2">Password</label>
-                            <input type="password" name="password" id="form2Example2" class="form-control" />
+                            <input type="password" name="password" id="form2Example2" class="form-control" required/>
                            
                         </div>
 

@@ -16,7 +16,11 @@
             <h4 class="mb-2" style="color:#88c8bc;">Signup</h4>
             <p class="mb-4">Make your app management easy and fun!</p>
 
-            <form id="formAuthentication" class="mb-3" action="/signup" method="POST">
+            <% if(errorMessage){ %>
+              <p class="text-danger"><%= errorMessage %> </p>
+            <% } %>  
+
+            <form id="formAuthentication" class="mb-3" action="/signup" method="POST" >
               <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
                 <input

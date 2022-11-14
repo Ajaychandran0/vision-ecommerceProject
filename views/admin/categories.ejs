@@ -10,8 +10,6 @@
                 <label for="">Category</label>
                     <input type="text" name="category" class="form-control" value=" " required>
 
-                <label for="">Discription</label>
-                    <input type="text" name="discription" class="form-control" value="">
                 
                 <button type="submit" class="btn btn-success mt-4"> Add </button>
            
@@ -22,7 +20,7 @@
                 <tr>
                     <th scope="col">No.</th>
                     <th scope="col">Category</th>
-                    <th scope="col">Discription</th>
+                    
                 </tr>
             </thead>
             <tbody>
@@ -30,7 +28,7 @@
                 <tr>
                     <th scope="row"><%= i+1 %> </th>
                     <td><%= categories[i].category %></td>
-                    <td><%= categories[i].discription %></td>
+                    
                     <td><a href="/admin/delete-category/<%= categories[i]._id %>" class="btn btn-danger">Delete</a></td>
 
                 </tr>

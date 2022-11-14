@@ -16,6 +16,10 @@
             <!-- /Logo -->
             <h4 class="mb-2" style="color:#88c8bc ;">Signin</h4>
             <p class="mb-4">Please sign-in to your account and start the adventure</p>
+            
+            <% if(errorMessage){ %>
+              <p class="text-danger"><%= errorMessage %> </p>
+            <% } %>  
 
             <form class="mb-3" action="login" method="POST">
               <div class="mb-3">
@@ -27,6 +31,7 @@
                   name="email_username"
                   placeholder="Enter your email or username"
                   autofocus
+                  required
                 />
               </div>
               <div class="mb-3 form-password-toggle">
@@ -44,6 +49,7 @@
                     name="password"
                     placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                     aria-describedby="password"
+                    required
                   />
                   <!-- <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span> -->
                 </div>

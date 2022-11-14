@@ -1,8 +1,8 @@
 
-var userServices = require('../services/user_collection');
-var adminHelpers = require('../helpers//admin-helper')
-var productServices =require('../services/product_collection');
-var categoryServices = require('../services/category_collection');
+const userServices = require('../services/user_collection');
+const adminHelpers = require('../helpers/admin_helper')
+const productServices =require('../services/product_collection');
+const categoryServices = require('../services/category_collection');
 const { query } = require('express');
 
 
@@ -18,8 +18,10 @@ module.exports={
 
     getAdminLogin:(req,res)=>{
 
-        res.render('admin/admin-login',
-        {layout:'./layouts/plain'});
+        res.render('admin/admin-login',{
+            errorMessage:req.flash('error'),
+            layout:'./layouts/plain'
+        });
     },
 
     logAdminIn:(req,res)=>{
@@ -30,18 +32,18 @@ module.exports={
                 req.session.admin=response.admin
                 res.redirect('/admin')
             }else{
-                req.session.loginErr=true
+                req.flash('error','Invalid email or password')
                 res.redirect('/admin/login')
+                
             }
         })
     },
 
     logAdminOut:(req,res)=>{
-        
-        req.session.loggedAdminIn=false
-        req.session.admin=null
-        res.redirect('/admin/login')
-
+        req.session.destroy(err=>{
+            console.log(err)
+            res.redirect('/admin/login')
+        })
     },
 
     // user Management
@@ -76,9 +78,11 @@ module.exports={
         })  
     },
 
-    getAddProduct:(req,res)=>{
+    getAddProduct:async(req,res)=>{
+        let categories= await categoryServices.getAllCategories()
+        console.log(categories)
         res.render('admin/add-product',
-        {layout:'./layouts/adminLayout'})
+        {categories,layout:'./layouts/adminLayout'})
       
     },
 
@@ -102,9 +106,10 @@ module.exports={
     },
 
     getEditProduct:(req,res)=>{
-        productServices.getProductById(req.params.id).then((product)=>{
+        productServices.getProductById(req.params.id).then(async(product)=>{
+            let categories= await categoryServices.getAllCategories()
             res.render('admin/edit-product',
-            {product,layout:'./layouts/adminLayout'})
+            {product,categories,layout:'./layouts/adminLayout'})
         })
         
     },

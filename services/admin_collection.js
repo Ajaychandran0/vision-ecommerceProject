@@ -1,5 +1,5 @@
-var db = require('../models/connections')
-var {ADMIN_COLLECTION} = require('../models/collections')
+const db = require('../models/connections')
+const {ADMIN_COLLECTION} = require('../models/collections')
 
 
 

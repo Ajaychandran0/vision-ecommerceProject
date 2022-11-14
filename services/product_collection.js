@@ -1,6 +1,6 @@
-var db = require('../models/connections')
-var {PRODUCT_COLLETION} = require('../models/collections')
-var objectId= require('mongodb').ObjectId
+const db = require('../models/connections')
+const {PRODUCT_COLLETION} = require('../models/collections')
+const objectId= require('mongodb').ObjectId
 
 
 module.exports = {

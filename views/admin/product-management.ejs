@@ -34,7 +34,7 @@
                     <td><%= products[i].discription %></td>
                     <td><img style="width:5rem;height:5rem" src="/images/product-images/<%= products[i]._id %>.webp" alt=""></td>
                     <td><a href="/admin/edit-product/<%= products[i]._id %>" class="btn btn-success">Edit</a></td>
-                    <td><a href="/admin/delete-product/<%= products[i]._id %>" class="btn btn-danger">Delete</a></td>
+                    <td><a href="/admin/delete-product/<%= products[i]._id %>" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</a></td>
 
                 </tr>
                 

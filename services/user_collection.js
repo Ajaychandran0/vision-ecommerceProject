@@ -1,6 +1,6 @@
-var db = require('../models/connections')
-var {USER_COLLECTION} = require('../models/collections')
-var objectId= require('mongodb').ObjectId
+const db = require('../models/connections')
+const {USER_COLLECTION} = require('../models/collections')
+const objectId= require('mongodb').ObjectId
 
 
 

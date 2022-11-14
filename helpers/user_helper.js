@@ -1,7 +1,7 @@
 
 const bcrypt = require('bcrypt')
 
-var service = require('../services/user_collection')
+const service = require('../services/user_collection')
 
 
 module.exports = {
@@ -12,24 +12,24 @@ module.exports = {
             // let result
             console.log(userData.email)
 
-            let user =await service.checkUserExist(userData.email,userData.username)
+            let user = await service.checkUserExist(userData.email, userData.username)
             console.log(user)
-            
-            let userExist=false
+
+            let userExist = false
             if (user) {
 
                 console.log('user exists')
-                userExist= true
+                userExist = true
                 resolve(userExist)
 
             } else {
                 userData.password = await bcrypt.hash(userData.password, 10)
                 console.log('user added successfully')
-                userData.isActive=true
+                userData.isActive = true
 
                 service.createUser(userData)
                 resolve(false)
-                
+
             }
         })
 
@@ -37,32 +37,40 @@ module.exports = {
 
     doLogin: (userData) => {
         return new Promise(async (resolve, reject) => {
-            
+
             let response = {}
-            let email =userData.email_username
+            let email = userData.email_username
             let username = userData.email_username
-            
-            let user = await service.checkUserExist(email,username)
-            let active=user.isActive
-            if (active) {
 
-                bcrypt.compare(userData.password, user.password).then((status) => {
-                    if (status) {
+            let user = await service.checkUserExist(email, username)
+            if (user) {
+                let active = user.isActive
+                if (active) {
 
-                        console.log('login successfull')
-                        response.user = user
-                        response.status = true
-                        resolve(response)
-                    } else {
-                        console.log('login failed')
-                        resolve({ status: false })
-                    }
-                })
+                    bcrypt.compare(userData.password, user.password).then((status) => {
+                        if (status) {
 
-            } else {
-                console.log('login failed')
-                resolve({ status: false })
+                            console.log('login successfull')
+                            response.user = user
+                            response.status = true
+                            resolve(response)
+                        } else {
+                            console.log('login failed')
+                            resolve({ status: false })
+                        }
+                    })
+
+                } else {
+                    console.log('login failed admin blocked you')
+                    resolve({ status: false })
+                }
+
+            }else{
+                console.log('login failed ')
+                    resolve({ status: false })
+
             }
+
         })
     },
 

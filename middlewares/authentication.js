@@ -1,7 +1,37 @@
-module.exports=(req, res, next)=>{
-    if (req.session.isLoggedIn)
-        next()
-    else
-        res.redirect("/login")
-}
 
+module.exports={
+
+    verifyUserLogin:(req, res, next)=>{
+        if (req.session.isLoggedIn){
+            next()
+        }else{
+            res.redirect("/login")
+        }
+    },
+
+    verifyUserNotLogin:(req, res, next)=>{
+        if (!req.session.isLoggedIn){
+            next()
+        }else{
+            res.redirect("/login")
+        }
+    },
+    verifyAdminLogin: (req, res, next) => {
+        if (req.session.loggedAdminIn)
+            next()
+        else
+            res.redirect("/admin/login")
+    },
+    verifyAdminNotLogin:(req, res, next) => {
+        if (!req.session.loggedAdminIn) {
+            next()
+        } else {
+            res.redirect('/admin')
+        }
+    }
+
+
+    
+    
+
+}
