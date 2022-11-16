@@ -112,9 +112,11 @@
 							<img src="/images/product-images/<%= products[i]._id %>.webp"  class="img-fluid" alt="image">
 						</a>
 						<div class="desc">
-							<h2><a href="/product/<%= products[i]._id %>"><%= products[i].name %></a></h2>
+							<h2><a href="/product/<%= products[i]._id %>"><%= products[i].brand %></a></h2>
+							<!-- <p><a href="/product/<%= products[i]._id %>"><%= products[i].name %></a></p> -->
 							<span class="price">Rs. <%= products[i].price %></span>
-							<a href="" class="btn btn-primary">Add to cart</a>
+							
+							<button onclick="addToCart('<%=products[i]._id %>')" class="btn btn-primary">Add to cart</button>
 						</div>
 					</div>
 				</div>

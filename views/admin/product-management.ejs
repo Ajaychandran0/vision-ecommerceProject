@@ -20,7 +20,7 @@
                     <th scope="col">Title</th>
                     <th scope="col">Category</th>
                     <th scope="col">Price</th>
-                    <th scope="col">Discription</th>
+                    <th scope="col">Description</th>
                     <th scope="col">Image</th>
                 </tr>
             </thead>
@@ -31,7 +31,7 @@
                     <td><%= products[i].name %></td>
                     <td><%= products[i].category %></td>
                     <td><%= products[i].price %></td>
-                    <td><%= products[i].discription %></td>
+                    <td><%= products[i].description %></td>
                     <td><img style="width:5rem;height:5rem" src="/images/product-images/<%= products[i]._id %>.webp" alt=""></td>
                     <td><a href="/admin/edit-product/<%= products[i]._id %>" class="btn btn-success">Edit</a></td>
                     <td><a href="/admin/delete-product/<%= products[i]._id %>" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</a></td>

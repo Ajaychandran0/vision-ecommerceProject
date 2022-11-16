@@ -1,5 +1,5 @@
 <nav class="colorlib-nav" role="navigation">
-    <div class="top-menu">
+    <div class="top-menu" id="navMenu">
         <div class="container">
             <div class="row">
                 <div class="col-sm-7 col-md-9">
@@ -15,7 +15,7 @@
                     </form>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" >
                 <div class="col-sm-12 text-left menu-1">
                     <ul>
                         <li class="active"><a href="/">Home</a></li>
@@ -32,7 +32,13 @@
                         <li><a href="">Women</a></li>
                         <li><a href="">About</a></li>
                         <li><a href="">Contact</a></li>
-                        <li class="cart"><a href=""><i class="icon-shopping-cart"></i> Cart [0]</a></li>
+                        <li class="cart">
+                            <a href="/cart" >
+                                <i class="icon-shopping-cart"></i> 
+                                Cart [<span class="badge " id="cart-count"><%= cartCount %></span>]
+                                
+                            </a>
+                        </li>
 
                         <!-- <li class="dropdown btn cart dropdown-toggle mx-2" type="button" id="dropdownMenuButton" data-toggle="dropdown"
                               aria-haspopup="true" aria-expanded="false">
@@ -73,7 +79,7 @@
             </div>
         </div>
     </div>
-    <div class="sale">
+    <div class="sale" id="offer">
         <div class="container">
             <div class="row">
                 <div class="col-sm-8 offset-sm-2 text-center">

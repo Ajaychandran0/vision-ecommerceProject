@@ -12,7 +12,6 @@ const signupValidation= require('../middlewares/validation')
 
 router.get('/',shopController.home);
 router.get('/about',shopController.about)
-router.get('/cart',shopController.cart)
 router.get('/contact',shopController.contact)
 router.get('/men',shopController.men)
 router.get('/product/:id',shopController.product)
@@ -28,8 +27,13 @@ router.get('/signup',verifyUserNotLogin, userController.getSignup);
 router.post('/signup',signupValidation, userController.signupUser);
 
 router.get('/otp-login',verifyUserNotLogin, userController.otpLogin);
+
 router.get('/checkout',verifyUserLogin, userController.checkout);
 router.get('/order-complete',verifyUserLogin, userController.orderComplete);
+
+router.get('/cart',verifyUserLogin, userController.cart)
+router.get('/add-to-cart/:id',verifyUserLogin, userController.addToCart)
+
 router.get('/wishlist',verifyUserLogin, userController.wishlist);
 router.get('/logout',userController.logout)
 

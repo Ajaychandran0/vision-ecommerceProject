@@ -1,41 +1,54 @@
 
-const productServices =require('../services/product_collection');
+const productServices = require('../services/product_collection');
+const cartServices = require('../services/cart_collection')
 
 module.exports = {
 
-    home:(req,res)=>{
-        productServices.getAllProducts().then((products)=>{
-            res.render('shop/home',{products});
-        })
-       
+    home: async (req, res) => {
+        
+        let products = await productServices.getAllProducts()
+        let cartCount=0
+        
+        if(req.session.user){
+
+            let cart = await cartServices.getCartByuserId(req.session.user._id)
+            
+            if(cart){
+                for(i=0;i<cart.products.length;i++){
+                    cartCount += cart.products[i].quantity
+                }
+            }
+            req.session.cartCount=cartCount
+        }
+        
+        res.render('shop/home', { products,cartCount });
+
+
     },
 
-    about: (req,res)=>{
+    about: (req, res) => {
         res.render('shop/about')
     },
 
-    cart:(req,res)=>{
-        res.render('shop/cart') 
-    },
-    contact:(req,res)=>{
-        res.render('shop/contact')   
+    contact: (req, res) => {
+        res.render('shop/contact')
     },
 
-    men:(req,res)=>{
-        res.render('shop/men') 
+    men: (req, res) => {
+        res.render('shop/men')
     },
 
-    product:(req,res)=>{
-        productServices.getProductById(req.params.id).then((product)=>{
-            res.render('shop/product-detail',{product}) 
+    product: (req, res) => {
+        productServices.getProductById(req.params.id).then((product) => {
+            res.render('shop/product-detail', { product })
         })
     },
 
-    women:(req,res)=>{
+    women: (req, res) => {
         res.render('shop/women')
     },
 
-    
+
 
 
 

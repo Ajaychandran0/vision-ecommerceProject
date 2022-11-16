@@ -107,6 +107,7 @@ module.exports={
 
     getEditProduct:(req,res)=>{
         productServices.getProductById(req.params.id).then(async(product)=>{
+            console.log(product)
             let categories= await categoryServices.getAllCategories()
             res.render('admin/edit-product',
             {product,categories,layout:'./layouts/adminLayout'})
@@ -117,6 +118,11 @@ module.exports={
     editProduct:(req,res)=>{
         productServices.updateProductById(req.params.id,req.body)
         res.redirect('/admin/products')
+        if(req.files.image){
+            let image=req.files.image
+            let id=req.params.id
+            image.mv('./public/images/product-images/'+id+'.webp')
+        }
     },
 
     deleteProduct:(req,res)=>{

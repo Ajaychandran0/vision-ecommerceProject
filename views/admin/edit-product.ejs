@@ -1,32 +1,90 @@
-<section>
-    <div class="container mt-4">
+<section class="container mt-4 ">
+    <div>
+
         <div class="row h-100 align-items-center justify-content-center">
-            <div class="col-md-6">
-                <h2 class="text-center">Edit Product</h2>
+            <div class="col-md-10 ">
+                <h2 class="text-center m-5">Edit product</h2>
+                <br>
+
+                <!-- form -->
                 <form action="/admin/edit-product/<%= product._id %> " method="post" enctype="multipart/form-data">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>Brand Name</label>
+                            <input type="text" class="form-control" placeholder="Brand" name="brand"
+                                value="<%= product.brand  %>" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Product name</label>
+                            <input type="text" class="form-control" placeholder="name" name="name"
+                                value="<%= product.name %> " required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-8">
+                            <label>Category</label>
+                            <select class="form-control" name="category" , required>
+                                <option value="<%= product.category %> " class="text-secondary">
+                                    <%= product.category %>
+                                </option>
 
-                    <label for="">Name</label>
-                    <input type="text" name="name" class="form-control" value="<%= product.name  %> ">
+                                <% for(i=0;i<categories.length;i++){ %>
+                                    <option value="<%= categories[i].category %> ">
+                                        <%=categories[i].category %>
+                                    </option>
+                                    <% } %>
 
-                    <label for="">Category</label>
-                    <input type="text" name="category" class="form-control" value="<%= product.category %> ">
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>inStock</label>
+                            <input type="number" class="form-control" name="stock" value=<%= product.stock%>></input>
+                        </div>
 
-                    <label for="">Price</label>
-                    <input type="text" name="price" class="form-control" value="<%= product.price %> ">
+                    </div>
 
-                    <label for="">Discription</label>
-                    <input type="text" name="discription" class="form-control" value="<%= product.discription %> ">
-                    
-                    <label for="">Image</label>
-                    <input type="file" name="Image" class="form-control">
 
-                    <button type="submit" class="btn btn-success mt-4"> submit</button>
-                    
+                    <div class="form-row justify-content-between">
+                        <div class="form-group col-md-4">
+                            <label for="inputPrice">Price</label>
+                            <input type="number" step="0.01" class="form-control" name="price" value=<%= product.price %>  required>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label>Frame size</label>
+                            <select class="form-control" name="size" required>
+                                <option value="<%= product.size %> ">
+                                    <%= product.size %>
+                                </option>
+                                <option value="small">small</option>
+                                <option value="medium">medium</option>
+                                <option value="large">large</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Frame color</label>
+                            <input type="text" class="form-control" value="<%= product.color %> " name="color">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Product description</label>
 
-                    
+                        <textarea class="form-control" type="text" name="description" value="<%= product.description %> "
+                            rows="3"><%= product.description %></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Image</label>
+                        <img src="/images/product-images/<%= product._id %>.webp" id="imgView" width="100px" height="auto"
+                            alt="product image">
+                        <input type="file" name="image" class="form-control" onchange="viewImage(event)">
+                    </div>
+
+                    <div class="d-flex justify-content-center mb-5">
+                        <button type="submit" class="btn btn-success w-50 mt-3 ">submit</button>
+                    </div>
                 </form>
             </div>
         </div>
-        
+
     </div>
 </section>
+

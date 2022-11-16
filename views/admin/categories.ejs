@@ -29,7 +29,7 @@
                     <th scope="row"><%= i+1 %> </th>
                     <td><%= categories[i].category %></td>
                     
-                    <td><a href="/admin/delete-category/<%= categories[i]._id %>" class="btn btn-danger">Delete</a></td>
+                    <td><a href="/admin/delete-category/<%= categories[i]._id %>" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</a></td>
 
                 </tr>
                 

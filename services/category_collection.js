@@ -10,7 +10,10 @@ module.exports = {
     },
 
     addNewCategory:(category)=>{
+        
+        category.category=category.category.toUpperCase()
         category.date=new Date();
+        console.log(category)
         db.get().collection(CATEGORY_COLLECTION).insertOne(category)
     },
 

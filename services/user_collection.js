@@ -34,5 +34,4 @@ module.exports = {
         db.get().collection(USER_COLLECTION).updateOne({_id:objectId(userId)},{$set:{isActive:true}})
     })
 
-
 }

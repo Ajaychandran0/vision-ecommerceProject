@@ -53,9 +53,13 @@
 				</div>
 				<div class="col-sm-6" style="z-index:-1;">
 					<div class="product-desc">
-						<h3>
+						<h2>
+							<%= product.brand %>
+						</h2>
+						<h6>
 							<%= product.name %>
-						</h3>
+						</h6>
+						<br>
 						<p class="price">
 							<span>Price: <%= product.price %> Rs.</span>
 							<span class="rate">
@@ -68,7 +72,7 @@
 							</span>
 						</p>
 						<p>
-							<%= product.discription %>
+							<%= product.description %>
 						</p>
 						<div class="size-wrap">
 							<!-- <div class="block-26 mb-2">

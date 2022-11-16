@@ -1,51 +1,61 @@
 const db = require('../models/connections')
-const {PRODUCT_COLLETION} = require('../models/collections')
-const objectId= require('mongodb').ObjectId
+const { PRODUCT_COLLETION } = require('../models/collections')
+const objectId = require('mongodb').ObjectId
 
 
 module.exports = {
 
-    getAllProducts: ()=>{
-        
-        return new Promise(async(resolve,reject)=>{
-            let products= await db.get().collection(PRODUCT_COLLETION).find().toArray()
+    getAllProducts: () => {
+
+        return new Promise(async (resolve, reject) => {
+            let products = await db.get().collection(PRODUCT_COLLETION).find().toArray()
             resolve(products)
         })
     },
 
-    addProduct:(productData)=>{
+    addProduct: (productData) => {
 
-        return new Promise((resolve,reject)=>{
-            db.get().collection(PRODUCT_COLLETION).insertOne(productData).then((data)=>{
+        return new Promise((resolve, reject) => {
+            productData.stock = Number(productData.stock)
+            productData.price = parseFloat(productData.price)
+            db.get().collection(PRODUCT_COLLETION).insertOne(productData).then((data) => {
 
                 let id = data.insertedId.toString()
                 resolve(id)
             })
-        }) 
+        })
     },
 
-    getProductById:(productId)=>{
+    getProductById: (productId) => {
 
-        return new Promise((resolve,reject)=>{
-            db.get().collection(PRODUCT_COLLETION).findOne({_id:objectId(productId)}).then((data)=>{
+        return new Promise((resolve, reject) => {
+            db.get().collection(PRODUCT_COLLETION).findOne({ _id: objectId(productId) }).then((data) => {
                 resolve(data)
             })
         })
     },
 
-    updateProductById:(productId,productDetails)=>{
-        db.get().collection(PRODUCT_COLLETION).updateOne({_id:objectId(productId)},{
-            $set:{
-                name:productDetails.name,
-                discription:productDetails.discription,
-                price:productDetails.price,
-                category:productDetails.category
+    updateProductById: (productId, productDetails) => {
+
+        productDetails.stock = Number(productDetails.stock)
+        productDetails.price = parseFloat(productDetails.price)
+
+        db.get().collection(PRODUCT_COLLETION).updateOne({ _id: objectId(productId) }, {
+            $set: {
+                brand: productDetails.brand,
+                name: productDetails.name,
+                category: productDetails.category,
+                stock: productDetails.stock,
+                price: productDetails.price,
+                size: productDetails.size,
+                color: productDetails.color,
+                description: productDetails.description
             }
         })
     },
 
-    deleteProductById:(productId)=>{
-        db.get().collection(PRODUCT_COLLETION).deleteOne({_id:objectId(productId)})
+    deleteProductById: (productId) => {
+        db.get().collection(PRODUCT_COLLETION).deleteOne({ _id: objectId(productId) })
     }
 
 }

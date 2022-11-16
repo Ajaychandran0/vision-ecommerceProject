@@ -1,3 +1,29 @@
 body{
     overflow-x: hidden;
 }
+
+#navMenu{
+    position:fixed; 
+    z-index:5;
+    width:100%;
+    padding: 20px;
+    background-color:rgb(255, 255, 255)
+}
+
+#offer{
+    padding-top: 160px;
+}
+
+.row-pb-process {
+    padding-bottom: 1em !important;
+    background-color:#d0ebe5 ;
+    margin-bottom: 2em;
+    margin-top: 0em;
+    padding-top: 1em;
+    border-radius: 2em;
+}
+
+.pro-details{
+    color: black;
+    text-decoration: none;
+}
