@@ -12,12 +12,7 @@ module.exports = {
         if(req.session.user){
 
             let cart = await cartServices.getCartByuserId(req.session.user._id)
-            
-            if(cart){
-                for(i=0;i<cart.products.length;i++){
-                    cartCount += cart.products[i].quantity
-                }
-            }
+            cartCount = cart.products.length
             req.session.cartCount=cartCount
         }
         

@@ -20,18 +20,20 @@
                     <ul>
                         <li class="active"><a href="/">Home</a></li>
                         <li class="has-dropdown">
-                            <a href="">Men</a>
+                            <a href="">category</a>
                             <ul class="dropdown">
-                                <li><a href="product">Product Detail</a></li>
-                                <li><a href="">Shopping Cart</a></li>
-                                <li><a href="">Checkout</a></li>
-                                <li><a href="">Order Complete</a></li>
-                                <li><a href="">Wishlist</a></li>
+                                <li><a href="">Sunglass</a></li>
+                                <li><a href="">Computer glass</a></li>
+                                <li><a href="">Eyeglass</a></li>
+                                <li><a href="">Power sumglass </a></li>
+                                <li><a href="">Contact lense</a></li>
                             </ul>
                         </li>
-                        <li><a href="">Women</a></li>
                         <li><a href="">About</a></li>
                         <li><a href="">Contact</a></li>
+                        <% if(user){ %> 
+                        <li><a href="/orders">orders</a></li>
+                        <% } %> 
                         <li class="cart">
                             <a href="/cart" >
                                 <i class="icon-shopping-cart"></i> 
@@ -62,13 +64,13 @@
                                 </div>
                         </li> -->
                         <% if(user){ %> 
-                            <li class="cart"><a href="logout">logout</a></li>
+                            <li class="cart"><a href="/logout">logout</a></li>
                         <% }else{ %> 
                             
-                            <li class="cart"><a href="login">login</a></li>
+                            <li class="cart"><a href="/login">login</a></li>
                         <% } %> 
                         <% if(user){ %> 
-                            <li class="cart mx-5">welcome <%= user.username %> </li>
+                            <li class="cart mx-5 btn-welcome">welcome <%= user.username %> </li>
                         <% } %> 
 
                         

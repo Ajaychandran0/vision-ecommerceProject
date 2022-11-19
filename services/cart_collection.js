@@ -69,33 +69,103 @@ module.exports = {
                 },
                 {
                     $lookup: {
-                        from: PRODUCT_COLLETION,
+                        from: 'product',
                         localField: 'item',
                         foreignField: '_id',
                         as: 'product'
-
                     }
-                }
+                },
+                {
+                    $unwind: '$product'
+                },
+                {
+                    $project: {
+                        total: { $sum: { $multiply: ['$quantity', '$product.price'] } },
+                        quantity: 1,
+                        product: 1
+                    }
+                }                
             ]).toArray()
             resolve(cartItems)
-            console.log(cartItems)
-
         })
     },
 
-    incProductQuantity: (proId) => {
+    incProductQuantity: (cartId, proId, count = 1) => {
 
+        count = parseInt(count)
         return new Promise((resolve, reject) => {
             db.get().collection(CART_COLLECTION)
-                .updateOne({ 'products.item': objectId(proId) },
+                .updateOne({ _id: objectId(cartId), 'products.item': objectId(proId) },
                     {
-                        $inc: { 'products.$.quantity': 1 }
+                        $inc: { 'products.$.quantity': count }
                     }
                 ).then(response => {
-                    resolve()
+                    resolve({ status: true })
                 })
         })
 
 
+    },
+    removeProductFromCart: (cartId, proId) => {
+
+        console.log(cartId,proId)
+
+        return new Promise((resolve, reject) => {
+
+            db.get().collection(CART_COLLECTION)
+                .updateOne({ _id: objectId(cartId) },
+                    {
+                        $pull: { products: { item: objectId(proId) } }
+                    }
+                ).then((response) => {
+
+                    resolve({ productRemove: true })
+                })
+        })
+    },
+
+    getTotalPrice: (userId) => {
+
+        return new Promise(async (resolve, reject) => {
+            let subTotal = await db.get().collection(CART_COLLECTION).aggregate([
+                {
+                    $match: { user: objectId(userId) }
+                },
+                {
+                    $unwind: '$products'
+                },
+                {
+                    $project:
+                    {
+                        item: '$products.item',
+                        quantity: '$products.quantity'
+                    }
+                },
+                {
+                    $lookup:
+                    {
+                        from: PRODUCT_COLLETION,
+                        localField: 'item',
+                        foreignField: '_id',
+                        as: 'product'
+                    }
+                },
+                {
+                    $project: {
+                        item: 1,
+                        quantity: 1,
+                        product: { $arrayElemAt: ['$product', 0] }
+                    }
+                },
+                {
+                    $group: {
+                        _id: null,
+                        total: { $sum: { $multiply: ['$quantity', '$product.price'] } }
+                    }
+                }
+            ]).toArray()
+            resolve(subTotal)
+            
+        })
     }
 }

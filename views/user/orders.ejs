@@ -1,0 +1,35 @@
+<section>
+    <div class="container">
+
+            
+        <table class="table mt-5">
+            <thead>
+                <tr>
+                    <th scope="col">No.</th>
+                    <th scope="col">product</th>
+                    <th scope="col">quantity</th>
+                    <th scope="col">date</th>
+                    <th scope="col">price</th>
+                    <th scope="col">status</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                
+                <% for(var i=0;i<user.length;i++){ %> 
+                <tr>
+                    <th scope="row"><%= i+1 %> </th>
+                    <td><%= user.username %> product </td>
+                    <td><%= user.email %>quantity </td>
+                    <td><%= user.phone %> date</td>
+                    <td><%= user.phone %> price </td>
+                    <td><%= user.phone %> status</td>         
+                </tr>
+                
+
+                <% } %>               
+                
+            </tbody>
+        </table>
+    </div>
+</section>

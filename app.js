@@ -8,7 +8,6 @@ const expressLayouts = require('express-ejs-layouts')
 const shopRouter = require('./routes/shop_routes');
 const adminRouter = require('./routes/admin_routes');
 
-
 const fileUpload = require('express-fileupload')
 const session = require('express-session')
 const mongodbStore = require('connect-mongodb-session')(session)

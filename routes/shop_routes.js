@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
+
 const shopController = require('../contollers/shop_controller')
 const userController = require('../contollers/user_controller')
+const cartController = require('../contollers/cart_controller')
 const {verifyUserLogin,verifyUserNotLogin} =require('../middlewares/authentication')
 const signupValidation= require('../middlewares/validation')
 
@@ -28,14 +30,21 @@ router.post('/signup',signupValidation, userController.signupUser);
 
 router.get('/otp-login',verifyUserNotLogin, userController.otpLogin);
 
-router.get('/checkout',verifyUserLogin, userController.checkout);
-router.get('/order-complete',verifyUserLogin, userController.orderComplete);
 
-router.get('/cart',verifyUserLogin, userController.cart)
-router.get('/add-to-cart/:id',verifyUserLogin, userController.addToCart)
+// cart routes
+router.get('/cart',verifyUserLogin, cartController.getCart)
+router.post('/cart/change-product-quantity',verifyUserLogin,cartController.changeCartProductQuantity)
+router.get('/add-to-cart/:id',verifyUserLogin, cartController.addToCart)
+router.post('/cart/removeProduct',verifyUserLogin,cartController.removeProduct)
+
+// checkout
+router.get('/checkout',verifyUserLogin, cartController.checkout);
+router.post('/order-complete',verifyUserLogin, userController.orderComplete);
+router.get('/orders',verifyUserLogin,userController.orderDetails)
 
 router.get('/wishlist',verifyUserLogin, userController.wishlist);
 router.get('/logout',userController.logout)
+
 
 
 
