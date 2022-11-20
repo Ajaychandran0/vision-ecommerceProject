@@ -65,6 +65,7 @@ db.connect((err) => {
 app.use((req, res, next) => {
   res.locals.user = req.session.user
   res.locals.cartCount = req.session.cartCount
+  res.locals.categories = req.session.categories
   next();
 })
 

@@ -1,7 +1,7 @@
 <div class="colorlib-loader"></div>
 
 <div id="page">
-	
+
 	<aside id="colorlib-hero">
 		<div class="flexslider">
 			<ul class="slides">
@@ -62,104 +62,66 @@
 			</ul>
 		</div>
 	</aside>
-	<div class="colorlib-intro">
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-12 text-center">
-					<h6 class="intro">It started with a simple idea: Create quality, well-designed products that I
-						wanted myself.</h6>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="colorlib-product">
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-6 text-center">
-					<div class="featured">
-						<a href="" class="featured-img" style="background-image: url(/images/sunglasses/mensunglass.jpg);"></a>
-						<div class="desc">
-							<h2><a href="#">Shop Men's Collection</a></h2>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-6 text-center">
-					<div class="featured">
-						<a href="" class="featured-img" style="background-image: url(/images/sunglasses/women-sunglass);"></a>
-						<div class="desc">
-							<h2><a href="#">Shop Women's Collection</a></h2>
-						</div>
-					</div>
-				</div>
+
+
+
+	<div class="container">
+
+		<div class="row">
+			<div class="col-sm-12 text-center mt-5">
+				<h6 class="intro">It started with a simple idea: Create quality, well-designed products that I
+					wanted myself.</h6>
 			</div>
 		</div>
 	</div>
 
-	<!-- <div class="colorlib-product"> -->
+	<hr>
+
+
+	<div class="colorlib-product">
 		<div class="container ">
 			<div class="row">
 				<div class="col-sm-8 offset-sm-2 text-center colorlib-heading">
-					<h2>Best Sellers</h2>
+					<h2>Our Products</h2>
 				</div>
 			</div>
 
-			
+
 			<div class="row row-pb-md">
-				<% for(var i=0; i<products.length;i++){ %> 
-				<div class="col-lg-3 mb-4 text-center">
-					<div class="product-entry border">
-						<a href="/product/<%= products[i]._id %>" class="prod-img">
-							<img src="/images/product-images/<%= products[i]._id %>.webp"  class="img-fluid" alt="image">
-						</a>
-						<div class="desc">
-							<h2><a href="/product/<%= products[i]._id %>"><%= products[i].brand %></a></h2>
-							<!-- <p><a href="/product/<%= products[i]._id %>"><%= products[i].name %></a></p> -->
-							<span class="price">Rs. <%= products[i].price %></span>
-							
-							<button onclick="addToCart('<%=products[i]._id %>')" class="btn btn-primary">Add to cart</button>
+				<% for(var i=0; i<products.length;i++){ %>
+					<div class="col-lg-3 mb-4 text-center">
+						<div class="product-entry border">
+							<a href="/product/<%= products[i]._id %>" class="prod-img">
+								<img src="/images/product-images/<%= products[i]._id %>.webp" class="img-fluid"
+									alt="image">
+							</a>
+							<div class="desc">
+								<h2><a href="/product/<%= products[i]._id %>">
+										<%= products[i].brand %>
+									</a></h2>
+
+								<span class="price">Rs. <%= products[i].price %></span>
+
+								<button onclick="addToCart('<%=products[i]._id %>')" class="btn btn-primary">Add to
+									cart</button>
+							</div>
 						</div>
 					</div>
-				</div>
-				<% } %> 
-				
+					<% } %>
+
 			</div>
-			
+
 			<div class="row">
 				<div class="col-md-12 text-center">
-					<p><a href="/" class="btn btn-primary btn-lg">Shop All Products</a></p>
+					<p><a href="/" class="btn btn-primary btn-lg">Back to Top</a></p>
 				</div>
 			</div>
 		</div>
-	<!-- </div> -->
+	</div>
 
-	<!-- <div class="colorlib-partner">
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-8 offset-sm-2 text-center colorlib-heading colorlib-heading-sm">
-					<h2>Trusted Partners</h2>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col partner-col text-center">
-					<img src="/images/brand-1.jpg" class="img-fluid" alt="Free html4 bootstrap 4 template">
-				</div>
-				<div class="col partner-col text-center">
-					<img src="/images/brand-2.jpg" class="img-fluid" alt="Free html4 bootstrap 4 template">
-				</div>
-				<div class="col partner-col text-center">
-					<img src="/images/brand-3.jpg" class="img-fluid" alt="Free html4 bootstrap 4 template">
-				</div>
-				<div class="col partner-col text-center">
-					<img src="/images/brand-4.jpg" class="img-fluid" alt="Free html4 bootstrap 4 template">
-				</div>
-				<div class="col partner-col text-center">
-					<img src="/images/brand-5.jpg" class="img-fluid" alt="Free html4 bootstrap 4 template">
-				</div>
-			</div>
-		</div>
-	</div> -->
 
-	
+
+
 </div>
 
 <div class="gototop js-top">

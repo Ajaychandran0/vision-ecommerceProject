@@ -18,6 +18,19 @@ module.exports = {
         
     },
 
+    checKUserPhoneNoExist:(mobileNumber)=>{
+
+        return new Promise(async(resolve,reject)=>{
+            
+            let user = await db.get().collection(USER_COLLECTION).findOne({phone:mobileNumber})
+            resolve(user)
+        })
+
+    },
+
+
+
+
     createUser: (userData)=>{
          db.get().collection(USER_COLLECTION).insertOne(userData)
     },

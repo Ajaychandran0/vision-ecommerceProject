@@ -5,7 +5,8 @@ const shopController = require('../contollers/shop_controller')
 const userController = require('../contollers/user_controller')
 const cartController = require('../contollers/cart_controller')
 const {verifyUserLogin,verifyUserNotLogin} =require('../middlewares/authentication')
-const signupValidation= require('../middlewares/validation')
+const signupValidation= require('../middlewares/validation');
+const auth_controller = require('../contollers/auth_controller');
 
 
 
@@ -15,9 +16,8 @@ const signupValidation= require('../middlewares/validation')
 router.get('/',shopController.home);
 router.get('/about',shopController.about)
 router.get('/contact',shopController.contact)
-router.get('/men',shopController.men)
 router.get('/product/:id',shopController.product)
-router.get('/women',shopController.women)
+router.get('/category/:id',shopController.filterByCategory)
 
 
 /* GET user related listing. */
@@ -28,7 +28,11 @@ router.post('/login',userController.loginUser)
 router.get('/signup',verifyUserNotLogin, userController.getSignup);
 router.post('/signup',signupValidation, userController.signupUser);
 
-router.get('/otp-login',verifyUserNotLogin, userController.otpLogin);
+// otp login
+router.get('/otp-login',verifyUserNotLogin, userController.getOtpLogin);
+router.post('/send-otp',auth_controller.sendOtp);
+router.post('/verify-otp',auth_controller.verifyOTP);
+router.post('/otp-login',auth_controller.postOtpLogin)
 
 
 // cart routes

@@ -35,6 +35,22 @@ module.exports = {
         })
     },
 
+
+    getProductByCategory: (category)=>{
+        console.log(category+"hey hey hey getProductBy Category")
+        
+
+        return new Promise(async(resolve,reject)=>{
+            let products = await db.get().collection(PRODUCT_COLLETION).find({category:category}).toArray()
+            console.log(products+'eh eh eh getProcuct By Categroyry')
+            resolve(products)
+        })
+
+    },
+
+
+
+
     updateProductById: (productId, productDetails) => {
 
         productDetails.stock = Number(productDetails.stock)

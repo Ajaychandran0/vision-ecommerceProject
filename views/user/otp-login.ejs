@@ -16,13 +16,18 @@
             <!-- /Logo -->
             <h4 class="mb-2" style="color:#88c8bc ;">Login with OTP? 🔒</h4>
             <p class="mb-4">Enter your mobile number</p>
-            <form id="formAuthentication" class="mb-3" action="" method="POST">
+
+            <% if(errorMessage){ %>
+              <p class="text-danger"><%= errorMessage %> </p>
+            <% } %>  
+            
+            <form id="otp-login-form" class="mb-3">
                 <div class="mb-3">
-                    <label for="phone" class="form-label">phone no.</label>
+                    <label for="phoneInput" class="form-label">phone no.</label>
                     <input 
                         type="tel" 
                         class="form-control" 
-                        id="phone" 
+                        id="phoneInput" 
                         name="phone" 
                         pattern="[0-9]{10}"
                         placeholder="Enter your phone number" 
@@ -31,7 +36,18 @@
                         oninput="this.setCustomValidity('')"
                     />
                   </div>
-              <button type="submit" class="btn d-grid w-100" style="background-color:#88c8bc ;" >Send OTP</button>
+                  <div class="mb-3  hidden" id="otp-div">
+                    <label for="otp-input" class="form-label">OTP</label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        id="otp-input" 
+                        name="otp"                         
+                        placeholder="Enter your otp here"                        
+                       
+                    />
+                  </div>
+              <button type="submit" class="btn d-grid w-100" style="background-color:#88c8bc ;" id="otp-submit" >Send OTP</button>
             </form>
             <div class="text-center">
               <a href="/login" class="d-flex align-items-center justify-content-center" style="color:#4f8379;">

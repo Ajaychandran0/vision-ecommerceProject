@@ -51,8 +51,13 @@ module.exports = {
     })
   },
 
-  otpLogin: (req, res) => {
-    res.render('user/otp-login', { layout: './layouts/plain' });
+  getOtpLogin: (req, res) => {
+    res.render('user/otp-login', {
+
+      errorMessage: req.flash('error'),
+      layout: './layouts/plain'
+      
+    });
   },
 
   wishlist: (req, res) => {

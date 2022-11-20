@@ -13,7 +13,7 @@ module.exports={
         if (!req.session.isLoggedIn){
             next()
         }else{
-            res.redirect("/login")
+            res.redirect("/")
         }
     },
     verifyAdminLogin: (req, res, next) => {

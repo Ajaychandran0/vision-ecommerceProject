@@ -17,19 +17,19 @@
                         <div class="form-group col-md-6">
                             <label>Product name</label>
                             <input type="text" class="form-control" placeholder="name" name="name"
-                                value="<%= product.name %> " required>
+                                value="<%= product.name %>" required>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-8">
                             <label>Category</label>
                             <select class="form-control" name="category" , required>
-                                <option value="<%= product.category %> " class="text-secondary">
+                                <option value="<%= product.category %>" class="text-secondary">
                                     <%= product.category %>
                                 </option>
 
                                 <% for(i=0;i<categories.length;i++){ %>
-                                    <option value="<%= categories[i].category %> ">
+                                    <option value="<%= categories[i].category %>">
                                         <%=categories[i].category %>
                                     </option>
                                     <% } %>
@@ -52,7 +52,7 @@
                         <div class="form-group col-md-3">
                             <label>Frame size</label>
                             <select class="form-control" name="size" required>
-                                <option value="<%= product.size %> ">
+                                <option value="<%= product.size %>">
                                     <%= product.size %>
                                 </option>
                                 <option value="small">small</option>
@@ -62,13 +62,13 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label>Frame color</label>
-                            <input type="text" class="form-control" value="<%= product.color %> " name="color">
+                            <input type="text" class="form-control" value="<%= product.color %>" name="color">
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Product description</label>
 
-                        <textarea class="form-control" type="text" name="description" value="<%= product.description %> "
+                        <textarea class="form-control" type="text" name="description" value="<%= product.description %>"
                             rows="3"><%= product.description %></textarea>
                     </div>
                     <div class="form-group">

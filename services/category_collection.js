@@ -9,6 +9,17 @@ module.exports = {
         return db.get().collection(CATEGORY_COLLECTION).find().toArray()
     },
 
+
+    getCategoryById:(catId)=>{
+
+        return new Promise(async(resolve,reject)=>{
+
+            let {category} = await db.get().collection(CATEGORY_COLLECTION).findOne({_id:objectId(catId)})
+            resolve(category)
+        })
+
+    },
+
     addNewCategory:(category)=>{
         
         category.category=category.category.toUpperCase()
