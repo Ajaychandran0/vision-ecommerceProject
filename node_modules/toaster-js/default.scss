@@ -1,0 +1,76 @@
+//! This file include default toast styles.
+
+@mixin transition ($options...) {
+    -webkit-transition: $options;
+    -moz-transition: $options;
+    -o-transition: $options;
+    transition: $options;
+}
+
+$messagesAlpha: .9;
+$animationsTime: .3s;
+
+.toast {
+
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    z-index: 10000;
+    max-width: 100%;
+    opacity: 0;
+    transform: translate(75%, 0);
+    pointer-events: none;
+
+    @include transition(
+        all $animationsTime ease,
+        transform $animationsTime cubic-bezier(0.645, 0.045, 0.355, 1)
+    );
+
+    &.displayed {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+
+    &.deleted {
+        // same as original
+    }
+
+    > .body {
+
+        position: relative;
+        font-size: initial;
+        margin: 0 1em 1em 1em;
+        padding: .5em;
+        word-wrap: break-word;
+        border-radius: 3px;
+        background: rgba(255, 255, 255, $messagesAlpha);
+        pointer-events: all;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+
+        &.info {
+            background: rgba(#FFF5C3, $messagesAlpha);
+        }
+
+        &.warning {
+
+            background: rgba(#FFB763, $messagesAlpha);
+
+            > .icon {
+                color: white;
+            }
+
+        }
+
+        &.error {
+            color: white;
+            text-shadow: 0 0 1px black;
+            background: rgba(#FF5656, $messagesAlpha);
+        }
+
+        &.done {
+            background: rgba(#93FF9D, $messagesAlpha);
+        }
+
+    }
+
+}

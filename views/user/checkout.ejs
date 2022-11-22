@@ -13,7 +13,7 @@
 	</div>
 
 
-	<div class="colorlib-product">
+	<div class="colorlib-product" style="margin-top: -61px;">
 		<div class="container">
 			<div class="row row-pb-lg">
 				<div class="col-sm-10 offset-md-1">
@@ -35,152 +35,213 @@
 					</div>
 				</div>
 			</div>
-			<form method="post" action="/order-complete" class="colorlib-form ">
-				<div class="row">
-					<div class="col-lg-8">
 
-						<h2>Billing Details</h2>
-						<div class="row">
+			<!-- modal -->
 
+			<!-- Button trigger modal -->
+			<div class="d-flex justify-content-start mb-3">
 
-							<div class="col-md-6">
-								<div class="form-group">
-									<label for="fname">First Name</label>
-									<input type="text" id="fname" class="form-control" placeholder="Your firstname">
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label for="lname">Last Name</label>
-									<input type="text" id="lname" class="form-control" placeholder="Your lastname">
-								</div>
-							</div>
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+					data-bs-whatever="@mdo">Add new shipping address ?</button>
 
-							<div class="col-md-12">
+			</div>
 
-							</div>
+			<!-- Modal -->
 
-							<div class="col-md-12">
-								<div class="form-group">
-									<label for="fname">Address</label>
-									<input type="text" id="address" class="form-control"
-										placeholder="Enter Your Address">
-								</div>
-								<div class="form-group">
-									<input type="text" id="address2" class="form-control" placeholder="Second Address">
-								</div>
-							</div>
-
-							<div class="col-md-12">
-								<div class="form-group">
-									<label for="companyname">Town/City</label>
-									<input type="text" id="towncity" class="form-control" placeholder="Town or City">
-								</div>
-							</div>
-
-							<div class="col-md-6">
-								<div class="form-group">
-									<label for="stateprovince">State</label>
-									<input type="text" id="fname" class="form-control" placeholder="State Province">
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label for="lname">Zip/Postal Code</label>
-									<input type="text" id="zippostalcode" class="form-control"
-										placeholder="Zip / Postal">
-								</div>
-							</div>
-
-							<div class="col-md-6">
-								<div class="form-group">
-									<label for="email">E-mail Address</label>
-									<input type="email" id="email" class="form-control" placeholder="State Province">
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<label for="Phone">Phone Number</label>
-									<input type="text" id="zippostalcode" class="form-control" placeholder="">
-								</div>
-							</div>
-
-							<div class="col-md-12">
-								<div class="form-group">
-									<div class="radio">
-										<label><input type="radio" name="optradio"> Ship to different address</label>
+			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+				aria-hidden="true">
+				<div class="modal-dialog modal-lg ">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h2 class="modal-title fs-5" id="exampleModalLabel">Enter a new delivery address</h2>
+							<button type="button" class="btn-close rounded" data-dismiss="modal"
+								aria-label="Close">x</button>
+						</div>
+						<div class="modal-body " style="color: black;">
+							<form action="/users/add-address" method="post">
+								<div class="row gx-3 mb-3">
+									<div class="col-md-6">
+										<label class="small mb-1 text-black" for="inputFirstName">First name</label>
+										<input class="form-control" id="firstname" type="text" name="firstname"
+											placeholder="Enter your first name" value="">
+									</div>
+									<div class="col-md-6">
+										<label class="small mb-1" for="inputLastName">Last name</label>
+										<input class="form-control" id="lastname" type="text" name="lastname"
+											placeholder="Enter your last name" value="">
 									</div>
 								</div>
-							</div>
+								<div class="mb-3">
+									<label class="small mb-1" for="inputEmailAddress">Email address</label>
+									<input class="form-control" id="email" type="email" name="email"
+										placeholder="Enter your email address" value="">
+								</div>
+								<div class="mb-3">
+									<label class="small mb-1" for="inputEmailAddress">Flat, House no., Building,
+										Company,
+										Apartment</label>
+									<input class="form-control" id="house" type="text" name="house"
+										placeholder="Flat, House no., Building, Company,Apartment" value="">
+								</div>
+								<div class="mb-3">
+									<label class="small mb-1" for="inputEmailAddress">Area, Street, Sector,
+										Village</label>
+									<input class="form-control" id="area" type="text" name="area"
+										placeholder="Area, Street, Sector, Village" value="">
+								</div>
+								<div class="mb-3">
+									<label class="small mb-1" for="inputEmailAddress">Landmark</label>
+									<input class="form-control" id="landmark" type="text" name="landmark"
+										placeholder="Eg. near amala hospital" value="">
+								</div>
+								<div class="row gx-3 mb-3">
+									<div class="col-md-6">
+										<label class="small mb-1" for="inputPhone">Phone number</label>
+										<input class="form-control" id="mobile" type="tel" name="mobile"
+											placeholder="Enter your phone number" value="">
+									</div>
+									<div class="col-md-6">
+										<label class="small mb-1" for="inputCountry">Country</label>
+										<input class="form-control" id="country" type="text" name="country"
+											placeholder="Enter your Country" value="">
+									</div>
+								</div>
+								<div class="row gx-3 mb-3">
+									<div class="col-md-6">
+										<label class="small mb-1" for="inputState">State</label>
+										<input class="form-control" id="state" type="text" name="state"
+											placeholder="Enter your State" value="">
+									</div>
+									<div class="col-md-6">
+										<label class="small mb-1" for="inputDistrict">District</label>
+										<input class="form-control" id="district" type="text" name="district"
+											placeholder="Enter your District" value="">
+									</div>
+								</div>
+								<div class="row gx-3 mb-3">
+									<div class="col-md-6">
+										<label class="small mb-1" for="inputCity">City</label>
+										<input class="form-control" id="city" type="text" name="city"
+											placeholder="Enter your City" value="">
+									</div>
+									<div class="col-md-6">
+										<label class="small mb-1" for="inputPin">Pincode</label>
+										<input class="form-control" id="pincode" type="number" name="pincode"
+											placeholder="6 digits [0-9] PIN code" value="">
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+									<button type="button" class="btn btn-primary">Add Address</button>
+								</div>
+							</form>
 						</div>
 
-					</div>
-
-					<div class="col-lg-4">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="cart-detail">
-									<h2>Cart Total</h2>
-									<ul>
-										<li>
-											<span>Subtotal</span> <span>₹ <%= subTotal %> </span>
-											
-										</li>
-										<li><span>Shipping</span> <span>₹ 0.00</span></li>
-										<li><span>Order Total</span> <span> ₹ <%= subTotal %> </span></li>
-									</ul>
-								</div>
-							</div>
-
-							<div class="w-100"></div>
-
-							<div class="col-md-12">
-								<div class="cart-detail">
-									<h2>Payment Method</h2>
-									<div class="form-group">
-										<div class="col-md-12">
-											<div class="radio">
-												<label><input type="radio" name="payment-method" value="UPI">
-													UPI</label>
-											</div>
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-md-12">
-											<div class="radio">
-												<label><input type="radio" name="payment-method" value="COD"> cash on
-													delivery</label>
-											</div>
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-md-12">
-											<div class="radio">
-												<label><input type="radio" name="payment-method" value="ONLINE">
-													Paypal</label>
-											</div>
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-md-12">
-											<div class="checkbox">
-												<label><input type="checkbox" value=""> I have read and accept the terms
-													and
-													conditions</label>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-12 text-center">
-								<button type="submit" class="btn btn-primary m-4">Place an order</button>
-							</div>
-						</div>
 					</div>
 				</div>
-			</form>
+			</div>
+
+			<!-- /modal -->
+
+			<div class="container checkout-container">
+				<form method="post" action="/order-complete" class="colorlib checkout-form">
+					<div class="row">
+						<div class="col-lg-7 " style="">
+
+							<h2>Billing Details</h2>
+
+							<h5 class="mx-1"> Select shipping address</h5>
+							<div class="row address-card" >	
+								
+
+								<% for(i=0;i<1;i++){ %> 
+
+								<div class="col-md-12 card" style="margin: 10px; padding-left: 18px; margin-left: 15px; background-color: whitesmoke;">
+									<div class="form-check " style="height:auto; padding:10px;">
+										<input class="form-check-input" type="radio" name="flexRadioDefault"
+											id="flexRadioDefault1" required>
+										<label class="form-check-label" for="flexRadioDefault1">
+											<p>default radio</p>
+											<p>default radio</p>
+											
+										</label>
+									</div>
+								</div>
+
+								<% }%> 
+							</div>
+
+						</div>
+
+						<div class="col-lg-5" style="position:relative;">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="cart-detail">
+										<h2>Cart Total</h2>
+										<ul>
+											<li>
+												<span>Subtotal</span> <span>₹ <%= subTotal %> </span>
+
+											</li>
+											<li><span>Shipping</span> <span>₹ 0.00</span></li>
+											<li><span>Order Total</span> <span> ₹ <%= subTotal %> </span></li>
+										</ul>
+									</div>
+								</div>
+
+								<div class="w-100"></div>
+
+								<div class="col-md-12">
+									<div class="cart-detail">
+										<h2>Payment Method</h2>
+										<div class="form-group">
+											<div class="col-md-12">
+												<div class="radio">
+													<label><input type="radio" name="payment-method" value="UPI">
+														UPI</label>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-md-12">
+												<div class="radio">
+													<label><input type="radio" name="payment-method" value="COD">
+														cash
+														on delivery</label>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-md-12">
+												<div class="radio">
+													<label><input type="radio" name="payment-method" value="ONLINE">
+														Paypal</label>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="col-md-12">
+												<div class="checkbox">
+													<label><input type="checkbox" value=""> I have read and accept
+														the
+														terms
+														and
+														conditions</label>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row ">
+								<div class="col-md-12 text-center">
+									<button type="submit" class="btn btn-primary m-4">Place an order</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
 		</div>
 	</div>
 

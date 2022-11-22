@@ -9,6 +9,7 @@ const shopRouter = require('./routes/shop_routes');
 const adminRouter = require('./routes/admin_routes');
 
 const fileUpload = require('express-fileupload')
+const multer = require('multer')
 const session = require('express-session')
 const mongodbStore = require('connect-mongodb-session')(session)
 const db = require('./models/connections')
@@ -39,7 +40,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
+// app.use(multer().single('image'))
 app.use(fileUpload())
 app.use(flash())
 
@@ -73,10 +74,13 @@ app.use((req, res, next) => {
 app.use('/admin', adminRouter);
 app.use('/', shopRouter);
 
-
-// catch 404 and forward to error handler
+// catch 500 error
+app.use('/500',(req,res)=>{
+  res.render('errors/500_error',{layout:'./layouts/plain'})
+})
+// catch 404 and display 404 page
 app.use(function (req, res, next) {
-  next(createError(404));
+  res.render('errors/404_error')
 });
 
 // error handler
@@ -87,7 +91,7 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render('errors/error');
 });
 
 // authentication and csrf token middelwares
