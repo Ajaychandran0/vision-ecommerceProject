@@ -84,7 +84,7 @@ module.exports = {
                         quantity: 1,
                         product: 1
                     }
-                }                
+                }
             ]).toArray()
             resolve(cartItems)
         })
@@ -108,7 +108,6 @@ module.exports = {
     },
     removeProductFromCart: (cartId, proId) => {
 
-        console.log(cartId,proId)
 
         return new Promise((resolve, reject) => {
 
@@ -164,8 +163,22 @@ module.exports = {
                     }
                 }
             ]).toArray()
-            resolve(subTotal)
-            
+            console.log(subTotal)
+            if(subTotal[0]) resolve(subTotal[0].total)
+            else resolve()
+
         })
+    },
+
+
+    deleteCartByUserId: (userId) => {
+
+        return new Promise((resolve,reject)=>{
+
+            db.get().collection(CART_COLLECTION).deleteOne({user:objectId(userId)}).then(()=>{
+                resolve()
+            })
+        })
+
     }
 }

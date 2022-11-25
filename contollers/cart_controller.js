@@ -1,4 +1,5 @@
 const cartServices = require('../services/cart_collection');
+const addressServices = require('../services/address_collection')
 
 
 
@@ -23,7 +24,7 @@ module.exports = {
 
     addToCart: async (req, res) => {
 
-     
+
 
         let userId = req.session.user._id
         let proId = req.params.id
@@ -75,20 +76,22 @@ module.exports = {
             response = await cartServices.incProductQuantity(cartId, proId, count)
 
         }
-        let subTotal = await cartServices.getTotalPrice(userId)        
-        
-        response.subTotal = subTotal        
+        let subTotal = await cartServices.getTotalPrice(userId)
+
+        console.log('hey in sybtottal'+ subTotal)
+
+        response.subTotal = subTotal
         res.json(response)
 
     },
 
 
 
-    removeProduct:async(req,res)=>{
+    removeProduct: async (req, res) => {
 
-        let response = await cartServices.removeProductFromCart(req.body.cartId,req.body.proId)
-        req.session.cartCount -= 1 
-        res.json(response)      
+        let response = await cartServices.removeProductFromCart(req.body.cartId, req.body.proId)
+        req.session.cartCount -= 1
+        res.json(response)
 
     },
 
@@ -97,10 +100,12 @@ module.exports = {
     checkout: async (req, res) => {
 
         let userId = req.session.user._id
-        let Total = await cartServices.getTotalPrice(userId)
-        let subTotal = Total[0].total
-        
-        res.render('user/checkout', { subTotal });
-      }
+        let subTotal = await cartServices.getTotalPrice(userId)
+        let addresses = await addressServices.getAddressesByUserId(userId)
+        if(addresses) addresses = addresses.addresses
+        else addresses = []
+
+        res.render('user/checkout', { subTotal,addresses });
+    }
 
 }

@@ -1,6 +1,6 @@
 
 const userHelpers = require('../helpers/user_helper')
-const userServices = require('../services/user_collection')
+const addressServices = require('../services/address_collection')
 
 
 
@@ -56,8 +56,77 @@ module.exports = {
 
       errorMessage: req.flash('error'),
       layout: './layouts/plain'
-      
+
     });
+  },
+
+  getAccountDetails: async (req, res) => {
+
+    let userId = req.session.user._id
+    let addresses = await addressServices.getAddressesByUserId(userId)
+    console.log(addresses);
+    if (addresses) addresses = addresses.addresses
+    else addresses = []
+    console.log(addresses)
+    res.render('user/account', { addresses })
+
+  },
+
+
+  addAddress: async (req, res, next) => {
+
+    let userId = req.session.user._id
+    let address = req.body
+    let userAddresses = await addressServices.getAddressesByUserId(userId)
+
+    if (userAddresses) {
+      await addressServices.pushNewAddress(userId, address)
+
+    } else {
+
+      await addressServices.addAddressByUserId(userId, address)
+    }
+
+    if(req.params.num==1){
+      res.redirect('/account')
+    }else if(req.params.num==2){
+      res.redirect('/checkout')
+    }else{
+      res.status(404).render('errors/404-error')
+    }
+  },
+
+  getEditAddress: async (req, res) => {
+
+    let addressId = req.body.addressId
+    console.log(addressId)
+    userId = req.session.user._id
+    let address = await addressServices.getAddressByAddressId(userId, addressId)
+    res.json(address)
+
+
+  },
+
+  postEditAddress: (req, res) => {
+
+    let address = req.body
+    let addressId = req.params.id
+    let userId = req.session.user._id
+
+    addressServices.updateUserAddress(userId, addressId, address).then((response) => {
+      res.json({ status: true })
+    })
+
+  },
+
+  deleteAddress:(req,res)=>{
+
+    let addressId = req.body.addressId
+    let userId = req.session.user._id
+    addressServices.deleteAddressById(userId,addressId).then(()=>{
+      res.json({deleteAddress:true})
+    })
+
   },
 
   wishlist: (req, res) => {

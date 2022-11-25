@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
+const {verifyUserLogin,verifyUserNotLogin} =require('../middlewares/authentication')
 const shopController = require('../contollers/shop_controller')
 const userController = require('../contollers/user_controller')
 const cartController = require('../contollers/cart_controller')
-const {verifyUserLogin,verifyUserNotLogin} =require('../middlewares/authentication')
 const signupValidation= require('../middlewares/validation');
-const auth_controller = require('../contollers/auth_controller');
+const authController = require('../contollers/auth_controller');
+const orderController = require('../contollers/order_controller')
+
 
 
 
@@ -30,9 +32,16 @@ router.post('/signup',signupValidation, userController.signupUser);
 
 // otp login
 router.get('/otp-login',verifyUserNotLogin, userController.getOtpLogin);
-router.post('/send-otp',auth_controller.sendOtp);
-router.post('/verify-otp',auth_controller.verifyOTP);
-router.post('/otp-login',auth_controller.postOtpLogin)
+router.post('/send-otp',authController.sendOtp);
+router.post('/verify-otp',authController.verifyOTP);
+router.post('/otp-login',authController.postOtpLogin)
+
+// user account
+router.get('/account',verifyUserLogin,userController.getAccountDetails)
+router.post('/add-address/:num',verifyUserLogin,userController.addAddress)
+router.post('/edit-address',verifyUserLogin,userController.getEditAddress)
+router.post('/edit-address-post/:id',verifyUserLogin,userController.postEditAddress)
+router.delete('/delete-address',verifyUserLogin,userController.deleteAddress)
 
 
 // cart routes
@@ -43,7 +52,8 @@ router.post('/cart/removeProduct',verifyUserLogin,cartController.removeProduct)
 
 // checkout
 router.get('/checkout',verifyUserLogin, cartController.checkout);
-router.post('/order-complete',verifyUserLogin, userController.orderComplete);
+router.post('/place-order',verifyUserLogin,orderController.placeOrder)
+router.get('/order-complete',verifyUserLogin, userController.orderComplete);
 router.get('/orders',verifyUserLogin,userController.orderDetails)
 
 router.get('/wishlist',verifyUserLogin, userController.wishlist);

@@ -87,6 +87,19 @@ body{
 .address-card::-webkit-scrollbar{
     display: none;
 }
+.smoke{
+    background-color: whitesmoke;
+    width: 111%;
+    margin-left: -14px;
+}
+.smoke:hover{
+
+    background-color: rgb(189, 189, 189);
+
+}
+.smokeq{
+   height: 140px;
+}
 
 
 /*======================

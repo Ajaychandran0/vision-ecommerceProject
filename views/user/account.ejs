@@ -1,0 +1,300 @@
+<div class="container">
+    <div class="row mt-5 justify-content-center">
+        <div class="card col-3 m-3 ">
+            <a href="/orders">
+                <div class="card-body smoke smokeq">
+                    <h3>
+                        Your Orders
+                    </h3>
+                    <div><span class="">Track, return, or buy things again </span></div>
+                </div>
+            </a>
+        </div>
+        <div class="card col-3 m-3 ">
+            <a onclick="toggleAddress()">
+                <div class="card-body smoke smokeq">
+                    <h3>
+                        Your Addresses
+                    </h3>
+                    <div><span class="">Edit addressess for orders</span> <br></div>
+                </div>
+            </a>
+        </div>
+        <div class="card col-3 m-3 ">
+            <a href="">
+                <div class="card-body  smoke">
+                    <h3>
+                        Login & security
+                    </h3>
+                    <div><span class="">Edit login, username and phone number</span></div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<!-- /boxes ends -->
+
+<!-- address -->
+
+<div class="container mt-5 hidden" id="user-addresses">
+
+    <h4 class="mb-2">Your addressess</h4>
+    
+
+    <!-- modal -->
+
+			<!-- Button trigger modal -->
+			<div class="d-flex justify-content-start mb-3">
+
+				<button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#exampleModal"
+					data-bs-whatever="@mdo">Add new address</button>
+
+			</div>
+
+			<!-- Modal -->
+
+			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+				aria-hidden="true">
+				<div class="modal-dialog  ">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h2 class="modal-title fs-5" id="exampleModalLabel">Enter a new delivery address</h2>
+							<button type="button" class="btn-close rounded" data-dismiss="modal"
+								aria-label="Close">x</button>
+						</div>
+						<div class="modal-body " style="color: black;">
+							<form action="/add-address/1" method="post">
+								<div class="row gx-3 mb-3">
+									<div class="col-md-6">
+										<label class="small mb-1 text-black" for="inputFirstName">First name</label>
+										<input class="form-control"  type="text" name="firstname"
+											placeholder="Enter your first name" value="">
+									</div>
+									<div class="col-md-6">
+										<label class="small mb-1" for="inputLastName">Last name</label>
+										<input class="form-control"  type="text" name="lastname"
+											placeholder="Enter your last name" value="">
+									</div>
+								</div>
+								<div class="mb-3">
+									<label class="small mb-1" for="inputEmailAddress">Email address</label>
+									<input class="form-control"  type="email" name="email"
+										placeholder="Enter your email address" value="">
+								</div>
+								<div class="mb-3">
+									<label class="small mb-1" for="inputEmailAddress">Flat, House no., Building,
+										Company,
+										Apartment</label>
+									<input class="form-control" type="text" name="house"
+										placeholder="Flat, House no., Building, Company,Apartment" value="">
+								</div>
+								<div class="mb-3">
+									<label class="small mb-1" for="inputEmailAddress">Area, Street, Sector,
+										Village</label>
+									<input class="form-control" type="text" name="area"
+										placeholder="Area, Street, Sector, Village" value="">
+								</div>
+								<div class="mb-3">
+									<label class="small mb-1" for="inputEmailAddress">Landmark</label>
+									<input class="form-control"  type="text" name="landmark"
+										placeholder="Eg. near amala hospital" value="">
+								</div>
+								<div class="row gx-3 mb-3">
+									<div class="col-md-6">
+										<label class="small mb-1" for="inputPhone">Phone number</label>
+										<input class="form-control"  type="tel" name="mobile"
+											placeholder="Enter your phone number" value="">
+									</div>
+									<div class="col-md-6">
+										<label class="small mb-1" for="inputCountry">Country</label>
+										<input class="form-control" type="text" name="country"
+											placeholder="Enter your Country" value="">
+									</div>
+								</div>
+								<div class="row gx-3 mb-3">
+									<div class="col-md-6">
+										<label class="small mb-1" for="inputState">State</label>
+										<input class="form-control"  type="text" name="state"
+											placeholder="Enter your State" value="">
+									</div>
+									<div class="col-md-6">
+										<label class="small mb-1" for="inputDistrict">District</label>
+										<input class="form-control"  type="text" name="district"
+											placeholder="Enter your District" value="">
+									</div>
+								</div>
+								<div class="row gx-3 mb-3">
+									<div class="col-md-6">
+										<label class="small mb-1" for="inputCity">City</label>
+										<input class="form-control"  type="text" name="city"
+											placeholder="Enter your City" value="">
+									</div>
+									<div class="col-md-6">
+										<label class="small mb-1" for="inputPin">Pincode</label>
+										<input class="form-control"  type="number" name="pincode"
+											placeholder="6 digits [0-9] PIN code" value="">
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+									<button type="submit" onclick="addAddress()" class="btn btn-primary">Add Address</button>
+								</div>
+							</form>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<!-- /modal -->
+
+    <div class="row p-3">
+		
+
+        <% for(let address of addresses){%> 
+
+        <div class="col-9 m-2 card" style="background-color: whitesmoke;" id="address-card<%=address._id%>">
+            <p style="font-size:16px;" class="mt-4">
+				<span style="font-weight:blod;"><strong><%= address.firstname%> <%=address.lastname %> </strong></span>
+			</p>
+			<p style="font-size:16px;margin-top: -12px;">
+				<%= address.house %>, <%=address.area%>, <%= address.landmark %>, <%=address.city %> 
+			</p>
+			<p style="font-size:16px;margin-top: -12px;">
+				<%=address.district%> , <%= address.state %>, <%= address.pincode %>, 
+				<%=address.country %>, Phone number: <%= address.mobile %>
+			</p>  
+
+			
+            <div class="d-flex justify-content-end" style="margin-top: -18px;">
+
+				<button type="button" class="btn " onclick="getEditAddress('<%=address._id%>')"
+					    data-toggle="modal" data-target="#address-edit-modal"
+					    data-bs-whatever="@mdo">Edit
+				</button>
+
+                <span onclick="deleteAddress('<%=address._id%>')"><i class="fa fa-trash-o mx-4 pt-2" style="font-size:24px;color:red"></i></span>
+            </div>
+        </div>
+
+        <% } %> 
+    </div>
+</div>
+
+<!-- /address ends -->
+
+
+<!-- address edit modal -->
+<!-- Modal -->
+
+<div class="modal fade" id="address-edit-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
+aria-hidden="true">
+<div class="modal-dialog  ">
+	<div class="modal-content">
+		<div class="modal-header">
+			<h2 class="modal-title fs-5" id="exampleModalLabel">Edit address</h2>
+			<button type="button" class="btn-close rounded" data-dismiss="modal"
+				aria-label="Close">x</button>
+		</div>
+		<div class="modal-body " style="color: black;">
+			<form action="/add-address" method="post">
+				<div class="row gx-3 mb-3">
+					<div class="col-md-6">
+						<label class="small mb-1 text-black" for="inputFirstName">First name</label>
+						<input class="form-control" id="firstname" type="text" name="firstname"
+							placeholder="Enter your first name" value="">
+					</div>
+					<div class="col-md-6">
+						<label class="small mb-1" for="inputLastName">Last name</label>
+						<input class="form-control" id="lastname" type="text" name="lastname"
+							placeholder="Enter your last name" value="">
+					</div>
+				</div>
+				<div class="mb-3">
+					<label class="small mb-1" for="inputEmailAddress">Email address</label>
+					<input class="form-control" id="email" type="email" name="email"
+						placeholder="Enter your email address" value="">
+				</div>
+				<div class="mb-3">
+					<label class="small mb-1" for="inputEmailAddress">Flat, House no., Building,
+						Company,
+						Apartment</label>
+					<input class="form-control" id="house" type="text" name="house"
+						placeholder="Flat, House no., Building, Company,Apartment" value="">
+				</div>
+				<div class="mb-3">
+					<label class="small mb-1" for="inputEmailAddress">Area, Street, Sector,
+						Village</label>
+					<input class="form-control" id="area" type="text" name="area"
+						placeholder="Area, Street, Sector, Village" value="">
+				</div>
+				<div class="mb-3">
+					<label class="small mb-1" for="inputEmailAddress">Landmark</label>
+					<input class="form-control" id="landmark" type="text" name="landmark"
+						placeholder="Eg. near amala hospital" value="">
+				</div>
+				<div class="row gx-3 mb-3">
+					<div class="col-md-6">
+						<label class="small mb-1" for="inputPhone">Phone number</label>
+						<input class="form-control" id="mobile" type="tel" name="mobile"
+							placeholder="Enter your phone number" value="">
+					</div>
+					<div class="col-md-6">
+						<label class="small mb-1" for="inputCountry">Country</label>
+						<input class="form-control" id="country" type="text" name="country"
+							placeholder="Enter your Country" value="">
+					</div>
+				</div>
+				<div class="row gx-3 mb-3">
+					<div class="col-md-6">
+						<label class="small mb-1" for="inputState">State</label>
+						<input class="form-control" id="state" type="text" name="state"
+							placeholder="Enter your State" value="">
+					</div>
+					<div class="col-md-6">
+						<label class="small mb-1" for="inputDistrict">District</label>
+						<input class="form-control" id="district" type="text" name="district"
+							placeholder="Enter your District" value="">
+					</div>
+				</div>
+				<div class="row gx-3 mb-3">
+					<div class="col-md-6">
+						<label class="small mb-1" for="inputCity">City</label>
+						<input class="form-control" id="city" type="text" name="city"
+							placeholder="Enter your City" value="">
+					</div>
+					<div class="col-md-6">
+						<label class="small mb-1" for="inputPin">Pincode</label>
+						<input class="form-control" id="pincode" type="number" name="pincode"
+							placeholder="6 digits [0-9] PIN code" value="">
+
+							<input class="form-control" id="addressId" type="text" name="_id"
+							placeholder="Enter your City" value="" hidden>
+						
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="submit" class="btn btn-primary" >Submit</button>
+				</div>
+			</form>
+		</div>
+
+	</div>
+</div>
+</div>
+
+<!-- /modal -->
+
+<!-- address edit modal ends -->
+
+<div class="container mt-5">
+
+    <div>
+        <h4 class="mb-2">Personal information</h4><br>
+        <p style="font-size: 16px;">Username : <span>xxx</span></p>
+        <p style="font-size: 16px;">Email : <span>xxx</span></p>
+        <p style="font-size: 16px;">Phone number : <span>000</span></p>
+    </div>
+</div>
+

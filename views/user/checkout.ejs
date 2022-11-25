@@ -50,7 +50,7 @@
 
 			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
 				aria-hidden="true">
-				<div class="modal-dialog modal-lg ">
+				<div class="modal-dialog ">
 					<div class="modal-content">
 						<div class="modal-header">
 							<h2 class="modal-title fs-5" id="exampleModalLabel">Enter a new delivery address</h2>
@@ -58,7 +58,7 @@
 								aria-label="Close">x</button>
 						</div>
 						<div class="modal-body " style="color: black;">
-							<form action="/users/add-address" method="post">
+							<form action="/add-address/2" method="post">
 								<div class="row gx-3 mb-3">
 									<div class="col-md-6">
 										<label class="small mb-1 text-black" for="inputFirstName">First name</label>
@@ -132,7 +132,7 @@
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-									<button type="button" class="btn btn-primary">Add Address</button>
+									<button type="submit" class="btn btn-primary">Add Address</button>
 								</div>
 							</form>
 						</div>
@@ -144,9 +144,9 @@
 			<!-- /modal -->
 
 			<div class="container checkout-container">
-				<form method="post" action="/order-complete" class="colorlib checkout-form">
+				<form method="post"  id="checkout-form" class="colorlib checkout-form">
 					<div class="row">
-						<div class="col-lg-7 " style="">
+						<div class="col-lg-7 " >
 
 							<h2>Billing Details</h2>
 
@@ -154,17 +154,26 @@
 							<div class="row address-card" >	
 								
 
-								<% for(i=0;i<1;i++){ %> 
+								<% for(let address of addresses){ %> 
 
 								<div class="col-md-12 card" style="margin: 10px; padding-left: 18px; margin-left: 15px; background-color: whitesmoke;">
 									<div class="form-check " style="height:auto; padding:10px;">
-										<input class="form-check-input" type="radio" name="flexRadioDefault"
-											id="flexRadioDefault1" required>
-										<label class="form-check-label" for="flexRadioDefault1">
-											<p>default radio</p>
-											<p>default radio</p>
+										<input class="form-check-input mt-4" type="radio" name="address"
+											id="flexRadioDefault<%=address._id %> " value="<%=address._id %>" required>
+										<label class="form-check-label" for="flexRadioDefault<%=address._id %> ">
+											<p style="font-size:16px;" class="mt-3" >
+												<span style="font-weight:blod;"><strong><%= address.firstname%> <%=address.lastname %> </strong></span>
+											</p>
+											<p style="margin-top:-20px;font-size:15px">
+												<%= address.house %>, <%=address.area%>, <%= address.landmark %>, <%=address.city %> 
+											</p>
+											<p style="margin-top:-18px;font-size:15px">
+												<%=address.district%> , <%= address.state %>, <%= address.pincode %>, 
+												<%=address.country %>, Phone number: <%= address.mobile %>
+											</p> 
 											
 										</label>
+										
 									</div>
 								</div>
 
@@ -197,7 +206,7 @@
 										<div class="form-group">
 											<div class="col-md-12">
 												<div class="radio">
-													<label><input type="radio" name="payment-method" value="UPI">
+													<label><input type="radio" name="paymentMethod" value="UPI">
 														UPI</label>
 												</div>
 											</div>
@@ -205,7 +214,7 @@
 										<div class="form-group">
 											<div class="col-md-12">
 												<div class="radio">
-													<label><input type="radio" name="payment-method" value="COD">
+													<label><input type="radio" name="paymentMethod" value="COD">
 														cash
 														on delivery</label>
 												</div>
@@ -214,7 +223,7 @@
 										<div class="form-group">
 											<div class="col-md-12">
 												<div class="radio">
-													<label><input type="radio" name="payment-method" value="ONLINE">
+													<label><input type="radio" name="paymentMethod" value="ONLINE">
 														Paypal</label>
 												</div>
 											</div>
@@ -222,7 +231,7 @@
 										<div class="form-group">
 											<div class="col-md-12">
 												<div class="checkbox">
-													<label><input type="checkbox" value=""> I have read and accept
+													<label><input type="checkbox" value="" required> I have read and accept
 														the
 														terms
 														and
