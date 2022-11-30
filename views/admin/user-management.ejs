@@ -9,6 +9,7 @@
 
        
         <table class="table mt-5">
+            
             <thead>
                 <tr>
                     <th scope="col">No.</th>
@@ -27,18 +28,15 @@
                     <td><%= users[i].email %> </td>
                     <td><%= users[i].phone %> </td>
 
-                                      
+                     <div id="user-block-unblock<%= users[i]._id %>">                
                     <% if ( users[i].isActive){ %> 
                         <td>Active</td>
-                       <td><a href="/admin/block-user/<%= users[i]._id %> " class="btn btn-success" onclick="return confirm('Are you sure?')">block</a></td>
+                       <td><button onclick="blockUser('<%= users[i]._id %>')" class="btn btn-success" >block</button></td>
                     <% }else{ %> 
                         <td>Inactive</td>
-                       <td><a href="/admin/unblock-user/<%= users[i]._id %> " class="btn btn-danger" onclick="return confirm('Are you sure?')">Unblock</a></td>
+                       <td><a onclick="unblockUser('<%= users[i]._id %>')" class="btn btn-danger" onclick="return confirm('Are you sure?')">Unblock</a></td>
                     <% } %> 
-                  
-                
-                    
-
+                     </div> 
                 </tr>
                 
 

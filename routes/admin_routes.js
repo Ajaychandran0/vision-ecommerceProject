@@ -1,20 +1,21 @@
 const express = require('express');
 const router = express.Router();
 const adminController = require('../contollers/admin_controller')
+const authController = require('../contollers/auth_controller')
 const {verifyAdminLogin,verifyAdminNotLogin} = require('../middlewares/authentication')
 
 
 /* GET home page. */
 router.get('/', verifyAdminLogin, adminController.getAdminDashboard);
 router.get('/login',verifyAdminNotLogin, adminController.getAdminLogin)
-router.post('/login', adminController.logAdminIn)
+router.post('/login', authController.logAdminIn)
 router.get('/logout', adminController.logAdminOut)
 
 // user management
 
 router.get('/users', verifyAdminLogin, adminController.userManagement);
-router.get('/block-user/:id',verifyAdminLogin, adminController.blockUser);
-router.get('/unblock-user/:id',verifyAdminLogin, adminController.unblockUser)
+router.patch('/block-user/:id',verifyAdminLogin, adminController.blockUser);
+router.patch('/unblock-user/:id',verifyAdminLogin, adminController.unblockUser)
 
 
 // product management
@@ -30,7 +31,12 @@ router.get('/delete-product/:id', verifyAdminLogin, adminController.deleteProduc
 
 router.get('/category', verifyAdminLogin, adminController.getCategory)
 router.post('/add-category',verifyAdminLogin, adminController.addCategory)
-router.get('/delete-category/:id', verifyAdminLogin, adminController.deleteCategory)
+router.delete('/delete-category/:id', verifyAdminLogin, adminController.deleteCategory)
+
+// order management
+
+router.get('/order',verifyAdminLogin,adminController.getOrderManagement)
+
 
 
 module.exports = router;

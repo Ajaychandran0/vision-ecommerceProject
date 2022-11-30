@@ -1,0 +1,61 @@
+<div class="container mt-5">
+  <table id="example" class="table table-striped" style="width: 100%">
+    <thead>
+      <tr>
+        <th>SI No.</th>
+        <th>Customer</th>
+        <th width="220 em">Address</th>
+        <th>Order date</th>
+        <th width="100px">Product</th>
+        <th>Qty</th>
+        <th>Price</th>
+        <th>Payment</th>
+        <th>Status</th>
+        <th>Options</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% let i = 0 %> 
+      <% for(let order of orders){ %>
+        <% for(let orderItem of order.orderItems ) {%> 
+          <% let date=order.date %> 
+          <% date = new Date(date).toString()%> 
+          <% date = date.split(' ').slice(0, 5).join(' '); %> 
+        <%  i +=1 %> 
+      <tr>
+        <td><%= i %></td>
+        <td><%=order.deliveryDetails.firstname %> <%=order.deliveryDetails.lastname %></td>  
+
+
+        <td>
+         <p ><%= order.deliveryDetails.house %>, <%=order.deliveryDetails.area%>, <%= order.deliveryDetails.landmark %>, <%=order.deliveryDetails.city %>,
+          <%=order.deliveryDetails.district%> , <%= order.deliveryDetails.state %>, <%= order.deliveryDetails.pincode %>, 
+          <%=order.deliveryDetails.country %>, Phone number: <%= order.deliveryDetails.mobile %>
+         </p> 
+        </td>
+
+
+        <td><%= date %> </td>
+        
+        <td><%=orderItem.product.name %> </td>
+     
+        <td><%= orderItem.quantity %> </td>
+        <td>₹<%= orderItem.total %> </td>
+        <td><%= order.paymentMehod %> </td>
+        <td><%= order.status %> </td>
+        <td>
+          <select name="status" id="">
+            <option hidden><%= order.status %> </option>
+            <option value="placed">Placed</option>
+            <option value="cancel">Canceled</option>
+            <option value="shipped">Shipped</option>
+            <option value="delivered">Delivered</option>
+          </select>
+        </td>
+      </tr>
+      <% } %> 
+      <% } %>
+    </tbody>
+  </table>
+</div>

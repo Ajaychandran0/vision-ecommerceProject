@@ -106,6 +106,7 @@ module.exports = {
 
 
     },
+
     removeProductFromCart: (cartId, proId) => {
 
 
@@ -163,7 +164,6 @@ module.exports = {
                     }
                 }
             ]).toArray()
-            console.log(subTotal)
             if(subTotal[0]) resolve(subTotal[0].total)
             else resolve()
 

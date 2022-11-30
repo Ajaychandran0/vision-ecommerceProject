@@ -1,210 +1,237 @@
 <div class="colorlib-loader"></div>
 
 <div id="page">
+  <div class="breadcrumbs">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <p class="bread">
+            <span><a href="/">Home</a></span> / <span>Shopping Cart</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
 
-	<div class="breadcrumbs">
-		<div class="container">
-			<div class="row">
-				<div class="col">
-					<p class="bread"><span><a href="/">Home</a></span> / <span>Shopping Cart</span></p>
-				</div>
-			</div>
-		</div>
-	</div>
+  <div class="colorlib-product" style="margin-top: -61px">
+    <div class="container">
+      <% if(cartItems[0]){ %>
+      <div class="row row-pb-lg">
+        <div class="col-sm-10 offset-md-1">
+          <div class="process-wrap">
+            <div class="process text-center active">
+              <p><span>01</span></p>
+              <h3>Shopping Cart</h3>
+            </div>
+            <div class="process text-center">
+              <p><span>02</span></p>
+              <h3>Checkout</h3>
+            </div>
+            <div class="process text-center">
+              <p><span>03</span></p>
+              <h3>Order Complete</h3>
+            </div>
+          </div>
+        </div>
+      </div>
 
+      <div class="row row-pb-lg">
+        <div class="col-md-12">
+          <div class="product-name d-flex">
+            <div class="one-forth text-left px-4">
+              <span>Product Details</span>
+            </div>
+            <div class="one-eight text-center">
+              <span>Price</span>
+            </div>
+            <div class="one-eight text-center">
+              <span>Quantity</span>
+            </div>
+            <div class="one-eight text-center">
+              <span>Total</span>
+            </div>
+            <div class="one-eight text-center px-4">
+              <span>Remove</span>
+            </div>
+          </div>
 
-	<div class="colorlib-product" style="margin-top: -61px;">
-		<div class="container">
+          <% for(let cartItem of cartItems){ %>
 
-			<% if(cartItems[0]){ %>
-				<div class="row row-pb-lg">
-					<div class="col-sm-10 offset-md-1">
-						<div class="process-wrap">
-							<div class="process text-center active">
-								<p><span>01</span></p>
-								<h3>Shopping Cart</h3>
-							</div>
-							<div class="process text-center">
-								<p><span>02</span></p>
-								<h3>Checkout</h3>
-							</div>
-							<div class="process text-center">
-								<p><span>03</span></p>
-								<h3>Order Complete</h3>
-							</div>
-						</div>
-					</div>
-				</div>
-			
-			<div class="row row-pb-lg">
-				<div class="col-md-12">
-					<div class="product-name d-flex">
-						<div class="one-forth text-left px-4">
-							<span>Product Details</span>
-						</div>
-						<div class="one-eight text-center">
-							<span>Price</span>
-						</div>
-						<div class="one-eight text-center">
-							<span>Quantity</span>
-						</div>
-						<div class="one-eight text-center">
-							<span>Total</span>
-						</div>
-						<div class="one-eight text-center px-4">
-							<span>Remove</span>
-						</div>
-					</div>
+          <div
+            class="product-cart d-flex"
+            id="proDetail<%= cartItem.product._id %>"
+          >
+            <div class="one-forth">
+              <a href="/product/<%= cartItem.product._id %> ">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <img
+                      src="/images/product-images/<%=cartItem.product._id%>.webp"
+                      style="width: auto"
+                      alt="product image"
+                      class="product-img"
+                    />
+                  </div>
+                  <div
+                    class="display-tc text-center pro-details"
+                    style="padding: 3em"
+                  >
+                    <h3><%= cartItem.product.brand %></h3>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div class="one-eight text-center">
+              <div class="display-tc">
+                <span class="price pro-details">
+                  ₹
+                  <span id="price<%=cartItem.product._id%>"
+                    ><%= cartItem.product.price %></span
+                  >
+                </span>
+              </div>
+            </div>
 
-					 
+            <div class="one-eight text-center">
+              <div class="display-tc">
+                <button
+                  class="cart-item-count mr-3 pr-2 pl-2 btn-cart btn-primary"
+                  onclick="changeQuantity('<%= cartItem._id%>','<%= cartItem.product._id%>',-1)"
+                  id="minus<%=cartItem.product._id%>"
+                >
+                  -
+                </button>
 
-					<% for(let cartItem of cartItems){ %>
-					
+                <span id="<%= cartItem.product._id%>"
+                  ><%=cartItem.quantity%></span
+                >
 
-							<div class="product-cart d-flex" id="proDetail<%= cartItem.product._id %>">
+                <button
+                  class="cart-item-count ml-3 btn-cart btn-primary"
+                  onclick="changeQuantity('<%= cartItem._id%>','<%= cartItem.product._id%>',1)"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+            <div class="one-eight text-center">
+              <div class="display-tc pro-details">
+                <span class="price">
+                  ₹
+                  <span id="total<%=cartItem.product._id%>"
+                    ><%= cartItem.product.price*cartItem.quantity %></span
+                  >
+                </span>
+              </div>
+            </div>
+            <div class="one-eight text-center">
+              <div class="display-tc">
+                <span
+                  onclick="removeProduct('<%= cartItem._id%>','<%= cartItem.product._id%>')"
+                  ><i
+                    class="fa fa-trash-o"
+                    style="font-size: 24px; color: red"
+                  ></i
+                ></span>
+              </div>
+            </div>
+          </div>
 
-								<div class="one-forth ">
-									<a href="/product/<%= cartItem.product._id %> ">
-										<div class="d-flex justify-content-between align-items-center">
-											<div>
-												<img src="/images/product-images/<%=cartItem.product._id%>.webp"
-													style="width: auto;" alt="product image" class="product-img">
-											</div>
-											<div class="display-tc text-center pro-details" style="padding:3em">
-												<h3>
-													<%= cartItem.product.brand %>
-												</h3>
-											</div>
-										</div>
-									</a>
-								</div>
-								<div class="one-eight text-center">
-									<div class="display-tc">
-										<span class="price pro-details" >
-											₹ <span id="price<%=cartItem.product._id%>"><%= cartItem.product.price %></span>
-										</span>
-									</div>
-								</div>
+          <% } %>
+        </div>
+      </div>
 
-								<div class="one-eight text-center">
-									<div class="display-tc">
-										
-										<button 
-										    class="cart-item-count mr-3 pr-2 pl-2 btn-cart btn-primary"
-											onclick="changeQuantity('<%= cartItem._id%>','<%= cartItem.product._id%>',-1)"
-											id="minus<%=cartItem.product._id%>"
-										>-</button>
-										
-										<span id="<%= cartItem.product._id%>"><%=cartItem.quantity%></span>
+      <div class="row row-pb-lg">
+        <div class="col-md-12">
+          <div class="total-wrap">
+            <div class="row">
+              <div class="col-sm-8">
+                <form action="#">
+                  <div class="row form-group">
+                    <div class="col-sm-9">
+                      <input
+                        type="text"
+                        name="quantity"
+                        class="form-control input-number"
+                        placeholder="Your Coupon Number..."
+                      />
+                    </div>
+                    <div class="col-sm-3">
+                      <input
+                        type="submit"
+                        value="Apply Coupon"
+                        class="btn btn-primary"
+                      />
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="col-sm-4 text-center">
+                <div class="total">
+                  <div class="sub">
+                    <p>
+                      <span>Subtotal:</span>
+                      <span id="total">₹ <%= subTotal %> </span>
+                    </p>
+                    <p><span>Delivery:</span> <span>₹00.00</span></p>
+                    <p><span>Discount:</span> <span>₹00.00</span></p>
+                  </div>
+                  <div class="">
+                    <pre><span><strong>Total:               ₹ </strong></span><span id="totals"><%= subTotal %> </span></pre>
+                  </div>
+                </div>
+                <div class="m-5">
+                  <a href="/checkout"
+                    ><button class="btn btn-primary">
+                      Proceed to checkout
+                    </button></a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-										<button 
-										    class="cart-item-count ml-3 btn-cart btn-primary"
-											onclick="changeQuantity('<%= cartItem._id%>','<%= cartItem.product._id%>',1)"
-										>+</button>
-									</div>
-								</div>
-								<div class="one-eight text-center">
-									<div class="display-tc pro-details">
-										<span class="price" >
-											₹ <span id="total<%=cartItem.product._id%>"><%= cartItem.product.price*cartItem.quantity %></span>
-										</span>
-									</div>
-								</div>
-								<div class="one-eight text-center ">
-									<div class="display-tc">
-										<span onclick="removeProduct('<%= cartItem._id%>','<%= cartItem.product._id%>')"><i class="fa fa-trash-o" style="font-size:24px;color:red"></i></span>
-									</div>
-								</div>
-							</div>
-						
+      <div class="row">
+        <div
+          class="col-sm-8 offset-sm-2 text-center colorlib-heading colorlib-heading-sm"
+        >
+          <h2>Related Products</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 col-lg-3 mb-4 text-center">
+          <div class="product-entry border">
+            <a href="#" class="prod-img">
+              <img src="" class="img-fluid" alt="Related product images" />
+            </a>
+            <div class="desc">
+              <h2><a href="#">sunglasses</a></h2>
+              <span class="price">₹ 1239.00</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
-					<% } %>
-					
-
-				</div>
-			</div>
-
-			<div class="row row-pb-lg">
-				<div class="col-md-12">
-					<div class="total-wrap">
-						<div class="row">
-							<div class="col-sm-8">
-								<form action="#">
-									<div class="row form-group">
-										<div class="col-sm-9">
-											<input type="text" name="quantity" class="form-control input-number"
-												placeholder="Your Coupon Number...">
-										</div>
-										<div class="col-sm-3">
-											<input type="submit" value="Apply Coupon" class="btn btn-primary">
-										</div>
-									</div>
-								</form>
-							</div>
-							<div class="col-sm-4 text-center">
-								<div class="total">
-									<div class="sub">
-										<p><span>Subtotal:</span> <span id="total">₹ <%= subTotal %> </span></p>
-										<p><span>Delivery:</span> <span>₹00.00</span></p>
-										<p><span>Discount:</span> <span>₹00.00</span></p>
-									</div>
-									<div class="">
-										<pre><span><strong>Total:               ₹ </strong></span><span id="totals"><%= subTotal %> </span></pre>
-									</div>
-								</div>
-								<div class="m-5">
-									<a href="/checkout"><button class="btn btn-primary">Proceed to checkout</button></a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-sm-8 offset-sm-2 text-center colorlib-heading colorlib-heading-sm">
-					<h2>Related Products</h2>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-3 col-lg-3 mb-4 text-center">
-					<div class="product-entry border">
-						<a href="#" class="prod-img">
-							<img src="" class="img-fluid" alt="Related product images">
-						</a>
-						<div class="desc">
-							<h2><a href="#">sunglasses</a></h2>
-							<span class="price">₹ 1239.00</span>
-						</div>
-					</div>
-				</div>
-
-
-			</div>
-		
-			<% }else{ %>
-				<div class="row">
-					<div class="offset-lg-3 col-lg-6 col-md-12 col-12 text-center">
-						<img src="/images/cart-empty.svg" alt="" class="img-fluid mb-4">
-						<h2>Your shopping cart is empty</h2>
-						<p class="mb-4">
-							Return to the store to add items for your delivery slot. Before proceed to checkout you must add some products to your shopping cart. You will find a lot of interesting products on our shop page.
-						</p>
-						<a href="/" class="btn btn-primary">Explore Products</a>
-					</div>
-				</div>
-			<% } %>  
-
-
-
-
-
-		</div>
-	</div>
-
-
+      <% }else{ %>
+      <div class="row">
+        <div class="offset-lg-3 col-lg-6 col-md-12 col-12 text-center">
+          <img src="/images/cart-empty.svg" alt="" class="img-fluid mb-4" />
+          <h2>Your shopping cart is empty</h2>
+          <p class="mb-4">
+            Return to the store to add items for your delivery slot. Before
+            proceed to checkout you must add some products to your shopping
+            cart. You will find a lot of interesting products on our shop page.
+          </p>
+          <a href="/" class="btn btn-primary">Explore Products</a>
+        </div>
+      </div>
+      <% } %>
+    </div>
+  </div>
 </div>
 
 <div class="gototop js-top">
-	<a href="#" class="js-gotop"><i class="ion-ios-arrow-up"></i></a>
+  <a href="#" class="js-gotop"><i class="ion-ios-arrow-up"></i></a>
 </div>

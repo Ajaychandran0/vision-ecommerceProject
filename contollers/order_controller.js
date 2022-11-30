@@ -10,8 +10,7 @@ module.exports = {
 
         let orderDetails = req.body
         let userId = req.session.user._id
-        let cart = await cartServices.getCartByuserId(userId)
-        let products = cart.products
+        let cartItems = await cartServices.getCartItems(userId)
         let totalPrice = await cartServices.getTotalPrice(userId)
         let address = await addressServices.getAddressByAddressId(userId, orderDetails.address)
         let orderStatus = orderDetails.paymentMethod === 'COD' ? 'placed' : 'pending'
@@ -19,7 +18,7 @@ module.exports = {
         let order = {
             deliveryDetails: address,
             paymentMehod: orderDetails.paymentMethod,
-            products: products,
+            orderItems:cartItems,
             totalPrice: totalPrice,
             status: orderStatus
 

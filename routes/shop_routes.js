@@ -25,7 +25,7 @@ router.get('/category/:id',shopController.filterByCategory)
 /* GET user related listing. */
 
 router.get('/login',verifyUserNotLogin, userController.getLogin);
-router.post('/login',userController.loginUser)
+router.post('/login',authController.loginUser)
 
 router.get('/signup',verifyUserNotLogin, userController.getSignup);
 router.post('/signup',signupValidation, userController.signupUser);
@@ -46,8 +46,8 @@ router.delete('/delete-address',verifyUserLogin,userController.deleteAddress)
 
 // cart routes
 router.get('/cart',verifyUserLogin, cartController.getCart)
-router.post('/cart/change-product-quantity',verifyUserLogin,cartController.changeCartProductQuantity)
 router.get('/add-to-cart/:id',verifyUserLogin, cartController.addToCart)
+router.post('/cart/change-product-quantity',verifyUserLogin,cartController.changeCartProductQuantity)
 router.post('/cart/removeProduct',verifyUserLogin,cartController.removeProduct)
 
 // checkout

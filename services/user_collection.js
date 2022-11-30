@@ -32,7 +32,13 @@ module.exports = {
 
 
     createUser: (userData)=>{
-         db.get().collection(USER_COLLECTION).insertOne(userData)
+        
+        return new Promise((resolve,reject)=>{
+
+         db.get().collection(USER_COLLECTION).insertOne(userData).then(()=>{
+            resolve()
+         })
+        })
     },
     
     getAllUsers: ()=>{
@@ -40,11 +46,24 @@ module.exports = {
     },
 
     blockUserAccess:(userId)=>{
-        db.get().collection(USER_COLLECTION).updateOne({_id:objectId(userId)},{$set:{isActive:false}})
+        return new Promise((resolve,reject)=>{
+
+        db.get().collection(USER_COLLECTION).updateOne({_id:objectId(userId)},{$set:{isActive:false}}).then(()=>{
+            resolve()
+        })
+
+
+        })
     },
 
-    unblockUserAccess:(userId=>{
-        db.get().collection(USER_COLLECTION).updateOne({_id:objectId(userId)},{$set:{isActive:true}})
-    })
+    unblockUserAccess:(userId)=>{
+        return new Promise((resolve,reject)=>{
+
+        db.get().collection(USER_COLLECTION).updateOne({_id:objectId(userId)},{$set:{isActive:true}}).then(()=>{
+            resolve()
+        })
+
+        })
+    }
 
 }

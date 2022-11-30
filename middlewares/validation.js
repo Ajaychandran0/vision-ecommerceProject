@@ -14,6 +14,7 @@ const signupValidation = [
             res.status(422).redirect('/signup')
         
         }
+        next()
     }
 
 

@@ -1,6 +1,8 @@
-
-const userHelpers = require('../helpers/user_helper')
 const addressServices = require('../services/address_collection')
+const orderServices = require('../services/order_collection')
+const userServices = require('../services/user_collection')
+const bcrypt = require('bcrypt')
+
 
 
 
@@ -13,18 +15,22 @@ module.exports = {
     });
   },
 
-  signupUser: (req, res) => {
+  signupUser: async (req, res) => {
 
-    userHelpers.doSignup(req.body).then((signUpFailed) => {
-      if (signUpFailed == true) {
+    let userData = req.body
+    let user = await userServices.checkUserExist(userData.email, userData.username)
 
-        req.flash('error', 'User already exists')
-        res.redirect('/signup')
+    if (user) {
+      req.flash('error', 'User already exists')
+      res.redirect('/signup')
+    } else {
+      userData.password = await bcrypt.hash(userData.password, 10)
+      console.log('user added successfully')
+      userData.isActive = true
 
-      } else {
-        res.redirect('/login')
-      }
-    })
+      await userServices.createUser(userData)
+      res.redirect('/login')
+    }
   },
 
   getLogin: (req, res) => {
@@ -36,21 +42,7 @@ module.exports = {
       })
   },
 
-  loginUser: (req, res) => {
-
-    userHelpers.doLogin(req.body).then((response) => {
-      if (response.status) {
-        req.session.isLoggedIn = true
-        req.session.user = response.user
-
-        res.redirect('/')
-      } else {
-        req.flash('error', 'Invalid email or password')
-        res.redirect('/login')
-      }
-    })
-  },
-
+  
   getOtpLogin: (req, res) => {
     res.render('user/otp-login', {
 
@@ -87,11 +79,11 @@ module.exports = {
       await addressServices.addAddressByUserId(userId, address)
     }
 
-    if(req.params.num==1){
+    if (req.params.num == 1) {
       res.redirect('/account')
-    }else if(req.params.num==2){
+    } else if (req.params.num == 2) {
       res.redirect('/checkout')
-    }else{
+    } else {
       res.status(404).render('errors/404-error')
     }
   },
@@ -119,12 +111,12 @@ module.exports = {
 
   },
 
-  deleteAddress:(req,res)=>{
+  deleteAddress: (req, res) => {
 
     let addressId = req.body.addressId
     let userId = req.session.user._id
-    addressServices.deleteAddressById(userId,addressId).then(()=>{
-      res.json({deleteAddress:true})
+    addressServices.deleteAddressById(userId, addressId).then(() => {
+      res.json({ deleteAddress: true })
     })
 
   },
@@ -137,8 +129,15 @@ module.exports = {
   orderComplete: (req, res) => {
     res.render('user/order-complete');
   },
-  orderDetails: (req, res) => {
-    res.render('user/orders')
+
+
+
+  orderDetails: async (req, res) => {
+
+    let userId = req.session.user._id
+    let orders = await orderServices.getUserOrders(userId)
+
+    res.render('user/orders', { orders })
   },
 
   logout: (req, res) => {

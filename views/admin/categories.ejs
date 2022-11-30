@@ -8,10 +8,16 @@
             <form action="/admin/add-category" method="post" enctype="multipart/form-data">
 
                 <label for="">Category</label>
+
+                <% if(errorMessage){ %>
+                    <p class="text-danger"><%= errorMessage %> </p>
+                  <% } %>  
+
                     <input type="text" name="category" class="form-control" required>
 
                 
                 <button type="submit" class="btn btn-success mt-4"> Add </button>
+                </form>
            
         </div>
 
@@ -29,7 +35,7 @@
                     <th scope="row"><%= i+1 %> </th>
                     <td><%= categories[i].category %></td>
                     
-                    <td><a href="/admin/delete-category/<%= categories[i]._id %>" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</a></td>
+                    <td><a onclick="deleteCategory('<%= categories[i]._id %>')" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</a></td>
 
                 </tr>
                 

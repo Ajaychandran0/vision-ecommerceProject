@@ -1,24 +1,24 @@
 // checkout 
 
-$('#checkout-form').submit((e)=>{
+$('#checkout-form').submit((e) => {
 
     e.preventDefault()
-    
+
     $.ajax({
         url: "/place-order",
-        method:'post',
+        method: 'post',
         data: $('#checkout-form').serialize(),
-        success:(response) => {
+        success: (response) => {
 
-            if(response.orderPlaced){
-            window.location.href = '/order-complete' 
-            }else{
+            if (response.orderPlaced) {
+                location.href = '/order-complete'
+            } else {
                 sweetAlert({
-                    text:'only COD available',
-                    icon:'warning'
+                    text: 'only COD available',
+                    icon: 'warning'
                 })
-            }          
-            
+            }
+
         }
     });
 })

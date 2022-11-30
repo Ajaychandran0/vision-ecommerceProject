@@ -85,7 +85,7 @@ body{
     -ms-overflow-style: none; 
 }
 .address-card::-webkit-scrollbar{
-    display: none;
+    display:none;
 }
 .smoke{
     background-color: whitesmoke;
@@ -99,6 +99,18 @@ body{
 }
 .smokeq{
    height: 140px;
+}
+.order-head{
+    background-color: #ca2727;
+    color: white;
+    height: 45px;
+    padding-top: 6px;
+}
+.view-item{
+    color: #0645ad;
+}
+.view-item:hover{
+    text-decoration: underline;
 }
 
 

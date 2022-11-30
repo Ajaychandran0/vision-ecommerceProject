@@ -1,35 +1,66 @@
 <section>
-    <div class="container">
+  <div class="container mt-5 ">
+    <% if(orders[0]){ %> 
+    <% for(let order of orders){ %> 
+      <% let date=order.date %> 
+      <% date = new Date(date).toString()%> 
+      <% date = date.split(' ').slice(0, 5).join(' '); %> 
+        
+    <div class="card w-100  mt-4">
 
-            
-        <table class="table mt-5">
-            <thead>
-                <tr>
-                    <th scope="col">No.</th>
-                    <th scope="col">product</th>
-                    <th scope="col">quantity</th>
-                    <th scope="col">date</th>
-                    <th scope="col">price</th>
-                    <th scope="col">status</th>
-                    
-                </tr>
-            </thead>
-            <tbody>
-                
-                <% for(var i=0;i<user.length;i++){ %> 
-                <tr>
-                    <th scope="row"><%= i+1 %> </th>
-                    <td><%= user.username %> product </td>
-                    <td><%= user.email %>quantity </td>
-                    <td><%= user.phone %> date</td>
-                    <td><%= user.phone %> price </td>
-                    <td><%= user.phone %> status</td>         
-                </tr>
-                
+      <div class="row card-header order-head bg-secondary pt-2 " style="padding: 0px;margin: 0px;color: white;">
+        <div class="col-3 " ><h5 class="text-white"><%=date%></h5></div>
+        <div class="col-2"><h5 class="text-white">Total:  ₹ <%=order.totalPrice %> </h5></div>
+        <div class="col-3"><h5 class="text-white">Ship to:   <%=order.deliveryDetails.firstname %> <%=order.deliveryDetails.lastname %>  </h5></div>
+        <div class="col-4 pt-2"><a href="" class=""><h6 class="float-right view-item" style="color: #00a2ff;">View order details</h6></a></div>
 
-                <% } %>               
-                
-            </tbody>
-        </table>
+      </div>
+      
+       
+        <% for( let orderItem of order.orderItems){ %> 
+            <div class="d-flex justify-content-between align-items-center">
+        <div class="col-2 mt-4 mx-3">
+          <img
+          src="/images/product-images/<%=orderItem.product._id%>.webp"
+          style="width: 150px"
+          alt="product image"
+          class="product-img"
+        />
+        </div>
+        <div class="col-4 mt-4">
+          <p class="card-text">
+           <%= orderItem.product.name%> 
+          </p>
+        </div>
+        <div class="col-2 mt-4" >
+          <a href="#" class="view-item" >View your item</a>
+        </div>
+        <div class="col-2 mt-4">
+          <a href="#" class="btn" style="background-color: yellow;">Buy it again</a>
+        </div>
+        <div class="col-2 mt-4" style="margin-left: -33px;">
+          <a href="#" class="btn " style="background-color: rgb(241, 64, 64);color:white">Cancel order</a>
+        </div>
     </div>
+  
+       <hr>
+        
+        
+        <% } %> 
+      
+    </div>
+  
+    <% } %> 
+    <% }else{ %>
+
+      <div class="container">
+
+        <img src="/images/empty-order.png" alt="no orders" class="rounded mx-auto d-block" style="margin-top: -30px;">
+
+      <h3 class="text-center ">Looks like you haven't placed any order yet</h3>
+
+      </div>
+
+    <% } %> 
+  </div>
 </section>
