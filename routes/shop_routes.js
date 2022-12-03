@@ -7,7 +7,8 @@ const userController = require('../contollers/user_controller')
 const cartController = require('../contollers/cart_controller')
 const signupValidation= require('../middlewares/validation');
 const authController = require('../contollers/auth_controller');
-const orderController = require('../contollers/order_controller')
+const orderController = require('../contollers/order_controller');
+const { paypalSuccess } = require('../contollers/order_controller');
 
 
 
@@ -53,6 +54,7 @@ router.post('/cart/removeProduct',verifyUserLogin,cartController.removeProduct)
 // checkout
 router.get('/checkout',verifyUserLogin, cartController.checkout);
 router.post('/place-order',verifyUserLogin,orderController.placeOrder)
+router.get('/success',verifyUserLogin,paypalSuccess)
 router.post('/verify-payment',verifyUserLogin,orderController.verifyPayment)
 router.get('/order-complete',verifyUserLogin, userController.orderComplete);
 

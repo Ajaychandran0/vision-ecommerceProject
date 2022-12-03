@@ -1,162 +1,151 @@
+/* eslint-disable camelcase */
+/* eslint-disable padded-blocks */
 
-require('dotenv').config();
+require('dotenv').config()
 const userServices = require('../services/user_collection')
 const adminServices = require('../services/admin_collection')
 const bcrypt = require('bcrypt')
 
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
-const serviceId = process.env.TWILIO_SERVICE_ID;
-const client = require('twilio')(accountSid, authToken);
-
-
+const accountSid = process.env.TWILIO_ACCOUNT_SID
+const authToken = process.env.TWILIO_AUTH_TOKEN
+const serviceId = process.env.TWILIO_SERVICE_ID
+const client = require('twilio')(accountSid, authToken)
 
 module.exports = {
 
-    // admin login
+  // admin login
 
-    logAdminIn: async (req, res) => {
+  logAdminIn: async (req, res) => {
+    const adminData = req.body
+    let loginStatus = false
+    const admin = await adminServices.checkAdminExist(adminData.email)
 
-        let adminData = req.body
-        let loginStatus = false
-        let admin = await adminServices.checkAdminExist(adminData.email)
+    if (admin) {
+      await bcrypt.compare(adminData.password, admin.password).then((status) => {
+        if (status) {
+          console.log('login successfull')
+          req.session.loggedAdminIn = true
+          req.session.admin = admin
+          loginStatus = true
+        } else { console.log('login failed due to wrong password') }
+      })
 
-        if (admin) {
+    } else { console.log('login failed no user') }
 
-            await bcrypt.compare(adminData.password, admin.password).then((status) => {
-                if (status) {
+    if (loginStatus) {
 
-                    console.log('login successfull')
-                    req.session.loggedAdminIn = true
-                    req.session.admin = admin
-                    loginStatus = true
+      res.redirect('/admin')
+    } else {
+      req.flash('error', 'Invalid email or password')
+      res.redirect('/admin/login')
+    }
 
+  },
 
-                } else { console.log('login failed due to wrong password') }
-            })
+  // user login
 
-        } else { console.log('login failed no user') }
+  loginUser: async (req, res) => {
 
+    const password = req.body.password
+    const email = req.body.email_username
+    const username = req.body.email_username
+    let loginStatus = false
 
-        if (loginStatus) {
+    const user = await userServices.checkUserExist(email, username)
 
-            res.redirect('/admin')
-        } else {
-            req.flash('error', 'Invalid email or password')
-            res.redirect('/admin/login')
-        }
+    if (user) {
+      const active = user.isActive
+      if (active) {
 
-    },
+        await bcrypt.compare(password, user.password).then((status) => {
+          if (status) {
 
-    // user login
+            console.log('login successfull')
+            req.session.isLoggedIn = true
+            req.session.user = user
 
-    loginUser: async (req, res) => {
+            loginStatus = true
 
-        let password = req.body.password
-        let email = req.body.email_username
-        let username = req.body.email_username
-        let loginStatus = false
+          } else { console.log('login failed invalid password') }
+        })
 
-        let user = await userServices.checkUserExist(email, username)
+      } else { console.log('login failed admin blocked you') }
 
-        if (user) {
-            let active = user.isActive
-            if (active) {
+    } else { console.log('login failed no user') }
 
-                await bcrypt.compare(password, user.password).then((status) => {
-                    if (status) {
+    if (loginStatus) {
+      res.redirect('/')
+    } else {
+      req.flash('error', 'Invalid email or password')
+      res.redirect('/login')
+    }
+  },
 
-                        console.log('login successfull')
-                        req.session.isLoggedIn = true
-                        req.session.user = user
+  // otp login
 
-                        loginStatus = true
+  sendOtp: (req, res) => {
 
-                    } else { console.log('login failed invalid password') }
-                })
+    const { mobileNumber } = req.body
+    client.verify.v2.services(serviceId)
+      .verifications
+      .create({ to: '+91' + mobileNumber, channel: 'sms' })
+      .then(verification => {
 
-            } else { console.log('login failed admin blocked you') }
+        return res.status(200).json({ verification })
+      })
+      .catch(error => {
+        console.log(error)
+        return res.status(400).json({ error })
 
-        } else { console.log('login failed no user') }
+      })
+  },
 
+  verifyOTP: (req, res) => {
 
+    const { mobileNumber, code } = req.body
 
-        if (loginStatus) {
-            res.redirect('/')
-        } else {
-            req.flash('error', 'Invalid email or password')
-            res.redirect('/login')
-        }
-    },
+    client.verify.v2.services(serviceId)
+      .verificationChecks
+      .create({ to: '+91' + mobileNumber, code })
+      .then(verification_check => {
+        console.log('succeddfully otp verified')
 
-    // otp login
+        return res.status(200).json({ verification_check })
+      })
+      .catch(error => {
+        console.log('errorin catch is verified')
 
-    sendOtp: (req, res) => {
+        return res.status(400).json({ error })
+      })
+  },
 
-        const { mobileNumber } = req.body;
-        client.verify.v2.services(serviceId)
-            .verifications
-            .create({ to: '+91' + mobileNumber, channel: 'sms' })
-            .then(verification => {
+  postOtpLogin: async (req, res) => {
 
-                return res.status(200).json({ verification })
-            })
-            .catch(error => {
-                console.log(error)
-                return res.status(400).json({ error })
+    const { mobileNumber } = req.body
+    const phone = mobileNumber.toString()
 
-            })
-    },
+    const user = await userServices.checKUserPhoneNoExist(phone)
+    console.log(user)
+    if (user) {
+      const active = user.isActive
+      if (active) {
 
+        req.session.isLoggedIn = true
+        req.session.user = user
+        res.json({ userLogin: true })
+        console.log('login successful')
 
-
-    verifyOTP: (req, res) => {
-
-        const { mobileNumber, code } = req.body;
-
-        client.verify.v2.services(serviceId)
-            .verificationChecks
-            .create({ to: '+91' + mobileNumber, code })
-            .then(verification_check => {
-                console.log('succeddfully otp verified')
-
-                return res.status(200).json({ verification_check })
-            })
-            .catch(error => {
-                console.log('errorin catch is verified')
-
-                return res.status(400).json({ error })
-            })
-    },
-
-
-    postOtpLogin: async (req, res) => {
-
-        const { mobileNumber } = req.body
-        const phone = mobileNumber.toString()
-
-        let user = await userServices.checKUserPhoneNoExist(phone)
-        console.log(user)
-        if (user) {
-            let active = user.isActive
-            if (active) {
-
-                req.session.isLoggedIn = true
-                req.session.user = user
-                res.json({ userLogin: true })
-                console.log('login successful')
-
-            } else {
-                console.log('your account was block')
-                req.flash('error', 'your account has been blocked')
-                res.json({ userLogin: false })
-            }
-        } else {
-            console.log('hey i am in no account')
-            req.flash('error', 'No account with this phone number')
-            res.json({ userNotFound: true })
-
-        }
+      } else {
+        console.log('your account was block')
+        req.flash('error', 'your account has been blocked')
+        res.json({ userLogin: false })
+      }
+    } else {
+      console.log('hey i am in no account')
+      req.flash('error', 'No account with this phone number')
+      res.json({ userNotFound: true })
 
     }
+
+  }
 }
