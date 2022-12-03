@@ -99,6 +99,10 @@ module.exports = {
 
     checkout: async (req, res) => {
 
+        if(req.session.cartCount==0){
+            return res.redirect('/cart')
+        }
+
         let userId = req.session.user._id
         let subTotal = await cartServices.getTotalPrice(userId)
         let addresses = await addressServices.getAddressesByUserId(userId)

@@ -36,6 +36,7 @@ router.delete('/delete-category/:id', verifyAdminLogin, adminController.deleteCa
 // order management
 
 router.get('/order',verifyAdminLogin,adminController.getOrderManagement)
+router.patch('/change-order-status',verifyAdminLogin,adminController.changeOrderStatus)
 
 
 

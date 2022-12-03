@@ -1,7 +1,7 @@
 // add to cart
 
 function addToCart(proId) {
-  
+  console.log('sdljf;asdkjfl;asdjf hey in onclicl addt ocart')
     $.ajax({
         url: '/add-to-cart/' + proId,
         method: 'get',

@@ -1,25 +1,21 @@
 <section>
-    <div class="container">
-
-        <div>
-            <br>
-            <input type='text' id='txt_searchall'  placeholder='search users'>&nbsp;
-            <br>
-        </div>
-
+    <div class="container mt-5">
        
-        <table class="table mt-5">
+        <table id="example" class="table table-striped" style="width: 100%" >
+
             
-            <thead>
+            <thead style="background-color: #0d6efd;">
                 <tr>
-                    <th scope="col">No.</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">phone number</th>
+                    <th style="color: white;" scope="col">No.</th>
+                    <th style="color: white;" scope="col">Username</th>
+                    <th style="color: white;" scope="col">Email</th>
+                    <th style="color: white;" scope="col">phone number</th>
+                    <th></th>
+                    <th></th>
                     
                 </tr>
             </thead>
-            <tbody>
+            <tbody style="border-color: #0d6efd;">
                 
                 <% for(var i=0;i<users.length;i++){ %> 
                 <tr>

@@ -53,8 +53,12 @@ router.post('/cart/removeProduct',verifyUserLogin,cartController.removeProduct)
 // checkout
 router.get('/checkout',verifyUserLogin, cartController.checkout);
 router.post('/place-order',verifyUserLogin,orderController.placeOrder)
+router.post('/verify-payment',verifyUserLogin,orderController.verifyPayment)
 router.get('/order-complete',verifyUserLogin, userController.orderComplete);
+
+// order
 router.get('/orders',verifyUserLogin,userController.orderDetails)
+router.delete('/cancel-order',verifyUserLogin,orderController.cancelOrder)
 
 router.get('/wishlist',verifyUserLogin, userController.wishlist);
 router.get('/logout',userController.logout)

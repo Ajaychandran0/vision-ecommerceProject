@@ -1,21 +1,21 @@
 <div class="container mt-5">
-  <table id="example" class="table table-striped" style="width: 100%">
-    <thead>
-      <tr>
-        <th>SI No.</th>
-        <th>Customer</th>
-        <th width="220 em">Address</th>
-        <th>Order date</th>
-        <th width="100px">Product</th>
-        <th>Qty</th>
-        <th>Price</th>
-        <th>Payment</th>
-        <th>Status</th>
-        <th>Options</th>
+  <table id="example" class="table table-striped" style="width: 100%" >
+    <thead style="background-color: #0d6efd;">
+      <tr >
+        <th style="color: white;">SI No.</th>
+        <th style="color: white;">Customer</th>
+        <th width="220 em" style="color: white;">Address</th>
+        <th style="color: white;"> Order date</th>
+        <th width="100px" style="color: white;">Product</th>
+        <th style="color: white;">Qty</th>
+        <th style="color: white;"> Price</th>
+        <th style="color: white;">Payment</th>
+        <th style="color: white;"> Status</th>
+        <th style="color: white;">Options</th>
       </tr>
     </thead>
 
-    <tbody>
+    <tbody style="border-color: #0d6efd;">
       <% let i = 0 %> 
       <% for(let order of orders){ %>
         <% for(let orderItem of order.orderItems ) {%> 
@@ -43,15 +43,27 @@
         <td><%= orderItem.quantity %> </td>
         <td>₹<%= orderItem.total %> </td>
         <td><%= order.paymentMehod %> </td>
-        <td><%= order.status %> </td>
+
+        <% if(order.status=='pending'){%>
+        <td id="orderStatus<%=orderItem.proId%><%=order._id%>"><%= order.status %> </td>
+        <% }else{ %> 
+        <td id="orderStatus<%=orderItem.proId%><%=order._id%>"><%= orderItem.itemStatus %> </td>
+        <% } %> 
+
         <td>
-          <select name="status" id="">
-            <option hidden><%= order.status %> </option>
+          
+          <select name="status" id="option<%=orderItem.proId%><%=order._id%>" onclick="changeOrderStatus('<%= orderItem.proId%>','<%= order._id%>')" >
+            <% if(order.status=='pending'){%>
+              <option hidden><%= order.status %> </option>
+              <% }else{ %> 
+            <option hidden><%= orderItem.itemStatus %> </option>
+            <% } %> 
             <option value="placed">Placed</option>
-            <option value="cancel">Canceled</option>
+            <option value="cancelled">Cancel</option>
             <option value="shipped">Shipped</option>
             <option value="delivered">Delivered</option>
           </select>
+      
         </td>
       </tr>
       <% } %> 

@@ -10,9 +10,32 @@
 
       <div class="row card-header order-head bg-secondary pt-2 " style="padding: 0px;margin: 0px;color: white;">
         <div class="col-3 " ><h5 class="text-white"><%=date%></h5></div>
-        <div class="col-2"><h5 class="text-white">Total:  ₹ <%=order.totalPrice %> </h5></div>
-        <div class="col-3"><h5 class="text-white">Ship to:   <%=order.deliveryDetails.firstname %> <%=order.deliveryDetails.lastname %>  </h5></div>
-        <div class="col-4 pt-2"><a href="" class=""><h6 class="float-right view-item" style="color: #00a2ff;">View order details</h6></a></div>
+        <div class="col-2"><h5 class="text-white" >Total:  ₹ <span id="total<%=order._id %>"><%=order.totalPrice %></span> </h5></div>
+        <div class="col-2"><h5 class="text-white">Ship to:   <%=order.deliveryDetails.firstname %> <%=order.deliveryDetails.lastname %>  </h5></div>
+        <% if(order.status=='pending'){ %> 
+
+        <!-- <div class="col-2"><h5 class="text-white">Status:  </h5></div> -->
+
+        
+        <div class="dropdown col-2 ">
+          <button class="btn btn-secondary dropdown-toggle text-white" 
+                  type="button" id="dropdownMenuButton" data-toggle="dropdown" 
+                  style="height: 10px; padding-bottom:24px; margin-bottom: 17px;font-weight: bold;"
+                  aria-haspopup="true" aria-expanded="false">
+            Status: <%= order.status %> 
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="/">cancel</a>
+            <a class="dropdown-item" href="/login">complete payment</a>
+          </div>
+        </div>
+
+
+        <% }else{ %> 
+        <div class="col-2"><h5 class="text-white">Status: <%= order.status %> </h5></div>
+        <% } %> 
+
+        <div class="col-3 pt-2"><a href="" class=""><h6 class="float-right view-item" style="color: #add6ee;">View order details</h6></a></div>
 
       </div>
       
@@ -32,14 +55,31 @@
            <%= orderItem.product.name%> 
           </p>
         </div>
+        <div id="total<%=order._id%><%=orderItem.product._id%>" hidden><%=orderItem.total %> </div>
         <div class="col-2 mt-4" >
           <a href="#" class="view-item" >View your item</a>
         </div>
         <div class="col-2 mt-4">
-          <a href="#" class="btn" style="background-color: yellow;">Buy it again</a>
+          <a href="/product/<%=orderItem.product._id %> " class="btn" style="background-color: yellow;">Buy it again</a>
         </div>
-        <div class="col-2 mt-4" style="margin-left: -33px;">
-          <a href="#" class="btn " style="background-color: rgb(241, 64, 64);color:white">Cancel order</a>
+        <div class="col-2 mt-4" style="margin-left: -33px;" id="user-order-status<%=order._id%><%=orderItem.proId %>">
+
+          <% if(order.status=='placed'){ %> 
+
+
+          <% if(orderItem.itemStatus=='placed') {%>
+
+            <a onclick="cancelOrderItem('<%=order._id%>','<%=orderItem.product._id %>')" 
+              class="btn " style="background-color: rgb(241, 64, 64);color:white">Cancel order</a>
+          <% }else if(orderItem.itemStatus=='cancelled'){ %>  
+            <p class="mx-4 mt-3 font-weight-bold" style="color: red;font-size: 16px;">Cancelled</p>
+          <% }else if(orderItem.itemStatus=='shipped'){ %> 
+              <p class="mx-4 mt-3 font-weight-bold" style="color: rgb(31, 104, 2);font-size: 16px;">Shipped</p>
+          <% }else if(orderItem.itemStatus=='delivered'){ %> 
+            <p class="mx-4 mt-3 font-weight-bold" style="color: rgb(31, 104, 2);font-size: 16px;">Delivered</p>          
+          <% } %> 
+
+          <% } %> 
         </div>
     </div>
   

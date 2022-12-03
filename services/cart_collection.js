@@ -118,6 +118,7 @@ module.exports = {
                         $pull: { products: { item: objectId(proId) } }
                     }
                 ).then((response) => {
+                    console.log(response)
 
                     resolve({ productRemove: true })
                 })
@@ -164,7 +165,7 @@ module.exports = {
                     }
                 }
             ]).toArray()
-            if(subTotal[0]) resolve(subTotal[0].total)
+            if (subTotal[0]) resolve(subTotal[0].total)
             else resolve()
 
         })
@@ -173,9 +174,9 @@ module.exports = {
 
     deleteCartByUserId: (userId) => {
 
-        return new Promise((resolve,reject)=>{
+        return new Promise((resolve, reject) => {
 
-            db.get().collection(CART_COLLECTION).deleteOne({user:objectId(userId)}).then(()=>{
+            db.get().collection(CART_COLLECTION).deleteOne({ user: objectId(userId) }).then(() => {
                 resolve()
             })
         })

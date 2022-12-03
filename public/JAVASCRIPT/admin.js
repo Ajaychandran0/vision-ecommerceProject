@@ -21,7 +21,7 @@ async function blockUser(userId) {
         success: (response) => {
             console.log(response)
             if (response) {
-                location.reload()                
+                location.reload()
                 // $("#user-block-unblock"+userId).load(" #user-block-unblock"+userId)
             }
         }
@@ -48,7 +48,7 @@ async function unblockUser(userId) {
         success: (response) => {
             console.log(response)
             if (response) {
-                location.reload()                
+                location.reload()
                 // $("#user-block-unblock"+userId).load(" #user-block-unblock"+userId)
             }
         }
@@ -74,9 +74,36 @@ async function deleteCategory(categoryId) {
         success: (response) => {
             console.log(response)
             if (response) {
-                location.reload()                
+                location.reload()
                 // $("#user-block-unblock"+userId).load(" #user-block-unblock"+userId)
             }
+        }
+    });
+}
+
+
+// change order Status
+
+function changeOrderStatus(proId, orderId) {
+
+    let itemStatus = document.getElementById('option' + proId + orderId).value
+    console.log(itemStatus)
+
+    $.ajax({
+
+        url: "/admin/change-order-status",
+        data: {
+            proId: proId,
+            status: itemStatus,
+            orderId: orderId
+        },
+        method: 'patch',
+        success: (response) => {
+
+            if (response) {
+                document.getElementById('orderStatus' + proId + orderId).innerHTML = itemStatus
+            }
+
         }
     });
 }

@@ -174,6 +174,15 @@ module.exports = {
                 orders,
                 layout: './layouts/adminLayout'
             })
+    },
+
+    changeOrderStatus: async(req,res)=>{
+
+        let proId = req.body.proId
+        let orderId = req.body.orderId
+        let orderStatus = req.body.status
+        await orderServices.changeOrderItemStatus(orderId,proId,orderStatus)
+        res.json(true)
     }
 
 
