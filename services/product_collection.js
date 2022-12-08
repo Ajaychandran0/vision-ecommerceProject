@@ -1,13 +1,13 @@
 /* eslint-disable no-async-promise-executor */
 const db = require('../models/connections')
-const { PRODUCT_COLLETION } = require('../models/collections')
+const { PRODUCT_COLLECTION } = require('../models/collections')
 const objectId = require('mongodb').ObjectId
 
 module.exports = {
 
   getAllProducts: () => {
     return new Promise(async (resolve, reject) => {
-      const products = await db.get().collection(PRODUCT_COLLETION).find().toArray()
+      const products = await db.get().collection(PRODUCT_COLLECTION).find().toArray()
       resolve(products)
     })
   },
@@ -16,7 +16,11 @@ module.exports = {
     return new Promise((resolve, reject) => {
       productData.stock = Number(productData.stock)
       productData.price = parseFloat(productData.price)
-      db.get().collection(PRODUCT_COLLETION).insertOne(productData).then((data) => {
+      productData.offerPrice = parseInt(productData.price)
+      productData.productOffer = 0
+      productData.categoryOffer = 0
+
+      db.get().collection(PRODUCT_COLLECTION).insertOne(productData).then((data) => {
         const id = data.insertedId.toString()
         resolve(id)
       })
@@ -25,18 +29,17 @@ module.exports = {
 
   getProductById: (productId) => {
     return new Promise((resolve, reject) => {
-      db.get().collection(PRODUCT_COLLETION).findOne({ _id: objectId(productId) }).then((data) => {
+      db.get().collection(PRODUCT_COLLECTION).findOne({ _id: objectId(productId) }).then((data) => {
         resolve(data)
+      }).catch(err => {
+        reject(err)
       })
     })
   },
 
   getProductByCategory: (category) => {
-    console.log(category + 'hey hey hey getProductBy Category')
-
     return new Promise(async (resolve, reject) => {
-      const products = await db.get().collection(PRODUCT_COLLETION).find({ category }).toArray()
-      console.log(products + 'eh eh eh getProcuct By Categroyry')
+      const products = await db.get().collection(PRODUCT_COLLECTION).find({ category }).toArray()
       resolve(products)
     })
   },
@@ -45,7 +48,7 @@ module.exports = {
     productDetails.stock = Number(productDetails.stock)
     productDetails.price = parseFloat(productDetails.price)
 
-    db.get().collection(PRODUCT_COLLETION).updateOne({ _id: objectId(productId) }, {
+    db.get().collection(PRODUCT_COLLECTION).updateOne({ _id: objectId(productId) }, {
       $set: {
         brand: productDetails.brand,
         name: productDetails.name,
@@ -60,7 +63,65 @@ module.exports = {
   },
 
   deleteProductById: (productId) => {
-    db.get().collection(PRODUCT_COLLETION).deleteOne({ _id: objectId(productId) })
+    return new Promise((resolve, reject) => {
+      db.get().collection(PRODUCT_COLLECTION).deleteOne({ _id: objectId(productId) }).then(() => {
+        resolve()
+      })
+    })
+  },
+
+  getAllProductOffer: () => {
+    return new Promise((resolve, reject) => {
+      db.get().collection(PRODUCT_COLLECTION).aggregate(
+        [{
+          $match: {
+            productOffer: {
+              $gt: 0
+            }
+          }
+        }, {
+          $project: {
+            name: 1,
+            productOffer: 1
+          }
+        }]
+      ).toArray().then((offerProducts) => {
+        resolve(offerProducts)
+      })
+    })
+  },
+
+  addNewProductOffer: (proId, offerPercentage) => {
+    return new Promise((resolve, reject) => {
+      db.get().collection(PRODUCT_COLLECTION).updateOne({ _id: objectId(proId) }, { $set: { productOffer: offerPercentage } }).then(() => {
+        resolve()
+      })
+    })
+  },
+
+  deleteProOfferById: (proId, newOfferPrice) => {
+    return new Promise((resolve, reject) => {
+      db.get().collection(PRODUCT_COLLECTION)
+        .updateOne({ _id: objectId(proId) }, { $set: { productOffer: 0, offerPrice: newOfferPrice } }).then(() => {
+          resolve()
+        })
+    })
+  },
+
+  updateProductOfferPrice: (proId, offerPrice) => {
+    return new Promise((resolve, reject) => {
+      db.get().collection(PRODUCT_COLLECTION).updateOne({ _id: objectId(proId) }, { $set: { offerPrice } }).then(() => {
+        resolve()
+      })
+    })
+  },
+
+  updateCategoryOffer: (category, offerPercentage) => {
+    return new Promise((resolve, reject) => {
+      db.get().collection(PRODUCT_COLLECTION).updateMany({ category }, { $set: { categoryOffer: offerPercentage } }).then(() => {
+        resolve()
+      })
+    })
   }
 
 }

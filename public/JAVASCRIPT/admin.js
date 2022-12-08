@@ -102,3 +102,102 @@ function changeOrderStatus (proId, orderId) {
     }
   })
 }
+
+// offer management
+
+// product offer delete
+async function deleteProOffer (proId) {
+  console.log(proId)
+  const sure = await sweetAlert({
+    title: 'Are you sure?',
+    text: 'You want to remove product offer',
+    icon: 'warning',
+    buttons: true,
+    dangerMode: true
+  })
+  if (sure) {
+    $.ajax({
+      url: '/admin/offers/product-offer',
+      method: 'delete',
+      data: { proId },
+      success: (response) => {
+        document.getElementById('proOffer' + proId).remove()
+        sweetAlert('successfull', 'Product offer removed succesfully', 'success')
+      }
+    })
+  } else {
+    sweetAlert('Cancelled', 'Product offer not changed', 'error')
+  }
+}
+
+// category offer delete
+async function deleteCatOffer (category) {
+  console.log(category)
+  const sure = await sweetAlert({
+    title: 'Are you sure?',
+    text: 'You want to remove category offer',
+    icon: 'warning',
+    buttons: true,
+    dangerMode: true
+  })
+  if (sure) {
+    $.ajax({
+      url: '/admin/offers/category-offer',
+      data: { category },
+      method: 'delete',
+      success: (response) => {
+        document.getElementById('catOffer' + category).remove()
+        sweetAlert('successfull', 'Category offer removed succesfully', 'success')
+      }
+    })
+  } else {
+    sweetAlert('Cancelled', 'Category offer not changed', 'error')
+  }
+}
+
+// add coupon offer
+
+$('#add-coupon-form').submit((e) => {
+  e.preventDefault()
+  $.ajax({
+    url: '/admin/coupons',
+    method: 'post',
+    data: $('#add-coupon-form').serialize(),
+    success: (status) => {
+      if (status) {
+        location.reload()
+      } else {
+        swal({
+          title: 'The Coupon Already Exists',
+          text: false,
+          timer: 1400,
+          showConfirmButton: false
+        })
+      }
+    }
+  })
+})
+
+// delete coupon offer
+
+async function deleteCoupon (couponId) {
+  const sure = await sweetAlert({
+    title: 'Are you sure?',
+    text: 'You want to remove this coupon',
+    icon: 'warning',
+    buttons: true,
+    dangerMode: true
+  })
+  if (sure) {
+    $.ajax({
+      url: '/admin/coupon',
+      method: 'delete',
+      data: { couponId },
+      success: (response) => {
+        $('#coupon' + couponId).remove()
+      }
+    })
+  } else {
+    sweetAlert('Cancelled', 'Coupon not deleted', 'error')
+  }
+}

@@ -48,13 +48,13 @@ module.exports = {
   },
 
   getAccountDetails: async (req, res) => {
-    const userId = req.session.user._id
-    let addresses = await addressServices.getAddressesByUserId(userId)
-    console.log(addresses)
+    const user = req.session.user
+    let addresses = await addressServices.getAddressesByUserId(user._id)
+
     if (addresses) addresses = addresses.addresses
     else addresses = []
-    console.log(addresses)
-    res.render('user/account', { addresses })
+
+    res.render('user/account', { addresses, user })
   },
 
   addAddress: async (req, res, next) => {

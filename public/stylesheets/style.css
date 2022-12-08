@@ -112,6 +112,13 @@ body{
 .view-item:hover{
     text-decoration: underline;
 }
+.coupon{
+    border-color: #a1a0a0;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    width: 30rem;
+}
 
 
 /*======================

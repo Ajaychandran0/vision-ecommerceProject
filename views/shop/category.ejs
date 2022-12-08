@@ -1,5 +1,4 @@
-<div class="colorlib-product">    
-    
+<div class="colorlib-product">      
     <div class="container ">
 
         <% if(products[0]){ %> 
@@ -20,11 +19,24 @@
                                 alt="image">
                         </a>
                         <div class="desc">
-                            <h2><a href="/product/<%= product._id %>">
-                                    <%= product.brand %>
-                                </a></h2>
+                            <h2>
+                                <a href="/product/<%= product._id %>"><%= product.brand %></a>
+                            </h2>
 
-                            <span class="price">Rs. <%= product.price %></span>
+							<% let offerPercentage = Math.round(100-(product.offerPrice/product.price)*100) %> 
+
+                            <% if(offerPercentage != 0) {%> 
+
+								<span class="label">
+									<s class="text-danger" style="font-size:1rem;">₹ <%= product.price %> </s>  
+									<span class="mx-3 font-weight-bold" style="color: green;"><%=offerPercentage %>% off</span> 
+								</span>
+
+							<% }else{ %> 
+									<div class="pt-4"></div>	
+							<% } %> 
+
+                            <span class="price">Rs. <%= product.offerPrice %></span>
 
                             <button onclick="addToCart('<%=product._id %>')" class="btn btn-primary">Add to
                                 cart</button>

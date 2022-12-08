@@ -10,8 +10,8 @@
         <th style="color: white;">Qty</th>
         <th style="color: white;"> Price</th>
         <th style="color: white;">Payment</th>
-        <th style="color: white;"> Status</th>
-        <th style="color: white;">Options</th>
+        
+        <th style="color: white;">Status</th>
       </tr>
     </thead>
 
@@ -44,11 +44,7 @@
         <td>₹<%= orderItem.total %> </td>
         <td><%= order.paymentMehod %> </td>
 
-        <% if(order.status=='pending'){%>
-        <td id="orderStatus<%=orderItem.proId%><%=order._id%>"><%= order.status %> </td>
-        <% }else{ %> 
-        <td id="orderStatus<%=orderItem.proId%><%=order._id%>"><%= orderItem.itemStatus %> </td>
-        <% } %> 
+        
 
         <td>
           

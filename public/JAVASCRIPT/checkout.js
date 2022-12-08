@@ -22,9 +22,7 @@ $('#checkout-form').submit((e) => {
         location.href = '/order-complete'
       } else if (response.razorpay) {
         razorpayPayment(response.order)
-        console.log('in cahec out form razpruay')
       } else if (response.paypal) {
-        console.log('hey in paypal response after ajax success')
         console.log(response)
         location.href = response.url
       }

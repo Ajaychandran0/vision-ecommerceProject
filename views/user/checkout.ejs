@@ -189,11 +189,11 @@
 										<h2>Cart Total</h2>
 										<ul>
 											<li>
-												<span>Subtotal</span> <span>₹ <%= subTotal %> </span>
+												<span>Subtotal</span> <span>₹ <%= Math.round(((subTotal) + Number.EPSILON) * 100) / 100 %> </span>
 
 											</li>
 											<li><span>Shipping</span> <span>₹ 0.00</span></li>
-											<li><span>Order Total</span> <span> ₹ <%= subTotal %> </span></li>
+											<li><span>Order Total</span> <span> ₹ <%= Math.round(((subTotal) + Number.EPSILON) * 100) / 100 %> </span></li>
 										</ul>
 									</div>
 								</div>

@@ -96,20 +96,38 @@
 									alt="image">
 							</a>
 							<div class="desc">
-								<h2><a href="/product/<%= products[i]._id %>">
-										<%= products[i].brand %>
-									</a></h2>
+								<h2>
+									<a href="/product/<%= products[i]._id %>"><%= products[i].brand %></a>
+								</h2>
 
-								<span class="price">Rs. <%= products[i].price %></span>
+								<% let offerPercentage = Math.round(100-(products[i].offerPrice/products[i].price)*100) %> 
 
-								<button onclick="addToCart('<%=products[i]._id %>')" class="btn btn-primary">Add to
+								<% if(offerPercentage != 0) {%> 
+
+								<span class="label">
+									<s class="text-danger" style="font-size:1rem;">₹ <%= products[i].price %> </s>  
+									<span class="mx-3 font-weight-bold" style="color: green;"><%=offerPercentage %>% off</span> 
+								</span>
+
+								<% }else{ %> 
+									<div class="pt-4"></div>	
+								<% } %> 							
+
+								<span class="price">₹  <%= products[i].offerPrice %></span>
+
+
+								<div><button onclick="addToCart('<%=products[i]._id %>')" class="btn btn-primary">Add to
 									cart</button>
+									
+								</div>
 							</div>
 						</div>
-					</div>
+					</div>					
 					<% } %>
 
 			</div>
+
+			
 
 			<div class="row">
 				<div class="col-md-12 text-center">

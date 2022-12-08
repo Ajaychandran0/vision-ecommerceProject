@@ -1,6 +1,6 @@
 /* eslint-disable no-async-promise-executor */
 const db = require('../models/connections')
-const { CART_COLLECTION, PRODUCT_COLLETION } = require('../models/collections')
+const { CART_COLLECTION, PRODUCT_COLLECTION } = require('../models/collections')
 const objectId = require('mongodb').ObjectId
 
 module.exports = {
@@ -77,7 +77,7 @@ module.exports = {
         },
         {
           $project: {
-            total: { $sum: { $multiply: ['$quantity', '$product.price'] } },
+            total: { $sum: { $multiply: ['$quantity', '$product.offerPrice'] } },
             quantity: 1,
             product: 1
           }
@@ -135,7 +135,7 @@ module.exports = {
         {
           $lookup:
                     {
-                      from: PRODUCT_COLLETION,
+                      from: PRODUCT_COLLECTION,
                       localField: 'item',
                       foreignField: '_id',
                       as: 'product'
@@ -151,7 +151,7 @@ module.exports = {
         {
           $group: {
             _id: null,
-            total: { $sum: { $multiply: ['$quantity', '$product.price'] } }
+            total: { $sum: { $multiply: ['$quantity', '$product.offerPrice'] } }
           }
         }
       ]).toArray()

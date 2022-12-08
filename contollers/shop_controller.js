@@ -33,7 +33,15 @@ module.exports = {
 
   product: (req, res) => {
     productServices.getProductById(req.params.id).then((product) => {
-      res.render('shop/product-detail', { product })
+      if (product) {
+        res.render('shop/product-detail', { product })
+      } else {
+        console.log('no product found')
+        res.status(404).render('errors/404_error')
+      }
+    }).catch(err => {
+      console.log(err)
+      res.status(404).render('errors/404_error')
     })
   },
 

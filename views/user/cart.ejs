@@ -86,7 +86,7 @@
                 <span class="price pro-details">
                   ₹
                   <span id="price<%=cartItem.product._id%>"
-                    ><%= cartItem.product.price %></span
+                    ><%= cartItem.product.offerPrice %></span
                   >
                 </span>
               </div>
@@ -119,7 +119,7 @@
                 <span class="price">
                   ₹
                   <span id="total<%=cartItem.product._id%>"
-                    ><%= cartItem.product.price*cartItem.quantity %></span
+                    ><%= Math.round(((cartItem.product.offerPrice*cartItem.quantity)+ Number.EPSILON)*100)/100 %></span
                   >
                 </span>
               </div>
@@ -146,24 +146,37 @@
           <div class="total-wrap">
             <div class="row">
               <div class="col-sm-8">
-                <form action="#">
-                  <div class="row form-group">
-                    <div class="col-sm-9">
-                      <input
-                        type="text"
-                        name="quantity"
-                        class="form-control input-number"
-                        placeholder="Your Coupon Number..."
-                      />
-                    </div>
-                    <div class="col-sm-3">
-                      <input
-                        type="submit"
-                        value="Apply Coupon"
-                        class="btn btn-primary"
-                      />
-                    </div>
+                <form id="redeemCoupon">
+                  <div>
+                    <p id="couponErr" class="text-danger font-weight-bold"></p>
                   </div>
+                <div >                  
+                  <input
+                    type="text"
+                    class="coupon"
+                    placeholder="Enter Coupon Code"
+                    name="coupon"
+                    id="couponRedeemInput"
+                    value="<%=couponCode%>"
+                    aria-describedby="button-addon2"
+                  />
+                  <br>
+                  <button
+                    class="btn smoke" 
+                    data-toggle="modal"
+                    data-target="#exampleModalLong"
+                    type="button"
+                    id="button-coupons"
+                    style="width: 12rem; margin-right:5rem;border-color: rgb(95, 99, 99);margin-left: 6px;"
+                  >coupons</button>
+                  
+                  <button
+                    class="btn btn-primary"
+                    type="submit"
+                    id="button-addon2"
+                    style="width: 12rem;"
+                  >Apply</button>
+                </div>
                 </form>
               </div>
               <div class="col-sm-4 text-center">
@@ -171,13 +184,14 @@
                   <div class="sub">
                     <p>
                       <span>Subtotal:</span>
-                      <span id="total">₹ <%= subTotal %> </span>
+                      
+                      <span id="total">₹ <span><%= Math.round(((subTotal) + Number.EPSILON) * 100) / 100 %></span> </span>
                     </p>
-                    <p><span>Delivery:</span> <span>₹00.00</span></p>
-                    <p><span>Discount:</span> <span>₹00.00</span></p>
+                    <p><span>Delivery:</span> <span>₹ <span>00.00</span> </span></p>
+                    <p><span>Discount:</span> <span>₹ <span id="couponDiscount"><%=Math.round(((couponDiscount) + Number.EPSILON) * 100) / 100%> </span> </span></p>
                   </div>
                   <div class="">
-                    <pre><span><strong>Total:               ₹ </strong></span><span id="totals"><%= subTotal %> </span></pre>
+                    <p><span><strong>Total:</strong></span><span>₹<span id="totals"><%= Math.round(((subTotal-couponDiscount) + Number.EPSILON) * 100) / 100 %></span> </span></p>
                   </div>
                 </div>
                 <div class="m-5">
@@ -234,4 +248,47 @@
 
 <div class="gototop js-top">
   <a href="#" class="js-gotop"><i class="ion-ios-arrow-up"></i></a>
+</div>
+
+<!-- coupon modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form id="couponSelectForm">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle"> Active coupons </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <% for(let coupon of couponInfo) {%> 
+          <div class="bg-white form-check">
+
+            <input 
+              class="form-check-input"
+              name="coupon"  
+              type="radio" 
+              id="couponselect<%=coupon._id %>"
+              value="<%=coupon.coupon%>"
+            >
+
+          <label class="form-check-label" for="couponselect<%=coupon._id%>">       
+            <b style="color: black;"><%=coupon.coupon %> </b> 
+            <span class="text-muted" style="font-size: smaller;">(*only for purchases above</span>
+            <span class="text-muted" style="font-size:smaller;"> RS. <%=coupon.minimumPrice%> )</span>
+            <p><%=coupon.percentage%>% off on applying this coupon </p>
+          </label>  
+          </div>
+        <% } %> 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Select coupon</button>
+      </div>
+      </form>
+    </div>
+  </div>
 </div>

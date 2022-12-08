@@ -1,0 +1,142 @@
+<section >
+    <div class="container d-flex p-5">
+            <div>
+                <div class="modal fade" id="categoryOffer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                   <div class="modal-dialog">
+                     <div class="modal-content">
+                       <div class="modal-header">
+                         <h5 class="modal-title" id="exampleModalLabel">Category Offer</h5>
+                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                       </div>
+                       <form action="/admin/offers/category-offer" method="post">
+                       <div class="modal-body">
+                         
+                            <div class="bg-light mb-3">
+                                <label for="category">Select Category</label>
+                                <% for(let category of categories) {%> 
+                                <br><input name="category" type="radio" value="<%=category.category %>"><%=category.category %> </input>
+                                <% } %> 
+                            </div>      
+                           <div class="mb-3">
+                             <label for="message-text" class="col-form-label">Enter offer percentage:</label>
+                             <input type="number" class="form-control" name="percentage">
+                           </div>
+                       </div>
+                       <div class="modal-footer">
+                         <button type="submit" class="btn btn-dark" data-bs-dismiss="modal">Apply</button>
+                       </div>
+                       </form>
+                     </div>
+                   </div>
+                </div>
+            
+            <table class="table table-responsive p-5">
+                <thead>
+                    <td>
+                      <button type="button" class="btn btn-outline-dark mb-3" style="background-color: #1d4039;color:#FFFFFF"
+                       data-bs-toggle="modal" data-bs-target="#categoryOffer" data-bs-whatever="@mdo">
+                        <span class="fa fa-plus pr-2"></span>   Add category offer
+                      </button>
+                    </td>
+                    <tr>
+                    <th>Category</th>
+                    <th>Offer percentage</th>
+                    <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%if(categoryOffers[0]) {%> 
+                    <% for(let categoryOffer of categoryOffers ) {%> 
+                    <tr id="catOffer<%=categoryOffer.category %>">
+                    <td><%= categoryOffer.category %> </td>
+                    <td><%=categoryOffer.categoryOffer %>  <span class="fa fa-percentage"></span></td>
+                    
+                    <td><button class="fa fa-trash text-danger btn" onclick="deleteCatOffer('<%= categoryOffer.category %>')"></button></td>
+                    <% } %> 
+                    <% }else{ %> 
+                        <td>No category offers available</td>
+                    <% } %> 
+                    </tr>    
+
+                </tbody>
+            </table>
+        </div>
+        
+
+
+            <div>
+                <div class="modal fade" id="productOffer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                   <div class="modal-dialog modal-lg">
+                     <div class="modal-content">
+                       <div class="modal-header">
+                         <h5 class="modal-title" id="exampleModalLabel">Product Offer</h5>
+                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                       </div>
+                       <form id="addProductOffers" action="/admin/offers/product-offer" method="post">
+                       <div class="modal-body">
+                           <div class="mb-3">
+                             <select name="product" class="inputstl" aria-label="Default select example">
+                                <option class="option1" selected disabled>Select Product</option>
+                                <% for(let product of products) {%> 
+                                    <option class="option1" value="<%=product._id%>"><%=product.name %> </option>
+                                <% } %> 
+                             </select>
+                           </div>
+                           <div class="mb-3">
+                             <label for="message-text" class="col-form-label">Enter offer percentage:</label>
+                             <input type="number" class="form-control" name="percentage">
+                           </div>
+                         
+                       </div>
+                       <div class="modal-footer">
+                         <button type="submit" class="btn btn-dark" data-bs-dismiss="modal">Apply</button>
+                       </div>
+                       </form>
+                     </div>
+                   </div>
+                </div>
+            
+            <table class="table table-responsive p-5">                
+                <thead>
+                    <td><button type="button" class="btn btn-outline-dark mb-3" style="background-color: #1d4039;color:#FFFFFF" data-bs-toggle="modal" data-bs-target="#productOffer" data-bs-whatever="@mdo"><span class="fa fa-plus pr-2"></span> Add product offer</button></td>
+                    <tr>
+                    <th>product</th>
+                    <th>Offer Percentage</th>
+                    <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if(productOffers[0]) {%> 
+                    <% for(let productOffer of productOffers) {%> 
+                    <tr id="proOffer<%=productOffer._id%>">
+                    <td><%=productOffer.name%> </td>
+                    <td><%=productOffer.productOffer%>  <span class="fa fa-percentage"></span></td>
+                    <td><button class="fa fa-trash text-danger btn " onclick="deleteProOffer('<%=productOffer._id%>')"></button></td>
+                    
+                    <% } %> 
+                    <% }else{ %> 
+                        <td>No product offers available</td>
+                    <% } %> 
+                    </tr>
+
+                    
+                </tbody>
+            </table>
+        </div>
+
+     </div> 
+</section>
+
+<style>
+.inputstl { 
+    padding: 9px; 
+    border: solid 1px #000; 
+    outline: 0; 
+    background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #FFF), to(#FFFFFF)); 
+    background: -moz-linear-gradient(top, #FFFFFF, #C6ECFF 1px, #FFFFFF 25px); 
+    box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px; 
+    -moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px; 
+    -webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+    cursor: pointer;
+    } 
+</style>

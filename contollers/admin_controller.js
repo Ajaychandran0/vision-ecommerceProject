@@ -2,6 +2,7 @@ const userServices = require('../services/user_collection')
 const productServices = require('../services/product_collection')
 const categoryServices = require('../services/category_collection')
 const orderServices = require('../services/order_collection')
+const couponServices = require('../services/coupon_collection')
 
 module.exports = {
 
@@ -156,6 +157,131 @@ module.exports = {
     const orderStatus = req.body.status
     await orderServices.changeOrderItemStatus(orderId, proId, orderStatus)
     res.json(true)
-  }
+  },
 
+  // offer management
+
+  getOfferManagement: async (req, res) => {
+    const categories = await categoryServices.getAllCategories()
+    const products = await productServices.getAllProducts()
+    const productOffers = await productServices.getAllProductOffer()
+    const categoryOffers = await categoryServices.getAllCategoryOffer()
+
+    console.log(categories, products, productOffers, categoryOffers)
+
+    res.render('admin/offer-management',
+      {
+        categories,
+        products,
+        productOffers,
+        categoryOffers,
+        layout: './layouts/adminLayout'
+      }
+    )
+  },
+
+  addCategoryOffer: async (req, res) => {
+    console.log(req.body)
+    const category = req.body.category
+    const offerPercentage = Number(req.body.percentage)
+
+    await categoryServices.updateCategoryOffer(category, offerPercentage)
+    await productServices.updateCategoryOffer(category, offerPercentage)
+
+    const products = await productServices.getProductByCategory(category)
+
+    for (const product of products) {
+      if (product.categoryOffer > product.productOffer) {
+        const discount = (product.price * product.categoryOffer) / 100
+        const offerPrice = (product.price - discount)
+        await productServices.updateProductOfferPrice(product._id, offerPrice)
+      }
+    }
+    res.redirect('/admin/offers')
+  },
+
+  deleteCategoryOffer: async (req, res) => {
+    const category = req.body.category
+    const catOffer = 0
+
+    await categoryServices.updateCategoryOffer(category, catOffer)
+    const products = await productServices.getProductByCategory(category)
+
+    for (const product of products) {
+      if (product.productOffer <= product.categoryOffer) {
+        const discount = (product.price * product.productOffer) / 100
+        const offerPrice = (product.price - discount)
+        await productServices.updateProductOfferPrice(product._id, offerPrice)
+      }
+    }
+    await productServices.updateCategoryOffer(category, catOffer)
+
+    res.json(true)
+  },
+
+  addProductOffer: async (req, res) => {
+    const proId = req.body.product
+    const offerPercentage = Number(req.body.percentage)
+
+    await productServices.addNewProductOffer(proId, offerPercentage)
+
+    const product = await productServices.getProductById(proId)
+
+    if (product?.productOffer >= product?.categoryOffer) {
+      const discount = (product.price * product.productOffer) / 100
+      const offerPrice = (product.price - discount)
+      await productServices.updateProductOfferPrice(proId, offerPrice)
+    }
+    res.redirect('/admin/offers')
+  },
+
+  deleteProductOffer: async (req, res) => {
+    const proId = req.body.proId
+    const product = await productServices.getProductById(proId)
+    let newOfferPrice
+
+    if (product.categoryOffer !== 0) {
+      const newDiscount = (product.price * product.categoryOffer) / 100
+      newOfferPrice = (product.price - newDiscount)
+    } else {
+      newOfferPrice = product.price
+    }
+    await productServices.deleteProOfferById(proId, newOfferPrice)
+
+    res.json(true)
+  },
+
+  // coupon management
+
+  getCouponManagement: async (req, res) => {
+    const coupons = await couponServices.getAllCoupons()
+
+    res.render('admin/coupon-management',
+      {
+        coupons,
+        layout: './layouts/adminLayout'
+      }
+    )
+  },
+
+  postCouponManagement: async (req, res) => {
+    const couponDetails = req.body; console.log(couponDetails.expiryDate)
+    const couponCheck = await couponServices.checkCouponExists(couponDetails.coupon)
+    if (couponCheck === null) {
+      couponDetails.percentage = Number(couponDetails.percentage)
+      couponDetails.minimumPrice = Number(couponDetails.minimumPrice)
+      couponDetails.isoDate = new Date(couponDetails.expiryDate)
+      couponDetails.users = []
+      await couponServices.addNewCoupon(couponDetails)
+      res.json(true)
+    } else {
+      res.json(false)
+    }
+  },
+
+  deleteCoupon: async (req, res) => {
+    const couponId = req.body.couponId
+    await couponServices.deleteCouponById(couponId)
+    res.json(true)
+  }
 }

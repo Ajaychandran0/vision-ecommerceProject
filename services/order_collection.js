@@ -88,8 +88,6 @@ module.exports = {
   },
 
   changePaymentStatus: (orderId) => {
-    console.log(orderId)
-
     return new Promise(async (resolve, reject) => {
       await db.get().collection(ORDER_COLLECTION)
         .updateOne({ _id: ObjectId(orderId) },
@@ -97,7 +95,6 @@ module.exports = {
             $set: { status: 'placed' }
           }
         )
-
       resolve()
     })
   }

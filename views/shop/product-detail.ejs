@@ -28,27 +28,7 @@
 								<!-- </a> -->
 							</div>
 						</div>
-						<!-- <div class="item">
-								<div class="product-entry border">
-									<a href="#" class="prod-img">
-										<img src="images/item-2.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-									</a>
-								</div>
-							</div>
-							<div class="item">
-								<div class="product-entry border">
-									<a href="#" class="prod-img">
-										<img src="images/item-3.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-									</a>
-								</div>
-							</div>
-							<div class="item">
-								<div class="product-entry border">
-									<a href="#" class="prod-img">
-										<img src="images/item-4.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
-									</a>
-								</div>
-							</div> -->
+						
 					</div>
 				</div>
 				<div class="col-sm-6" style="z-index:-1;">
@@ -61,7 +41,18 @@
 						</h6>
 						<br>
 						<p class="price">
-							<span>Price: <%= product.price %> Rs.</span>
+							<!-- test -->
+							<% let offerPercentage = Math.round(100-(product.offerPrice/product.price)*100) %> 
+
+								<% if(offerPercentage != 0) {%> 
+
+								<span class="label d-flex " style="width: 50%;">
+									<s class="text-danger" style="width: 30%;">₹ <%= product.price %> </s>  
+									<span class="mx-3 font-weight-bold" style="color: green; width: 50%;"><%=offerPercentage %>% off</span> 
+								</span>
+							   <% } %> 
+							<!-- test ends -->
+							<span>Price: ₹ <%= product.offerPrice %></span>
 							<span class="rate">
 								<i class="icon-star-full"></i>
 								<i class="icon-star-full"></i>
@@ -82,9 +73,12 @@
 					</div>
 				</div>
 				<div class="product-desc justify-content-end" style="margin-left:570px;margin-top:20px">
-					<div class="col-sm-12 text-center ">
-						<p class="addtocart "><a onclick="addToCart('<%=product._id %>')"  class="btn btn-primary btn-addtocart text-white"><i
+					<div class="col-12 text-center d-flex flex-row justify-content-between">
+						<p class="addtocart "><a onclick="addToCart('<%=product._id %>')" style="width: 17rem;" class="btn btn-primary btn-addtocart text-white"><i
 									class="icon-shopping-cart"></i> Add to Cart</a></p>
+						<!-- <span style="margin-top: 5px;padding-left:12rem"><i class="fa fa-heart text-danger" style="font-size: 2em;"></i></span> -->
+						<span style="margin-top: 5px;padding-left:12rem"><i class="fa fa-heart-o text-danger" style="font-size: 2em;"></i></span>
+					
 					</div>
 				</div>
 			</div>
@@ -131,54 +125,6 @@
 												<h3 class="head">23 Reviews</h3>
 												<div class="review">
 													<div class="user-img"
-														style="background-image: url(images/person1.jpg)"></div>
-													<div class="desc">
-														<h4>
-															<span class="text-left">Jacob Webb</span>
-															<span class="text-right">14 March 2018</span>
-														</h4>
-														<p class="star">
-															<span>
-																<i class="icon-star-full"></i>
-																<i class="icon-star-full"></i>
-																<i class="icon-star-full"></i>
-																<i class="icon-star-half"></i>
-																<i class="icon-star-empty"></i>
-															</span>
-															<span class="text-right"><a href="#" class="reply"><i
-																		class="icon-reply"></i></a></span>
-														</p>
-														<p>When she reached the first hills of the Italic Mountains, she
-															had a last view back on the skyline of her hometown
-															Bookmarksgrov</p>
-													</div>
-												</div>
-												<div class="review">
-													<div class="user-img"
-														style="background-image: url(images/person2.jpg)"></div>
-													<div class="desc">
-														<h4>
-															<span class="text-left">Jacob Webb</span>
-															<span class="text-right">14 March 2018</span>
-														</h4>
-														<p class="star">
-															<span>
-																<i class="icon-star-full"></i>
-																<i class="icon-star-full"></i>
-																<i class="icon-star-full"></i>
-																<i class="icon-star-half"></i>
-																<i class="icon-star-empty"></i>
-															</span>
-															<span class="text-right"><a href="#" class="reply"><i
-																		class="icon-reply"></i></a></span>
-														</p>
-														<p>When she reached the first hills of the Italic Mountains, she
-															had a last view back on the skyline of her hometown
-															Bookmarksgrov</p>
-													</div>
-												</div>
-												<div class="review">
-													<div class="user-img"
 														style="background-image: url(images/person3.jpg)"></div>
 													<div class="desc">
 														<h4>
@@ -216,50 +162,6 @@
 																(98%)
 															</span>
 															<span>20 Reviews</span>
-														</p>
-														<p class="star">
-															<span>
-																<i class="icon-star-full"></i>
-																<i class="icon-star-full"></i>
-																<i class="icon-star-full"></i>
-																<i class="icon-star-full"></i>
-																<i class="icon-star-empty"></i>
-																(85%)
-															</span>
-															<span>10 Reviews</span>
-														</p>
-														<p class="star">
-															<span>
-																<i class="icon-star-full"></i>
-																<i class="icon-star-full"></i>
-																<i class="icon-star-full"></i>
-																<i class="icon-star-empty"></i>
-																<i class="icon-star-empty"></i>
-																(70%)
-															</span>
-															<span>5 Reviews</span>
-														</p>
-														<p class="star">
-															<span>
-																<i class="icon-star-full"></i>
-																<i class="icon-star-full"></i>
-																<i class="icon-star-empty"></i>
-																<i class="icon-star-empty"></i>
-																<i class="icon-star-empty"></i>
-																(10%)
-															</span>
-															<span>0 Reviews</span>
-														</p>
-														<p class="star">
-															<span>
-																<i class="icon-star-full"></i>
-																<i class="icon-star-empty"></i>
-																<i class="icon-star-empty"></i>
-																<i class="icon-star-empty"></i>
-																<i class="icon-star-empty"></i>
-																(0%)
-															</span>
-															<span>0 Reviews</span>
 														</p>
 													</div>
 												</div>

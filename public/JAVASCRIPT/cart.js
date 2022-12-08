@@ -92,10 +92,11 @@ async function changeQuantity (cartId, proId, count) {
       } else {
         console.log(response)
         document.getElementById(proId).innerHTML = quantity + count
-        document.getElementById('total' + proId).innerHTML = quantity * price + num
+        document.getElementById('total' + proId).innerHTML = Math.round(((quantity * price + num) + Number.EPSILON) * 100) / 100
       }
-      document.getElementById('total').innerHTML = response.subTotal
-      document.getElementById('totals').innerHTML = response.subTotal
+      document.getElementById('total').innerHTML = Math.round(((response.subTotal) + Number.EPSILON) * 100) / 100
+      document.getElementById('totals').innerHTML = Math.round(((response.subTotal) + Number.EPSILON) * 100) / 100
+      $('#couponDiscount').text('00.00')
     }
 
   })
@@ -131,3 +132,34 @@ async function removeProduct (cartId, proId) {
     })
   }
 }
+
+// select coupons in cart
+
+$('#couponSelectForm').submit((e) => {
+  e.preventDefault()
+
+  const coupon = $("input[name='coupon']:checked").val()
+  console.log(coupon)
+  $('#couponRedeemInput').val(coupon)
+  $('#exampleModalLong').modal('toggle')
+})
+
+// redeem coupon from cart
+
+$('#redeemCoupon').submit((e) => {
+  e.preventDefault()
+  $.ajax({
+    url: '/redeemCoupon',
+    method: 'post',
+    data: $('#redeemCoupon').serialize(),
+    success: (response) => {
+      if (response.message) {
+        $('#couponErr').text(response.message)
+      } else {
+        $('#couponDiscount').text(Math.round(((response.discount) + Number.EPSILON) * 100) / 100)
+        $('#totals').text(Math.round(((response.totalPrice) + Number.EPSILON) * 100) / 100)
+        $('#couponErr').text('')
+      }
+    }
+  })
+})
