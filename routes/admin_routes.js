@@ -50,4 +50,8 @@ router.get('/coupons', verifyAdminLogin, adminController.getCouponManagement)
 router.post('/coupons', verifyAdminLogin, adminController.postCouponManagement)
 router.delete('/coupon', verifyAdminLogin, adminController.deleteCoupon)
 
+// sales report
+
+router.get('/sales-report', verifyAdminLogin, adminController.getSalesReport)
+
 module.exports = router

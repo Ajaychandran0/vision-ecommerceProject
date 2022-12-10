@@ -1,0 +1,84 @@
+<section>
+  <div class="container"  id="container_content">
+    <div class="p-3 text-center">
+      <h1>Sales report<span style="color: #0d6efd;"> Vision</span></h1>
+    </div>
+    <div id="element-to-hide" data-html2canvas-ignore="true">
+      <div class="d-flex ">
+        <form action="/admin/sales-report" method="get">
+          <label for="month">Choose Month</label><br>
+          <input id="month" name="month" type="month">
+          <button class="btn btn-sm btn-outline-dark" type="submit">Filter Month</button>
+        </form>
+        <form action="/admin/sales-report" method="get" class="ms-5">
+          <label for="daterange">Choose Date</label><br>
+          <input type="text" name="daterange" value="01/01/2022 - 12/30/2022" />
+          <button class="btn btn-sm btn-outline-dark" type="submit">Filter Date</button>
+        </form>
+      </div>
+      <div class="text-end d-flex justify-content-end">
+               
+          <div class="m-1">
+            <input type="button" onclick="exportDataToExcel()" value="Export to excel" class="btn btn_print"
+          style="background-color: #0d6efd; color: white;">
+          </div>
+
+          <div class="m-1">
+            <input type="button" id="rep" value="Download as Pdf" class="btn  btn_print"
+            style="background-color: #0d6efd; color: white;">
+          </div>
+        
+      </div>
+    </div>
+    <div class="container_content mt-4" >
+      <div class="invoice-box">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col-1">No.</th>
+              <th scope="col-2">Order Id</th>
+              <th scope="col-1">Order Amount</th>
+              <th scope="col-2">Coupon</th>
+              <th scope="col-2">Payment Method</th>
+              <th scope="col-2">Delivered Date</th>
+              <th scope="col-2">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% let i=0 %>
+              <% for(let order of deliveredOrders) {%>
+                <% i++ %>
+                  <tr>
+                    <td scope="col"><strong><%= i %></strong></td>
+                    <td scope="col"><%= order._id%></td>
+                    <td scope="col"><%= order.price %></td>
+                    <td scope="col">
+                      <%= order.couponCode %> 
+                      <% if(order.couponDiscount) {%> 
+                      <span>(₹ <%=order.couponDiscount%> /-off)</span>
+                      <% } %> 
+                    </td>
+                    <td scope="col"><%=order.paymentMehod %></td>
+                    <td scope="col"><%=order.statusUpdateDate.toDateString() %></td>
+                    <td><%= order.status%></td>
+                  </tr>
+                  <% } %>
+          </tbody>
+          <tfoot>
+            <tr> 
+              <td colspan="7">Total: ₹ <span><%= total %></span>  </td>
+            </tr> 
+            <tr>
+              <td colspan="7">Coupon discount: ₹ <%= totalCouponDiscount %>  </td>
+            </tr>
+            <tr>
+              <td colspan="7">Total Revenue: ₹<span class="text-danger"><%= totalRevenue%></span></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</section>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>

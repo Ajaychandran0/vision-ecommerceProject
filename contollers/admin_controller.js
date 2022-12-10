@@ -3,6 +3,7 @@ const productServices = require('../services/product_collection')
 const categoryServices = require('../services/category_collection')
 const orderServices = require('../services/order_collection')
 const couponServices = require('../services/coupon_collection')
+// const { order } = require('paypal-rest-sdk')
 
 module.exports = {
 
@@ -283,5 +284,42 @@ module.exports = {
     const couponId = req.body.couponId
     await couponServices.deleteCouponById(couponId)
     res.json(true)
+  },
+
+  getSalesReport: async (req, res) => {
+    let deliveredOrders
+
+    if (req.query?.month) {
+      const month = req.query?.month.split('-')
+      const [yy, mm] = month
+      deliveredOrders = await orderServices.queryDeliveredOrderList(yy, mm)
+    } else if (req.query?.daterange) {
+      const dateRange = req.query
+      deliveredOrders = await orderServices.queryDeliveredOrderList(dateRange)
+    } else {
+      deliveredOrders = await orderServices.queryDeliveredOrderList()
+    }
+
+    let totalCouponDiscount = 0
+    for (const order of deliveredOrders) {
+      if (order.couponCode) {
+        const couponDiscount = (order.price * order.couponPercentage) / 100
+        order.couponDiscount = couponDiscount
+        totalCouponDiscount += couponDiscount
+      }
+    }
+
+    const total = deliveredOrders.reduce((acc, item) => acc + item.price, 0); console.log(total)
+    const totalRevenue = total - totalCouponDiscount
+
+    res.render('admin/sales-report',
+      {
+        total,
+        totalRevenue,
+        deliveredOrders,
+        totalCouponDiscount,
+        layout: './layouts/adminLayout'
+      }
+    )
   }
 }

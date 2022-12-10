@@ -51,6 +51,7 @@ module.exports = {
 
     if (couponDiscount) {
       order.couponCode = req.session.couponCode
+      order.couponPercentage = req.session.couponPercentage
     }
 
     orderServices.placeOrdeByUserId(userId, order).then(async (orderId) => {

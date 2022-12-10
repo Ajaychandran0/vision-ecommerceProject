@@ -1,5 +1,50 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
+
+// highlight the selected nav item
+$('.menu-item').click(function (e) {
+  localStorage.setItem('navItem', $(this).text().trim())
+})
+
+$(window).on('load', highLightSelectedItem())
+function highLightSelectedItem () {
+  switch (localStorage.getItem('navItem')) {
+    case 'Dashboard':
+      $('#dashboard').addClass('highlight')
+      $('#iconDashboard').addClass('highlight')
+      break
+    case 'Orders':
+      $('#orders').addClass('highlight')
+      $('#iconOrders').addClass('highlight')
+      break
+    case 'Users':
+      $('#users').addClass('highlight')
+      $('#iconUsers').addClass('highlight')
+      break
+    case 'Products':
+      $('#products').addClass('highlight')
+      $('#iconProducts').addClass('highlight')
+      break
+    case 'categories':
+      $('#category').addClass('highlight')
+      $('#iconCategory').addClass('highlight')
+      break
+    case 'Offers':
+      $('#offers').addClass('highlight')
+      $('#iconOffers').addClass('highlight')
+      break
+    case 'Coupons':
+      $('#coupons').addClass('highlight')
+      $('#iconCoupons').addClass('highlight')
+      break
+    case 'Sales report':
+      $('#salesReport').addClass('highlight')
+      $('#iconSalesReport').addClass('highlight')
+      break
+    default:
+  }
+}
 
 // order management
 $(document).ready(function () {
@@ -200,4 +245,51 @@ async function deleteCoupon (couponId) {
   } else {
     sweetAlert('Cancelled', 'Coupon not deleted', 'error')
   }
+}
+
+// DATE RANGE PICKER
+$(function () {
+  $('input[name="daterange"]').daterangepicker(
+    {
+      opens: 'left'
+    },
+    function (start, end, label) {
+      console.log(
+        'A new date selection was made: ' +
+        start.format('YYYY-MM-DD') +
+        ' to ' +
+        end.format('YYYY-MM-DD')
+      )
+    }
+  )
+})
+
+// pdf export
+$(document).ready(function ($) {
+  $(document).on('click', '#rep', function (event) {
+    event.preventDefault()
+    const element = document.getElementById('container_content')
+
+    const randomNumber = Math.floor(Math.random() * (10000000000 - 1)) + 1
+
+    const opt = {
+      margin: 0,
+      filename: 'Vision (Sales Report)' + randomNumber + '.pdf',
+      html2canvas: { scale: 10 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    }
+    html2pdf().set(opt).from(element).save()
+  })
+})
+
+// excel export
+
+function exportDataToExcel () {
+  const data = document.getElementById('container_content')
+  const fp = XLSX.utils.table_to_book(data, { sheet: 'Vision' })
+  XLSX.write(fp, {
+    bookType: 'xlsx',
+    type: 'base64'
+  })
+  XLSX.writeFile(fp, 'Vision (Sales Report).xlsx')
 }

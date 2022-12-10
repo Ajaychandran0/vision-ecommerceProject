@@ -117,6 +117,7 @@ module.exports = {
         totalPrice = (totalPrice - discount)
         req.session.couponDiscount = discount
         req.session.couponCode = couponCode
+        req.session.couponPercentage = activeCoupon.percentage
 
         res.json({ totalPrice, discount, couponCode })
       } else {
