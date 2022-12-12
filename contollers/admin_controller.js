@@ -7,11 +7,6 @@ const couponServices = require('../services/coupon_collection')
 
 module.exports = {
 
-  getAdminDashboard: (req, res) => {
-    res.render('admin/dashboard',
-      { layout: './layouts/adminLayout' })
-  },
-
   getAdminLogin: (req, res) => {
     res.render('admin/admin-login', {
       errorMessage: req.flash('error'),
@@ -26,6 +21,54 @@ module.exports = {
     })
   },
 
+  // admin dashboard
+
+  getAdminDashboard: async (req, res) => {
+    const deliveredOrders = await orderServices.queryDeliveredOrderList()
+    const totalDeliveredOrders = deliveredOrders.length
+    const activeUsers = await userServices.getActiveUsersCount()
+    const totalOrders = await orderServices.getTotalOrdersCount()
+    const ordersToday = await orderServices.getTodaysOrders()
+    const returnedOrders = await orderServices.getTotalReturnedOrders()
+
+    let totalCouponDiscount = 0
+    for (const order of deliveredOrders) {
+      if (order.couponCode) {
+        const couponDiscount = (order.price * order.couponPercentage) / 100
+        totalCouponDiscount += couponDiscount
+      }
+    }
+    const total = deliveredOrders.reduce((acc, item) => acc + item.price, 0)
+    const totalRevenue = total - totalCouponDiscount
+
+    res.render('admin/dashboard',
+      {
+        totalDeliveredOrders,
+        totalOrders,
+        returnedOrders,
+        ordersToday,
+        activeUsers,
+        totalRevenue,
+        layout: './layouts/adminLayout'
+      })
+  },
+
+  getCategoryChart: async (req, res) => {
+    const categories = await categoryServices.getAllcategoryList()
+    const categoryCount = await orderServices.queryCategorySoldDetails(categories)
+    res.json(categoryCount)
+  },
+
+  getPaymentMethodChart: async (req, res) => {
+    const paymentMethod = await orderServices.queryPaymentMethodDetails()
+    res.json(paymentMethod)
+  },
+
+  getOrderStatusChart: async (req, res) => {
+    const orderStatus = await orderServices.queryOrderStatusDetails()
+    res.json(orderStatus)
+  },
+
   // user Management
 
   userManagement: async (req, res) => {
@@ -35,7 +78,6 @@ module.exports = {
   },
 
   blockUser: async (req, res, next) => {
-    console.log('hey isa m in a her e blocl useres')
     const userId = req.params.id
     await userServices.blockUserAccess(userId)
     res.json(true)
@@ -58,15 +100,12 @@ module.exports = {
 
   getAddProduct: async (req, res) => {
     const categories = await categoryServices.getAllCategories()
-    console.log(categories)
     res.render('admin/add-product',
       { categories, layout: './layouts/adminLayout' })
   },
 
   postAddProduct: (req, res) => {
     productServices.addProduct(req.body).then((id) => {
-      console.log(id)
-
       const image = req.files.image
       image.mv('./public/images/product-images/' + id + '.webp', (err, done) => {
         if (!err) {
@@ -80,7 +119,6 @@ module.exports = {
 
   getEditProduct: (req, res) => {
     productServices.getProductById(req.params.id).then(async (product) => {
-      console.log(product)
       const categories = await categoryServices.getAllCategories()
       res.render('admin/edit-product',
         { product, categories, layout: './layouts/adminLayout' })
@@ -144,7 +182,6 @@ module.exports = {
 
   getOrderManagement: async (req, res) => {
     const orders = await orderServices.getAllOrders()
-    console.log(orders)
     res.render('admin/order-management',
       {
         orders,
@@ -156,8 +193,17 @@ module.exports = {
     const proId = req.body.proId
     const orderId = req.body.orderId
     const orderStatus = req.body.status
-    await orderServices.changeOrderItemStatus(orderId, proId, orderStatus)
-    res.json(true)
+    if (orderStatus === 'cancelled') {
+      await orderServices.cancelOrderItem(orderId, proId)
+      res.json({ cancelled: true })
+    } else {
+      await orderServices.changeOrderItemStatus(orderId, proId, orderStatus)
+      if (orderStatus === 'returned') {
+        res.json({ returned: true })
+      } else {
+        res.json(true)
+      }
+    }
   },
 
   // offer management
@@ -167,8 +213,6 @@ module.exports = {
     const products = await productServices.getAllProducts()
     const productOffers = await productServices.getAllProductOffer()
     const categoryOffers = await categoryServices.getAllCategoryOffer()
-
-    console.log(categories, products, productOffers, categoryOffers)
 
     res.render('admin/offer-management',
       {
@@ -182,7 +226,6 @@ module.exports = {
   },
 
   addCategoryOffer: async (req, res) => {
-    console.log(req.body)
     const category = req.body.category
     const offerPercentage = Number(req.body.percentage)
 
@@ -245,7 +288,7 @@ module.exports = {
       const newDiscount = (product.price * product.categoryOffer) / 100
       newOfferPrice = (product.price - newDiscount)
     } else {
-      newOfferPrice = product.price
+      newOfferPrice = product.price10
     }
     await productServices.deleteProOfferById(proId, newOfferPrice)
 
@@ -266,7 +309,7 @@ module.exports = {
   },
 
   postCouponManagement: async (req, res) => {
-    const couponDetails = req.body; console.log(couponDetails.expiryDate)
+    const couponDetails = req.body
     const couponCheck = await couponServices.checkCouponExists(couponDetails.coupon)
     if (couponCheck === null) {
       couponDetails.percentage = Number(couponDetails.percentage)
@@ -309,15 +352,15 @@ module.exports = {
       }
     }
 
-    const total = deliveredOrders.reduce((acc, item) => acc + item.price, 0); console.log(total)
+    const total = deliveredOrders.reduce((acc, item) => acc + item.price, 0)
     const totalRevenue = total - totalCouponDiscount
 
     res.render('admin/sales-report',
       {
         total,
+        totalCouponDiscount,
         totalRevenue,
         deliveredOrders,
-        totalCouponDiscount,
         layout: './layouts/adminLayout'
       }
     )

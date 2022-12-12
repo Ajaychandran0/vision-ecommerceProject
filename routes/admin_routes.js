@@ -4,8 +4,13 @@ const adminController = require('../contollers/admin_controller')
 const authController = require('../contollers/auth_controller')
 const { verifyAdminLogin, verifyAdminNotLogin } = require('../middlewares/authentication')
 
-/* GET home page. */
+/* GET Admin Dashboard */
 router.get('/', verifyAdminLogin, adminController.getAdminDashboard)
+router.get('/dashboard/category-chart', verifyAdminLogin, adminController.getCategoryChart)
+router.get('/dashboard/paymentmethod-chart', verifyAdminLogin, adminController.getPaymentMethodChart)
+router.get('/dashboard/orderstatus-chart', verifyAdminLogin, adminController.getOrderStatusChart)
+
+// admin login & logout
 router.get('/login', verifyAdminNotLogin, adminController.getAdminLogin)
 router.post('/login', authController.logAdminIn)
 router.get('/logout', adminController.logAdminOut)

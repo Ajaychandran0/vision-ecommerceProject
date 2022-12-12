@@ -10,7 +10,9 @@
 
       <div class="row card-header order-head bg-secondary pt-2 " style="padding: 0px;margin: 0px;color: white;">
         <div class="col-3 " ><h5 class="text-white"><%=date%></h5></div>
-        <div class="col-2"><h5 class="text-white" >Total:  ₹ <span id="total<%=order._id %>"><%=order.totalPrice %></span> </h5></div>
+        <div class="col-2"><h5 class="text-white" >Total:  ₹ 
+          <span id="total<%=order._id %>"><%= Math.round(((order.totalPrice) + Number.EPSILON) * 100) / 100%></span> 
+        </h5></div>
         <div class="col-2"><h5 class="text-white">Ship to:   <%=order.deliveryDetails.firstname %> <%=order.deliveryDetails.lastname %>  </h5></div>
         <% if(order.status=='pending'){ %> 
 
@@ -25,8 +27,8 @@
             Status: <%= order.status %> 
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="/">cancel</a>
-            <a class="dropdown-item" href="/login">complete payment</a>
+            <a class="dropdown-item" href="">cancel</a>
+            <a class="dropdown-item" href="">complete payment</a>
           </div>
         </div>
 
@@ -55,7 +57,7 @@
            <%= orderItem.product.name%> 
           </p>
         </div>
-        <div id="total<%=order._id%><%=orderItem.product._id%>" hidden><%=orderItem.total %> </div>
+        <div id="total<%=order._id%><%=orderItem.product._id%>" hidden><%=Math.round(((orderItem.total) + Number.EPSILON) * 100) / 100%> </div>
         <div class="col-2 mt-4" >
           <a href="#" class="view-item" >View your item</a>
         </div>
@@ -76,9 +78,13 @@
           <% }else if(orderItem.itemStatus=='shipped'){ %> 
               <p class="mx-4 mt-3 font-weight-bold" style="color: rgb(31, 104, 2);font-size: 16px;">Shipped</p>
           <% }else if(orderItem.itemStatus=='delivered'){ %> 
-            <p class="mx-4 mt-3 font-weight-bold" style="color: rgb(31, 104, 2);font-size: 16px;">Delivered</p>          
-          <% } %> 
-
+            <p class="mx-4 mt-3 font-weight-bold" style="color: rgb(31, 104, 2);font-size: 16px;">Delivered</p>              
+            <button type="submit" class="rounded btn btn-outline-danger" onclick="returnOrderItem('<%=order._id%>','<%=orderItem.product._id %>')">Return Order</button>                 
+          <% }else if(orderItem.itemStatus == 'return'){%> 
+            <p class="mx-4 mt-3 " style="color: red;font-size: 16px;">Returning...</p>
+          <% }else if(orderItem.itemStatus == 'returned'){%> 
+            <p class="mx-4 mt-3 font-weight-bold" style="color: red;font-size: 16px;">Returned</p>
+          <% }%> 
           <% } %> 
         </div>
     </div>

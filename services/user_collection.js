@@ -48,6 +48,16 @@ module.exports = {
         resolve()
       })
     })
+  },
+
+  getActiveUsersCount: () => {
+    return new Promise((resolve, reject) => {
+      db.get().collection(USER_COLLECTION)
+        .countDocuments({ isActive: true })
+        .then((count) => {
+          resolve(count)
+        })
+    })
   }
 
 }

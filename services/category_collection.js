@@ -13,6 +13,19 @@ module.exports = {
     })
   },
 
+  getAllcategoryList: () => {
+    return new Promise((resolve, reject) => {
+      db.get().collection(CATEGORY_COLLECTION).aggregate([{
+        $project: {
+          _id: 0,
+          category: 1
+        }
+      }]).toArray().then((categories) => {
+        resolve(categories)
+      })
+    })
+  },
+
   getCategoryById: (catId) => {
     return new Promise(async (resolve, reject) => {
       const { category } = await db.get().collection(CATEGORY_COLLECTION).findOne({ _id: objectId(catId) })

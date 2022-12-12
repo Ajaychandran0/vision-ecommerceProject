@@ -46,12 +46,22 @@
 
         
 
-        <td>
+        <td id="orderStatus<%= orderItem.proId%><%= order._id%>">
+          <% if(orderItem.itemStatus == 'return') {%>
+          <select name="status" id="option<%=orderItem.proId%><%=order._id%>" onclick="changeOrderStatus('<%= orderItem.proId%>','<%= order._id%>')" >
+            <option hidden>return</option>
+            <option value="returned">confirm return</option> 
+
+                            
+          <% }else if(orderItem.itemStatus == 'returned'){ %> 
+            <p>Returned</p>
+
+          <% }else{ %> 
           
           <select name="status" id="option<%=orderItem.proId%><%=order._id%>" onclick="changeOrderStatus('<%= orderItem.proId%>','<%= order._id%>')" >
             <% if(order.status=='pending'){%>
               <option hidden><%= order.status %> </option>
-              <% }else{ %> 
+            <% }else{ %> 
             <option hidden><%= orderItem.itemStatus %> </option>
             <% } %> 
             <option value="placed">Placed</option>
@@ -59,6 +69,7 @@
             <option value="shipped">Shipped</option>
             <option value="delivered">Delivered</option>
           </select>
+          <% } %> 
       
         </td>
       </tr>

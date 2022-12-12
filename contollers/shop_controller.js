@@ -20,11 +20,11 @@ module.exports = {
       }
     }
 
-    res.render('shop/home', { products, categories, cartCount })
-  },
-
-  about: (req, res) => {
-    res.render('shop/about')
+    res.render('shop/home', {
+      products,
+      categories,
+      cartCount
+    })
   },
 
   contact: (req, res) => {

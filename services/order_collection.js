@@ -35,6 +35,42 @@ module.exports = {
     })
   },
 
+  getTotalOrdersCount: () => {
+    return new Promise((resolve, reject) => {
+      db.get().collection(ORDER_COLLECTION).estimatedDocumentCount().then((totalOrders) => {
+        resolve(totalOrders)
+      })
+    })
+  },
+
+  getTodaysOrders: () => {
+    const today = new Date(new Date().setHours(0, 0, 0, 0))
+    return new Promise((resolve, reject) => {
+      db.get().collection(ORDER_COLLECTION).countDocuments({ date: { $gte: today } }).then((count) => {
+        resolve(count)
+      })
+    })
+  },
+
+  getTotalReturnedOrders: () => {
+    return new Promise((resolve, reject) => {
+      db.get().collection(ORDER_COLLECTION).aggregate(
+        [{
+          $unwind: '$orderItems'
+        }, {
+          $match: {
+            'orderItems.itemStatus': 'returned'
+          }
+        }, {
+          $count: 'count'
+        }]
+      ).toArray()
+        .then(count => {
+          resolve(count[0]?.count)
+        })
+    })
+  },
+
   cancelOrderItem: (orderId, proId) => {
     console.log(proId)
 
@@ -42,13 +78,16 @@ module.exports = {
       await db.get().collection(ORDER_COLLECTION)
         .updateOne({ _id: ObjectId(orderId), 'orderItems.proId': ObjectId(proId) },
           {
-            $set: { 'orderItems.$.itemStatus': 'cancelled' }
+            $set: {
+              'orderItems.$.itemStatus': 'cancelled',
+              'orderItems.$.statusUpdateDate': new Date()
+            }
           }
         )
       let total = await db.get().collection(ORDER_COLLECTION).aggregate(
         [{
           $match: {
-            'orderItems.proId': ObjectId(proId)
+            _id: ObjectId(orderId)
           }
         }, {
           $unwind: '$orderItems'
@@ -195,6 +234,130 @@ module.exports = {
             resolve(deliveredOrders)
           })
       }
+    })
+  },
+
+  queryOrderStatusDetails: () => {
+    return new Promise(async (resolve, reject) => {
+      const order = {}
+
+      await db.get().collection(ORDER_COLLECTION).aggregate(
+        [{
+          $unwind: '$orderItems'
+        }, {
+          $match: {
+            'orderItems.itemStatus': 'delivered'
+          }
+        }, {
+          $count: 'count'
+        }]
+      ).toArray()
+        .then(count => {
+          order.Delivered = count[0]?.count
+        })
+
+      await db.get().collection(ORDER_COLLECTION).aggregate(
+        [{
+          $unwind: '$orderItems'
+        }, {
+          $match: {
+            'orderItems.itemStatus': 'cancelled'
+          }
+        }, {
+          $count: 'count'
+        }]
+      ).toArray()
+        .then(count => {
+          order.Cancelled = count[0]?.count
+        })
+
+      await db.get().collection(ORDER_COLLECTION).aggregate(
+        [{
+          $unwind: '$orderItems'
+        }, {
+          $match: {
+            'orderItems.itemStatus': 'shipped'
+          }
+        }, {
+          $count: 'count'
+        }]
+      ).toArray()
+        .then(count => {
+          order.Shipped = count[0]?.count
+        })
+
+      await db.get().collection(ORDER_COLLECTION).aggregate(
+        [{
+          $unwind: '$orderItems'
+        }, {
+          $match: {
+            'orderItems.itemStatus': 'pending'
+          }
+        }, {
+          $count: 'count'
+        }]
+      ).toArray()
+        .then(count => {
+          order.Pending = count[0]?.count
+        })
+
+      await db.get().collection(ORDER_COLLECTION).aggregate(
+        [{
+          $unwind: '$orderItems'
+        }, {
+          $match: {
+            'orderItems.itemStatus': 'placed'
+          }
+        }, {
+          $count: 'count'
+        }]
+      ).toArray()
+        .then(count => {
+          order.Placed = count[0]?.count
+        })
+      resolve(order)
+    })
+  },
+
+  queryPaymentMethodDetails: () => {
+    return new Promise(async (resolve, reject) => {
+      const paymentMethod = {}
+      paymentMethod.Razorpay = await db.get().collection(ORDER_COLLECTION).countDocuments({ paymentMehod: 'RAZORPAY' })
+      paymentMethod.COD = await db.get().collection(ORDER_COLLECTION).countDocuments({ paymentMehod: 'COD' })
+      paymentMethod.Paypal = await db.get().collection(ORDER_COLLECTION).countDocuments({ paymentMehod: 'PAYPAL' })
+      resolve(paymentMethod)
+    })
+  },
+
+  queryCategorySoldDetails: (catList) => {
+    return new Promise(async (resolve, reject) => {
+      let key
+      const catSoldCount = {}
+
+      for (const category of catList) {
+        key = category.category
+        const categoryCount = await db.get().collection(ORDER_COLLECTION).aggregate([{
+          $unwind: '$orderItems'
+        }, {
+          $match: {
+            'orderItems.itemStatus': 'delivered'
+          }
+        }, {
+          $match: {
+            'orderItems.product.category': category.category
+          }
+        }, {
+          $group: {
+            _id: null,
+            count: {
+              $sum: '$orderItems.quantity'
+            }
+          }
+        }]).toArray()
+
+        catSoldCount[key] = categoryCount[0]?.count
+      }
+      resolve(catSoldCount)
     })
   }
 }

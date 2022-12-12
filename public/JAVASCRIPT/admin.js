@@ -141,8 +141,9 @@ function changeOrderStatus (proId, orderId) {
     },
     method: 'patch',
     success: (response) => {
-      if (response) {
-        document.getElementById('orderStatus' + proId + orderId).innerHTML = itemStatus
+      console.log(response)
+      if (response.returned) {
+        document.getElementById('orderStatus' + proId + orderId).innerHTML = '<p>Returned</p>'
       }
     }
   })

@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 const cartServices = require('../services/cart_collection')
 const addressServices = require('../services/address_collection')
 const couponServices = require('../services/coupon_collection')
@@ -34,7 +35,7 @@ module.exports = {
     req.session.couponCode = null
 
     if (userCart) {
-      const productExist = userCart.products.findIndex(product => product.item === proId)
+      const productExist = userCart.products.findIndex(product => product.item == proId)
 
       if (productExist !== -1) {
         const cartId = userCart._id

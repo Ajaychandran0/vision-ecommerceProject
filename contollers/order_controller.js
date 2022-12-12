@@ -153,14 +153,6 @@ module.exports = {
     })
   },
 
-  cancelOrder: async (req, res) => {
-    const orderId = req.body.orderId
-    const proId = req.body.proId
-
-    await orderServices.cancelOrderItem(orderId, proId)
-    res.json(true)
-  },
-
   razorpayVerifyPayment: (req, res) => {
     try {
       const paymentDetails = req.body
@@ -181,5 +173,21 @@ module.exports = {
         res.json({ status: false })
       }
     } catch (e) { console.log(e) }
+  },
+
+  cancelOrder: async (req, res) => {
+    const orderId = req.body.orderId
+    const proId = req.body.proId
+
+    await orderServices.cancelOrderItem(orderId, proId)
+    res.json(true)
+  },
+
+  returnOder: async (req, res) => {
+    const orderId = req.body.orderId
+    const proId = req.body.proId
+
+    await orderServices.changeOrderItemStatus(orderId, proId, 'return')
+    res.json(true)
   }
 }

@@ -12,7 +12,6 @@ const orderController = require('../contollers/order_controller')
 /* GET shop listing. */
 
 router.get('/', shopController.home)
-router.get('/about', shopController.about)
 router.get('/contact', shopController.contact)
 router.get('/product/:id', shopController.product)
 router.get('/category/:id', shopController.filterByCategory)
@@ -57,6 +56,7 @@ router.get('/order-complete', verifyUserLogin, userController.orderComplete)
 // order
 router.get('/orders', verifyUserLogin, userController.orderDetails)
 router.delete('/cancel-order', verifyUserLogin, orderController.cancelOrder)
+router.patch('/return-order', verifyUserLogin, orderController.returnOder)
 
 router.get('/wishlist', verifyUserLogin, userController.wishlist)
 router.get('/logout', userController.logout)
