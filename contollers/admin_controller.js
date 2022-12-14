@@ -113,21 +113,32 @@ module.exports = {
         return new Promise((resolve, reject) => {
           cloudinary.uploader.upload(file, (err, res) => {
             if (err) { return res.status(500).send('upload image error') }
-            resolve(res.secure_url)
+            const result = {}
+            result.url = res.secure_url
+            result.id = res.public_id
+            resolve(result)
           })
         })
       }
       const files = req.files
       const arr1 = Object.values(files)
       const arr2 = arr1.flat()
-      const urls = await Promise.all(
+      const cloudData = await Promise.all(
         arr2.map(async (file) => {
           const { path } = file
           const result = await cloudinaryUpload(path)
           return result
         })
-      ); console.log('this is a check of cloudinary')
-      await productServices.addProduct(req.body, urls)
+      )
+      const urls = []
+      const cloudinaryIds = []
+      let i = 0
+      for (const data of cloudData) {
+        urls[i] = data.url
+        cloudinaryIds[i] = data.id
+        i++
+      }
+      await productServices.addProduct(req.body, urls, cloudinaryIds)
       res.redirect('/admin/add-product')
     } catch (e) {
       console.log(e)
@@ -142,24 +153,51 @@ module.exports = {
     })
   },
 
-  editProduct: (req, res) => {
-    productServices.updateProductById(req.params.id, req.body)
-    res.redirect('/admin/products')
-    if (req.files.image) {
-      const image = req.files.image
-      const id = req.params.id
-      image.mv('./public/images/product-images/' + id + '.webp')
+  editProduct: async (req, res) => {
+    const cloudinaryUpload = (file) => {
+      return new Promise((resolve, reject) => {
+        cloudinary.uploader.upload(file, (err, res) => {
+          if (err) { return res.status(500).send('upload image error') }
+          const result = {}
+          result.url = res.secure_url
+          result.id = res.public_id
+          resolve(result)
+        })
+      })
     }
+    const files = req.files
+    const arr1 = Object.values(files)
+    const arr2 = arr1.flat()
+    const cloudData = await Promise.all(
+      arr2.map(async (file) => {
+        const { path } = file
+        const result = await cloudinaryUpload(path)
+        return result
+      })
+    )
+    const urls = {}
+    urls.image1 = cloudData[0].url
+    urls.image2 = cloudData[1].url
+    urls.image3 = cloudData[2].url
+    urls.image4 = cloudData[3].url
+    const cloudImageId = {}
+    cloudImageId.image1 = cloudData[0].id
+    cloudImageId.image2 = cloudData[1].id
+    cloudImageId.image3 = cloudData[2].id
+    cloudImageId.image4 = cloudData[3].id
+
+    productServices.updateProductById(req.params.id, req.body, urls, cloudImageId)
+    res.redirect('/admin/products')
   },
 
   deleteProduct: async (req, res) => {
-    console.log(req.body.image1)
-    // await cloudinary.uploader.destroy(req.body.imgage1)
-    // await cloudinary.uploader.destroy(req.body.image2)
-    // await cloudinary.uploader.destroy(req.body.image3)
-    // await cloudinary.uploader.destroy(req.body.image4)
-    // productServices.deleteProductById(req.params.id)
-    // res.json(true)
+    console.log(req.body)
+    await cloudinary.uploader.destroy(req.body.image1)
+    await cloudinary.uploader.destroy(req.body.image2)
+    await cloudinary.uploader.destroy(req.body.image3)
+    await cloudinary.uploader.destroy(req.body.image4)
+    productServices.deleteProductById(req.params.id)
+    res.json(true)
   },
 
   // category Management

@@ -12,7 +12,7 @@ module.exports = {
     })
   },
 
-  addProduct: (productData, urls) => {
+  addProduct: (productData, urls, cloudinaryIds) => {
     return new Promise((resolve, reject) => {
       productData.stock = Number(productData.stock)
       productData.price = parseFloat(productData.price)
@@ -20,6 +20,7 @@ module.exports = {
       productData.productOffer = 0
       productData.categoryOffer = 0
       productData.images = urls
+      productData.cloudImageId = cloudinaryIds
 
       db.get().collection(PRODUCT_COLLECTION).insertOne(productData).then((data) => {
         const id = data.insertedId.toString()
@@ -45,9 +46,12 @@ module.exports = {
     })
   },
 
-  updateProductById: (productId, productDetails) => {
+  updateProductById: (productId, productDetails, urls, cloudImageId) => {
     productDetails.stock = Number(productDetails.stock)
     productDetails.price = parseFloat(productDetails.price)
+    productDetails.offerPrice = Number(productDetails.offerPrice)
+    productDetails.productOffer = Number(productDetails.productOffer)
+    productDetails.categoryOffer = Number(productDetails.categoryOffer)
 
     db.get().collection(PRODUCT_COLLECTION).updateOne({ _id: objectId(productId) }, {
       $set: {
@@ -58,7 +62,12 @@ module.exports = {
         price: productDetails.price,
         size: productDetails.size,
         color: productDetails.color,
-        description: productDetails.description
+        description: productDetails.description,
+        offerPrice: productDetails.offerPrice,
+        productOffer: productDetails.productOffer,
+        categoryOffer: productDetails.categoryOffer,
+        images: urls,
+        cloudImageId
       }
     })
   },

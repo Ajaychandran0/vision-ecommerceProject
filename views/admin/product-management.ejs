@@ -29,14 +29,14 @@
                     <td><%= products[i].category %></td>
                     <td><%= products[i].price %></td>
                     <td><%= products[i].description %></td>
-                    <td><img style="width:5rem;height:5rem" src="/images/product-images/<%= products[i]._id %>.webp" alt=""></td>
+                    <td><img style="width:5rem;height:5rem" src="<%= products[i].images.image1 %> " alt=""></td>
                     <td><a href="/admin/edit-product/<%= products[i]._id %>" class="btn btn-success">Edit</a></td>
                     <td>
                         <form method="post" action="/admin/delete-product/<%= products[i]._id %>" >
-                            <input type="text" value="<%= products[i].images[0]%>" name="image1" hidden>
-                            <input type="text" value="<%= products[i].images[0]%>" name="image2" hidden>
-                            <input type="text" value="<%= products[i].images[0]%>" name="image3" hidden>
-                            <input type="text" value="<%= products[i].images[0]%>" name="image4" hidden>
+                            <input type="text" value="<%= products[i].cloudImageId.image1%>" name="image1" hidden>
+                            <input type="text" value="<%= products[i].cloudImageId.image2%>" name="image2" hidden>
+                            <input type="text" value="<%= products[i].cloudImageId.image3%>" name="image3" hidden>
+                            <input type="text" value="<%= products[i].cloudImageId.image4%>" name="image4" hidden>
                             <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button> 
                         </form>
                     </td>

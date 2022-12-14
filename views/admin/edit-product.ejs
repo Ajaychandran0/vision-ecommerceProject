@@ -1,3 +1,6 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.js"></script>
+
 <section class="container mt-4 ">
     <div>
 
@@ -39,6 +42,9 @@
                         <div class="form-group col-md-4">
                             <label>inStock</label>
                             <input type="number" class="form-control" name="stock" value=<%= product.stock%>></input>
+                            <input type="number" class="form-control" name="offerPrice" value=<%= product.offerPrice%> hidden></input>
+                            <input type="number" class="form-control" name="productOffer" value=<%= product.productOffer%> hidden></input>
+                            <input type="number" class="form-control" name="categoryOffer" value=<%= product.categoryOffer%> hidden></input>
                         </div>
 
                     </div>
@@ -87,7 +93,7 @@
     
                             <input type="file" required id="id_image1" name="image1" accept="image/*" class="form-control"
                                 onchange="viewImage1(event)" style="width:100%;"><br>
-                            <img src="" id="imgView1" alt="" class="clr" style="height:100px">
+                            <img src="<%= product.images.image1 %>" id="imgView1" alt="" class="clr" style="height:100px">
     
                             <div class="vald-info" id="info"></div>
                             <h5 class="error_form text-danger" id="image1_error_message"></h5>
@@ -104,7 +110,7 @@
                             </label>
                             <input type="file" id="id_image2" required name="image2" accept="image/*" class="form-control"
                                 onchange="viewImage2(event)" style="width:100%;"><br>
-                            <img src="" id="imgView2" class="clr" alt="" style="height:100px">
+                            <img src="<%= product.images.image2 %>" id="imgView2" class="clr" alt="" style="height:100px">
     
                             <div class="vald-info" id="info"></div>
                             <h5 class="error_form text-danger" id="image2_error_message"></h5>
@@ -124,7 +130,7 @@
     
                             <input type="file" required id="id_image3" name="image3" accept="image/*" class="form-control"
                                 onchange="viewImage3(event)" style="width:100%;"><br>
-                            <img src="" id="imgView3" class="clr" alt="" style="height:100px">
+                            <img src="<%= product.images.image3 %>" id="imgView3" class="clr" alt="" style="height:100px">
     
                             <div class="vald-info" id="info"></div>
                             <h5 class="error_form text-danger" id="image3_error_message"></h5>
@@ -142,7 +148,7 @@
     
                             <input type="file" required id="id_image4" name="image4" accept="image/*" class="form-control"
                                 onchange="viewImage4(event)" style="width:100%;"><br>
-                            <img src="" id="imgView4" class="clr" alt="" style="height:100px">
+                            <img src="<%= product.images.image4 %>" id="imgView4" class="clr" alt="imageproduct" style="height:100px; width: 200px;">
     
                             <div class="vald-info" id="info"></div>
                             <h5 class="error_form text-danger" id="image4_error_message"></h5>
