@@ -12,13 +12,14 @@ module.exports = {
     })
   },
 
-  addProduct: (productData) => {
+  addProduct: (productData, urls) => {
     return new Promise((resolve, reject) => {
       productData.stock = Number(productData.stock)
       productData.price = parseFloat(productData.price)
       productData.offerPrice = parseInt(productData.price)
       productData.productOffer = 0
       productData.categoryOffer = 0
+      productData.images = urls
 
       db.get().collection(PRODUCT_COLLECTION).insertOne(productData).then((data) => {
         const id = data.insertedId.toString()

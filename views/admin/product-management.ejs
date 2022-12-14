@@ -31,7 +31,15 @@
                     <td><%= products[i].description %></td>
                     <td><img style="width:5rem;height:5rem" src="/images/product-images/<%= products[i]._id %>.webp" alt=""></td>
                     <td><a href="/admin/edit-product/<%= products[i]._id %>" class="btn btn-success">Edit</a></td>
-                    <td><a href="/admin/delete-product/<%= products[i]._id %>" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</a></td>
+                    <td>
+                        <form method="post" action="/admin/delete-product/<%= products[i]._id %>" >
+                            <input type="text" value="<%= products[i].images[0]%>" name="image1" hidden>
+                            <input type="text" value="<%= products[i].images[0]%>" name="image2" hidden>
+                            <input type="text" value="<%= products[i].images[0]%>" name="image3" hidden>
+                            <input type="text" value="<%= products[i].images[0]%>" name="image4" hidden>
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button> 
+                        </form>
+                    </td>
 
                 </tr>
                 

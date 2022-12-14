@@ -3,6 +3,8 @@ const productServices = require('../services/product_collection')
 const categoryServices = require('../services/category_collection')
 const orderServices = require('../services/order_collection')
 const couponServices = require('../services/coupon_collection')
+const cloudinary = require('../utils/cloudinary')
+
 // const { order } = require('paypal-rest-sdk')
 
 module.exports = {
@@ -104,17 +106,32 @@ module.exports = {
       { categories, layout: './layouts/adminLayout' })
   },
 
-  postAddProduct: (req, res) => {
-    productServices.addProduct(req.body).then((id) => {
-      const image = req.files.image
-      image.mv('./public/images/product-images/' + id + '.webp', (err, done) => {
-        if (!err) {
-          res.redirect('/admin/add-product')
-        } else {
-          console.log(err)
-        }
-      })
-    })
+  postAddProduct: async (req, res) => {
+    try {
+      console.log(req.body)
+      const cloudinaryUpload = (file) => {
+        return new Promise((resolve, reject) => {
+          cloudinary.uploader.upload(file, (err, res) => {
+            if (err) { return res.status(500).send('upload image error') }
+            resolve(res.secure_url)
+          })
+        })
+      }
+      const files = req.files
+      const arr1 = Object.values(files)
+      const arr2 = arr1.flat()
+      const urls = await Promise.all(
+        arr2.map(async (file) => {
+          const { path } = file
+          const result = await cloudinaryUpload(path)
+          return result
+        })
+      ); console.log('this is a check of cloudinary')
+      await productServices.addProduct(req.body, urls)
+      res.redirect('/admin/add-product')
+    } catch (e) {
+      console.log(e)
+    }
   },
 
   getEditProduct: (req, res) => {
@@ -135,9 +152,14 @@ module.exports = {
     }
   },
 
-  deleteProduct: (req, res) => {
-    productServices.deleteProductById(req.params.id)
-    res.json(true)
+  deleteProduct: async (req, res) => {
+    console.log(req.body.image1)
+    // await cloudinary.uploader.destroy(req.body.imgage1)
+    // await cloudinary.uploader.destroy(req.body.image2)
+    // await cloudinary.uploader.destroy(req.body.image3)
+    // await cloudinary.uploader.destroy(req.body.image4)
+    // productServices.deleteProductById(req.params.id)
+    // res.json(true)
   },
 
   // category Management

@@ -120,6 +120,17 @@ body{
     width: 30rem;
 }
 
+.xzoom-thumbs img{
+    display:inline-block;
+    height: 4rem;
+    width: 8rem;
+    border: 1px solid;
+    margin: 2px;
+}
+.xzoom-preview{
+    border: 1px solid;
+}
+
 
 
 /*======================

@@ -21,15 +21,46 @@
 					<!--a div added-->
 					<div class="" >
 						<div class="item">
-							<div class="product-entry border" id="image-container">
-								<!-- <a href="#" class="prod-img"> -->
-									<img src="/images/product-images/<%= product._id %>.webp" class="img-fluid"
-										alt="Product image">
-								<!-- </a> -->
+
+							<div>
+								<div id="image-container">
+								<img src="<%= product.images[0] %>" class="xzoom img-fluid" id="product-image" alt="product image">
+								</div>
+
+								<div class="xzoom-thumbs">
+								    <a onclick="changeProductImage('<%= product.images[0] %>')">
+									    <img class="xzoom-gallery" src="<%= product.images[0] %>"
+										    alt="Product image">
+								    </a>
+								    <a onclick="changeProductImage('<%= product.images[1] %>')">
+									    <img class="xzoom-gallery" src="<%= product.images[1] %>" alt="Product image">
+								    </a>
+									<a onclick="changeProductImage('<%= product.images[2] %>')">
+									    <img class="xzoom-gallery" src="<%= product.images[2] %>" alt="Product image">
+								    </a>
+									<a onclick="changeProductImage('<%= product.images[3] %>')">
+									    <img class="xzoom-gallery" src="<%= product.images[3] %>" alt="Product image">
+								    </a>
+							    </div>
 							</div>
+
+
+
+							<!-- <div class="product-entry border" id="image-container">
+								<a href="#" class="prod-img">
+									<img src="<%= product.images[0] %>" class="img-fluid"
+										alt="Product image">
+								</a>
+								<a href="#" class="prod-img">
+									<img src="<%= product.images[3] %>" class="img-fluid"
+										alt="Product image">
+								</a>
+							</div> -->
+							
 						</div>
 						
 					</div>
+					<!-- </div> -->
 				</div>
 				<div class="col-sm-6" style="z-index:-1;">
 					<div class="product-desc">

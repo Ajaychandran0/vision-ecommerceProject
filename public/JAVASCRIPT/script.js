@@ -32,3 +32,9 @@ categoryList.addEventListener('mouseout', hide)
 function viewImage (event) {
   document.getElementById('imgView').src = URL.createObjectURL(event.target.files[0])
 }
+
+// change image of product details page
+function changeProductImage (url) {
+  document.getElementById('product-image').src = url
+  ImageZoom(document.getElementById('image-container'), options)
+}

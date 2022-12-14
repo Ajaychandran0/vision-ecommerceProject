@@ -5,12 +5,13 @@ const express = require('express')
 const path = require('path')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
+const bodyParser = require('body-parser')
 const expressLayouts = require('express-ejs-layouts')
 
 const shopRouter = require('./routes/shop_routes')
 const adminRouter = require('./routes/admin_routes')
 
-const fileUpload = require('express-fileupload')
+// const fileUpload = require('express-fileupload')
 const multer = require('multer')
 const session = require('express-session')
 const mongodbStore = require('connect-mongodb-session')(session)
@@ -35,7 +36,8 @@ app.use((req, res, next) => {
   res.set('Cache-Control', 'no-cache, private,no-store,must-revalidate,max-stale=0,pre-check=0')
   next()
 })
-
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
@@ -43,7 +45,7 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
 // app.use(multer().single('image'))
-app.use(fileUpload())
+// app.use(fileUpload())
 app.use(flash())
 
 // mongodb session middleware
