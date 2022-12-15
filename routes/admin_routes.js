@@ -3,8 +3,8 @@ const router = express.Router()
 const adminController = require('../contollers/admin_controller')
 const authController = require('../contollers/auth_controller')
 const { verifyAdminLogin, verifyAdminNotLogin } = require('../middlewares/authentication')
-const upload = require('../utils/multer')
-// const { imgs } = require('../utils/multer')
+const { upload } = require('../utils/multer')
+const { imgs } = require('../utils/multer')
 
 /* GET Admin Dashboard */
 router.get('/', verifyAdminLogin, adminController.getAdminDashboard)
@@ -27,21 +27,10 @@ router.patch('/unblock-user/:id', verifyAdminLogin, adminController.unblockUser)
 
 router.get('/products', verifyAdminLogin, adminController.productManagement)
 router.get('/add-product', verifyAdminLogin, adminController.getAddProduct)
-
-router.post('/add-product', verifyAdminLogin, upload.fields([
-  { name: 'image1', maxCount: 1 },
-  { name: 'image2', maxCount: 1 },
-  { name: 'image3', maxCount: 1 },
-  { name: 'image4', maxCount: 1 }
-]), adminController.postAddProduct)
+router.post('/add-product', verifyAdminLogin, upload.fields(imgs), adminController.postAddProduct)
 
 router.get('/edit-product/:id', verifyAdminLogin, adminController.getEditProduct)
-router.post('/edit-product/:id', verifyAdminLogin, upload.fields([
-  { name: 'image1', maxCount: 1 },
-  { name: 'image2', maxCount: 1 },
-  { name: 'image3', maxCount: 1 },
-  { name: 'image4', maxCount: 1 }
-]), adminController.editProduct)
+router.post('/edit-product/:id', verifyAdminLogin, upload.fields(imgs), adminController.editProduct)
 router.post('/delete-product/:id', verifyAdminLogin, adminController.deleteProduct)
 
 // categories management

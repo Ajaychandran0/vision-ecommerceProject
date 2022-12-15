@@ -28,8 +28,8 @@ module.exports = {
 
   getCategoryById: (catId) => {
     return new Promise(async (resolve, reject) => {
-      const { category } = await db.get().collection(CATEGORY_COLLECTION).findOne({ _id: objectId(catId) })
-      resolve(category)
+      const categoryData = await db.get().collection(CATEGORY_COLLECTION).findOne({ _id: objectId(catId) })
+      resolve(categoryData.category)
     })
   },
 

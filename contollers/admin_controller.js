@@ -130,15 +130,18 @@ module.exports = {
           return result
         })
       )
-      const urls = []
-      const cloudinaryIds = []
-      let i = 0
-      for (const data of cloudData) {
-        urls[i] = data.url
-        cloudinaryIds[i] = data.id
-        i++
-      }
-      await productServices.addProduct(req.body, urls, cloudinaryIds)
+      const urls = {}
+      urls.image1 = cloudData[0].url
+      urls.image2 = cloudData[1].url
+      urls.image3 = cloudData[2].url
+      urls.image4 = cloudData[3].url
+      const cloudImageId = {}
+      cloudImageId.image1 = cloudData[0].id
+      cloudImageId.image2 = cloudData[1].id
+      cloudImageId.image3 = cloudData[2].id
+      cloudImageId.image4 = cloudData[3].id
+
+      await productServices.addProduct(req.body, urls, cloudImageId)
       res.redirect('/admin/add-product')
     } catch (e) {
       console.log(e)
@@ -165,26 +168,54 @@ module.exports = {
         })
       })
     }
+
     const files = req.files
-    const arr1 = Object.values(files)
-    const arr2 = arr1.flat()
-    const cloudData = await Promise.all(
-      arr2.map(async (file) => {
-        const { path } = file
-        const result = await cloudinaryUpload(path)
-        return result
-      })
-    )
     const urls = {}
-    urls.image1 = cloudData[0].url
-    urls.image2 = cloudData[1].url
-    urls.image3 = cloudData[2].url
-    urls.image4 = cloudData[3].url
     const cloudImageId = {}
-    cloudImageId.image1 = cloudData[0].id
-    cloudImageId.image2 = cloudData[1].id
-    cloudImageId.image3 = cloudData[2].id
-    cloudImageId.image4 = cloudData[3].id
+
+    if (files.image1) {
+      await cloudinary.uploader.destroy(req.body.imageId1)
+      const { path } = files.image1[0]
+      const cloudData = cloudinaryUpload(path)
+      urls.image1 = cloudData.url
+      cloudImageId.image1 = cloudData.id
+    } else {
+      urls.image1 = req.body.image1
+      cloudImageId.image1 = req.body.imageId1
+    }
+
+    if (files.image2) {
+      await cloudinary.uploader.destroy(req.body.imageId2)
+      const { path } = files.image2[0]
+      const cloudData = cloudinaryUpload(path)
+      urls.image2 = cloudData.url
+      cloudImageId.image2 = cloudData.id
+    } else {
+      urls.image2 = req.body.image2
+      cloudImageId.image2 = req.body.imageId2
+    }
+
+    if (files.image3) {
+      await cloudinary.uploader.destroy(req.body.imageId3)
+      const { path } = files.image3[0]
+      const cloudData = cloudinaryUpload(path)
+      urls.image3 = cloudData.url
+      cloudImageId.image3 = cloudData.id
+    } else {
+      urls.image3 = req.body.image3
+      cloudImageId.image3 = req.body.imageId3
+    }
+
+    if (files.image4) {
+      await cloudinary.uploader.destroy(req.body.imageId4)
+      const { path } = files.image4[0]
+      const cloudData = cloudinaryUpload(path)
+      urls.image4 = cloudData.url
+      cloudImageId.image4 = cloudData.id
+    } else {
+      urls.image4 = req.body.image4
+      cloudImageId.image4 = req.body.imageId4
+    }
 
     productServices.updateProductById(req.params.id, req.body, urls, cloudImageId)
     res.redirect('/admin/products')
@@ -197,7 +228,7 @@ module.exports = {
     await cloudinary.uploader.destroy(req.body.image3)
     await cloudinary.uploader.destroy(req.body.image4)
     productServices.deleteProductById(req.params.id)
-    res.json(true)
+    res.redirect('/admin/products')
   },
 
   // category Management

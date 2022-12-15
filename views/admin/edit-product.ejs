@@ -45,6 +45,15 @@
                             <input type="number" class="form-control" name="offerPrice" value=<%= product.offerPrice%> hidden></input>
                             <input type="number" class="form-control" name="productOffer" value=<%= product.productOffer%> hidden></input>
                             <input type="number" class="form-control" name="categoryOffer" value=<%= product.categoryOffer%> hidden></input>
+                            <input type="" class="form-control" name="image1" value=<%= product.images.image1 %> hidden></input>
+                            <input type="" class="form-control" name="image2" value=<%= product.images.image2 %> hidden></input>
+                            <input type="" class="form-control" name="image3" value=<%= product.images.image3 %> hidden></input>
+                            <input type="" class="form-control" name="image4" value=<%= product.images.image4 %> hidden></input>
+                            <input type="" class="form-control" name="imageId1" value=<%= product.cloudImageId.image1 %> hidden></input>
+                            <input type="" class="form-control" name="imageId2" value=<%= product.cloudImageId.image2 %> hidden></input>
+                            <input type="" class="form-control" name="imageId3" value=<%= product.cloudImageId.image3 %> hidden></input>
+                            <input type="" class="form-control" name="imageId4" value=<%= product.cloudImageId.image4 %> hidden></input>
+
                         </div>
 
                     </div>
@@ -89,9 +98,8 @@
                         <div class="col-12 col-md-6">
                             <label for="productimage" class="">
                                 Image
-                            </label>
-    
-                            <input type="file" required id="id_image1" name="image1" accept="image/*" class="form-control"
+                            </label>    
+                            <input type="file" id="id_image1" name="image1" accept="image/*" class="form-control"
                                 onchange="viewImage1(event)" style="width:100%;"><br>
                             <img src="<%= product.images.image1 %>" id="imgView1" alt="" class="clr" style="height:100px">
     
@@ -108,7 +116,7 @@
                             <label for="productimage" class="">
                                 Image
                             </label>
-                            <input type="file" id="id_image2" required name="image2" accept="image/*" class="form-control"
+                            <input type="file" id="id_image2"  name="image2" accept="image/*" class="form-control"
                                 onchange="viewImage2(event)" style="width:100%;"><br>
                             <img src="<%= product.images.image2 %>" id="imgView2" class="clr" alt="" style="height:100px">
     
@@ -128,7 +136,7 @@
                                 Image
                             </label>
     
-                            <input type="file" required id="id_image3" name="image3" accept="image/*" class="form-control"
+                            <input type="file"  id="id_image3" name="image3" accept="image/*" class="form-control"
                                 onchange="viewImage3(event)" style="width:100%;"><br>
                             <img src="<%= product.images.image3 %>" id="imgView3" class="clr" alt="" style="height:100px">
     
@@ -146,7 +154,7 @@
                                 Image
                             </label>
     
-                            <input type="file" required id="id_image4" name="image4" accept="image/*" class="form-control"
+                            <input type="file" id="id_image4" name="image4" accept="image/*" class="form-control"
                                 onchange="viewImage4(event)" style="width:100%;"><br>
                             <img src="<%= product.images.image4 %>" id="imgView4" class="clr" alt="imageproduct" style="height:100px; width: 200px;">
     
