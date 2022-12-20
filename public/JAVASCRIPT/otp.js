@@ -3,7 +3,6 @@
 
 const loginForm = document.getElementById('otp-login-form')
 const otpInput = document.getElementById('otp-input')
-const baseUrl = 'http://localhost:3000/'
 let mobileNumber
 let isOtpDelivered = false
 
@@ -18,8 +17,6 @@ loginForm.addEventListener('submit', async (e) => {
       const response = await verifyOTP(mobileNumber, code)
 
       if (response.status === 'approved') {
-        console.log('hey here in status === approved ')
-
         const userStatus = await loginUser(mobileNumber)
         if (userStatus.userLogin) {
           window.location.href = '/'
@@ -44,7 +41,7 @@ loginForm.addEventListener('submit', async (e) => {
 
 // send verification code (otp) function
 async function sendVerificationCode (mobileNumber) {
-  const response = await axios.post(baseUrl + 'send-otp', { mobileNumber })
+  const response = await axios.post('/send-otp', { mobileNumber })
 
   if (response.status === 200) {
     return response.data.verification
@@ -55,11 +52,10 @@ async function sendVerificationCode (mobileNumber) {
 
 // verify verification code (otp) function
 async function verifyOTP (mobileNumber, code) {
-  const response = await axios.post(baseUrl + 'verify-otp', { mobileNumber, code })
+  const response = await axios.post('/verify-otp', { mobileNumber, code })
   console.log(response)
 
   if (response.status === 200) {
-    console.log('hey i am in here vrifyotp status==200')
     return response.data.verification_check
   } else {
     alert('error:please try again')
@@ -70,6 +66,6 @@ async function verifyOTP (mobileNumber, code) {
 // login user via otp
 
 async function loginUser (mobileNumber) {
-  const response = axios.post(baseUrl + 'otp-login', { mobileNumber })
+  const response = axios.post('/otp-login', { mobileNumber })
   return response
 }

@@ -48,9 +48,9 @@ router.patch('/change-order-status', verifyAdminLogin, adminController.changeOrd
 
 router.get('/offers', verifyAdminLogin, adminController.getOfferManagement)
 router.post('/offers/category-offer', verifyAdminLogin, adminController.addCategoryOffer)
-router.delete('/offers/product-offer', verifyAdminLogin, adminController.deleteProductOffer)
-router.post('/offers/product-offer', verifyAdminLogin, adminController.addProductOffer)
 router.delete('/offers/category-offer', verifyAdminLogin, adminController.deleteCategoryOffer)
+router.post('/offers/product-offer', verifyAdminLogin, adminController.addProductOffer)
+router.delete('/offers/product-offer', verifyAdminLogin, adminController.deleteProductOffer)
 
 // coupon management
 
