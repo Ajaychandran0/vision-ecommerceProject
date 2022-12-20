@@ -3,7 +3,7 @@
 
 const loginForm = document.getElementById('otp-login-form')
 const otpInput = document.getElementById('otp-input')
-const baseUrl = 'http://localhost:3000/'
+const baseUrl = 'https://visionshades.store/'
 let mobileNumber
 let isOtpDelivered = false
 

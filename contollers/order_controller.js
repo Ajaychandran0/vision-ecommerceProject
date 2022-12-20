@@ -87,8 +87,8 @@ module.exports = {
             payment_method: 'paypal'
           },
           redirect_urls: {
-            return_url: 'http://localhost:3000/success',
-            cancel_url: 'http://localhost:3000/paypal-cancel'
+            return_url: 'http://visionshades.store/success',
+            cancel_url: 'http://visionshades.store/paypal-cancel'
           },
           transactions: [{
             item_list: {

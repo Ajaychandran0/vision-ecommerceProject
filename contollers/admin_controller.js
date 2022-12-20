@@ -379,7 +379,7 @@ module.exports = {
       const newDiscount = (product.price * product.categoryOffer) / 100
       newOfferPrice = (product.price - newDiscount)
     } else {
-      newOfferPrice = product.price10
+      newOfferPrice = product.price
     }
     await productServices.deleteProOfferById(proId, newOfferPrice)
 

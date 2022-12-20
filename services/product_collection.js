@@ -49,9 +49,14 @@ module.exports = {
   updateProductById: (productId, productDetails, urls, cloudImageId) => {
     productDetails.stock = Number(productDetails.stock)
     productDetails.price = parseFloat(productDetails.price)
-    productDetails.offerPrice = Number(productDetails.offerPrice)
     productDetails.productOffer = Number(productDetails.productOffer)
     productDetails.categoryOffer = Number(productDetails.categoryOffer)
+    
+     if (productDetails.productOffer > productDetails.categoryOffer) {
+      productDetails.offerPrice = Number(productDetails.price - (productDetails.price * productDetails.productOffer / 100))
+    } else {
+      productDetails.offerPrice = Number(productDetails.price - (productDetails.price * productDetails.categoryOffer / 100))
+    }
 
     db.get().collection(PRODUCT_COLLECTION).updateOne({ _id: objectId(productId) }, {
       $set: {
