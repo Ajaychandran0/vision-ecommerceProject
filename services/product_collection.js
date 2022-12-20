@@ -58,6 +58,12 @@ module.exports = {
       productDetails.offerPrice = Number(productDetails.price - (productDetails.price * productDetails.categoryOffer / 100))
     }
 
+    if (productDetails.productOffer > productDetails.categoryOffer) {
+      productDetails.offerPrice = Number(productDetails.price - (productDetails.price * productDetails.productOffer / 100))
+    } else {
+      productDetails.offerPrice = Number(productDetails.price - (productDetails.price * productDetails.categoryOffer / 100))
+    }
+
     db.get().collection(PRODUCT_COLLECTION).updateOne({ _id: objectId(productId) }, {
       $set: {
         brand: productDetails.brand,

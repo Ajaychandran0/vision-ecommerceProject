@@ -8,6 +8,9 @@ const logger = require('morgan')
 const bodyParser = require('body-parser')
 const expressLayouts = require('express-ejs-layouts')
 
+// for otp working
+const cors = require('cors');
+
 const shopRouter = require('./routes/shop_routes')
 const adminRouter = require('./routes/admin_routes')
 
@@ -43,7 +46,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
-
+app.use(cors());
 // app.use(multer().single('image'))
 // app.use(fileUpload())
 app.use(flash())
