@@ -12,7 +12,12 @@ function addToCart (proId) {
       if (response.status) {
         let count = $('#cart-count').html()
         count = parseInt(count) + 1
-        $('#cart-count').html(count)
+
+        if (response.cartCreated) {
+          $('#cart-count').html(1)
+        } else {
+          $('#cart-count').html(count)
+        }
 
         Toastify({
 

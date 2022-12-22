@@ -14,10 +14,8 @@ module.exports = {
 
     if (req.session.user) {
       const cart = await cartServices.getCartByuserId(req.session.user._id)
-      if (cart) {
-        cartCount = cart.products.length
-        req.session.cartCount = cartCount
-      }
+      if (cart) cartCount = cart.products.length
+      req.session.cartCount = cartCount
     }
 
     res.render('shop/home', {
@@ -51,6 +49,26 @@ module.exports = {
     const products = await productServices.getProductByCategory(category)
     console.log(products)
     res.render('shop/category', { products })
+  },
+
+  getSearchAutoComplete: (req, res) => {
+    productServices.getAllProductsNameBrand().then(products => {
+      const brand = products.map((items) => {
+        return items.brand
+      })
+      const name = products.map((items) => {
+        return items.name
+      })
+      const productsArray = brand.concat(name)
+      res.json(productsArray)
+    })
+  },
+
+  filterProductsOnSearch: (req, res) => {
+    console.log(req.query)
+    productServices.getProductsOnSearch(req.query.search).then(products => {
+      res.render('shop/search-result', { products })
+    })
   }
 
 }

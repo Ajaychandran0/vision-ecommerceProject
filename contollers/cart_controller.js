@@ -48,8 +48,8 @@ module.exports = {
       }
     } else {
       await cartServices.createCartByUserId(proId, userId)
-      req.session.cartCount += 1
-      res.json({ status: true })
+      req.session.cartCount = 1
+      res.json({ status: true, cartCreated: true })
     }
   },
 

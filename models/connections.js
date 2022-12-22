@@ -4,8 +4,8 @@ const state = {
 }
 
 module.exports.connect = function (done) {
-  const url = 'mongodb://localhost:27017'
-  const dbname = 'vision_glasses'
+  const url = process.env.MONGODB_URL
+  const dbname = process.env.DATABASE_NAME
 
   mongoClient.connect(url, (err, data) => {
     if (err) {

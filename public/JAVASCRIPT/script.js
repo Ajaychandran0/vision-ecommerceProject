@@ -38,3 +38,17 @@ function changeProductImage (url) {
   document.getElementById('product-image').src = url
   ImageZoom(document.getElementById('image-container'), options)
 }
+
+// jquety autocomplete
+$('#tags').click(function () {
+  $.ajax({
+    url: '/autocomplete-search',
+    method: 'get',
+    success: (response) => {
+      console.log(response)
+      $('#tags').autocomplete({
+        source: response
+      })
+    }
+  })
+})

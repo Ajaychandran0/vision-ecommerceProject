@@ -8,9 +8,6 @@ const logger = require('morgan')
 const bodyParser = require('body-parser')
 const expressLayouts = require('express-ejs-layouts')
 
-// for otp working
-const cors = require('cors');
-
 const shopRouter = require('./routes/shop_routes')
 const adminRouter = require('./routes/admin_routes')
 
@@ -23,7 +20,7 @@ const flash = require('connect-flash')
 
 // connecting session to mongodb
 const store = new mongodbStore({
-  uri: 'mongodb://localhost:27017/vision_glasses',
+  uri: process.env.MONGODB_URI,
   collection: 'sessions'
 })
 const app = express()
@@ -46,7 +43,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
-app.use(cors());
+
 // app.use(multer().single('image'))
 // app.use(fileUpload())
 app.use(flash())

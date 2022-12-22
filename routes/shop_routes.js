@@ -16,6 +16,10 @@ router.get('/contact', shopController.contact)
 router.get('/product/:id', shopController.product)
 router.get('/category/:id', shopController.filterByCategory)
 
+// autocomplete search
+router.get('/autocomplete-search', shopController.getSearchAutoComplete)
+router.get('/filter-products', shopController.filterProductsOnSearch)
+
 /* GET user related listing. */
 
 router.get('/login', verifyUserNotLogin, userController.getLogin)

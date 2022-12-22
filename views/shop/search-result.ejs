@@ -1,0 +1,72 @@
+<div class="colorlib-product">      
+  <div class="container ">
+
+      <% if(products[0]){ %> 
+      <div class="row">
+          <div class="col-sm-8 mb-4 " style="margin-top: -40px;">
+
+              <h2>Results based on your search </h2>
+          </div>
+      </div>
+
+
+      <div class="row row-pb-md">
+          <% for(let product of products){ %>
+              <div class="col-lg-3 mb-4 text-center">
+                  <div class="product-entry border">
+                      <a href="/product/<%= product._id %>" class="prod-img">
+                          <img src="<%= product.images.image1 %> " class="img-fluid"
+                              alt="image">
+                      </a>
+                      <div class="desc">
+                          <h2>
+                              <a href="/product/<%= product._id %>"><%= product.brand %></a>
+                          </h2>
+
+            <% let offerPercentage = Math.round(100-(product.offerPrice/product.price)*100) %> 
+
+                          <% if(offerPercentage != 0) {%> 
+
+              <span class="label">
+                <s class="text-danger" style="font-size:1rem;">₹ <%= product.price %> </s>  
+                <span class="mx-3 font-weight-bold" style="color: green;"><%=offerPercentage %>% off</span> 
+              </span>
+
+            <% }else{ %> 
+                <div class="pt-4"></div>	
+            <% } %> 
+
+                          <span class="price">Rs. <%= product.offerPrice %></span>
+
+                          <button onclick="addToCart('<%=product._id %>')" class="btn btn-primary">Add to
+                              cart</button>
+                      </div>
+                  </div>
+              </div>
+              <% } %>
+
+      </div>
+
+      <div class="row">
+          <div class="col-md-12 text-center">
+              <p><a href="/" class="btn btn-primary btn-lg">All products</a></p>
+          </div>
+      </div>
+
+      <% }else{ %>          
+
+            <section>
+              <div class="d-flex justify-content-center vh-100">
+                  <div class="text-center">
+                      <p class="fs-3"> <span class="text-danger">Opps!</span> No Items found.</p>
+                      <p class="lead">
+                          The product you’re looking for doesn’t exist.
+                      </p>
+                      <a href="/" class="btn btn-dark">Home Page</a>
+                  </div>
+              </div>
+          </section>
+         
+      <% } %> 
+  </div>
+</div>

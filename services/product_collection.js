@@ -12,6 +12,34 @@ module.exports = {
     })
   },
 
+  getAllProductsNameBrand: () => {
+    return new Promise((resolve, reject) => {
+      db.get().collection(PRODUCT_COLLECTION).find({}, { projection: { _id: 0, name: 1, brand: 1 } }).toArray()
+        .then((products) => {
+          resolve(products)
+        })
+    })
+  },
+
+  getProductsOnSearch: (key) => {
+    return new Promise((resolve, reject) => {
+      db.get().collection(PRODUCT_COLLECTION).find({
+
+        $or: [
+          { name: { $regex: key, $options: 'i' } },
+          { brand: { $regex: key, $options: 'i' } }
+        ]
+      }).toArray()
+        .then((data) => {
+          if (data.length != null) {
+            resolve(data)
+          } else {
+            resolve(false)
+          }
+        })
+    })
+  },
+
   addProduct: (productData, urls, cloudinaryIds) => {
     return new Promise((resolve, reject) => {
       productData.stock = Number(productData.stock)
